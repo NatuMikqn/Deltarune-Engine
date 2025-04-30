@@ -91,10 +91,6 @@ function EnemyGroupData(_egb) : EnemyGroup() constructor {
     }
 }
 
-function get_enemydata(){
-    
-}
-
 ///@arg {real} id
 ///@return {array}
 function encounter_get(_id){
@@ -122,7 +118,7 @@ function encounter_get_dialog(_id){
 	return global.encount_data[_id].dialog;
 }
 function get_enemydata(){
-    array_any()
+    //array_any()
 	return global.encount_data[_id].dialog;
 }
 
