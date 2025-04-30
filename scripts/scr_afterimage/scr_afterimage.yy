@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_afterimage",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_afterimage",
+  "parent":{
+    "name":"system",
+    "path":"folders/Scripts/system.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

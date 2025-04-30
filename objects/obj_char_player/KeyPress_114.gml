@@ -1,0 +1,1 @@
+encounter_start(0, noone, false)

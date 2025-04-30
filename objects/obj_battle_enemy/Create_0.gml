@@ -1,0 +1,1 @@
+encounter_sprite = -1;

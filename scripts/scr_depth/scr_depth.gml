@@ -1,0 +1,8 @@
+enum DEPTH{
+	BACKGROUND = 0,
+	CHAR = -10,
+	BATTLE_BG = -50,
+	BT_CHAR = -100,
+	UI = -200,
+	BOARD = -300,
+}

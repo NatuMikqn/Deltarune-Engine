@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_bayer_matrix",
+  "name":"sh_bayer_matrix",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_localization_zh",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_localization_zh",
+  "parent":{
+    "name":"localization",
+    "path":"folders/Scripts/localization.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

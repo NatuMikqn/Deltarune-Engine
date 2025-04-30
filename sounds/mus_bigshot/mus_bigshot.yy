@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"mus_bigshot",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":140.57146,
+  "name":"mus_bigshot",
+  "parent":{
+    "name":"battle",
+    "path":"folders/Sounds/music/battle.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"mus_bigshot.ogg",
+  "type":0,
+  "volume":1.0,
+}
