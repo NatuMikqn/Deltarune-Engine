@@ -9,6 +9,7 @@ enum INPUT{
 	ANY
 }
 
+///@ignore
 function input_init(){
 	global.input_list = [];
 	global.input_list_previous = [];
@@ -24,12 +25,15 @@ function input_init(){
 function input_config(_target, _key){
 	global.input_config[_target] = _key;
 }
+
+///@ignore
 function input_endsetup(){
 	var _count = array_length(global.input_config)
 	global.input_list = array_create(_count,0);
 	global.input_list_previous = array_create(_count,0);
 }
 
+///@ignore
 function input_step(){
 	var _len = array_length(global.input_list);
     array_copy(global.input_list_previous, 0, global.input_list, 0, _len);

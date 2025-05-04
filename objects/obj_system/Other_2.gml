@@ -7,6 +7,8 @@ lang_set(LANG.EN)
 
 team_init()
 
+overworld_init()
+
 encounter_init()
 
 input_init()

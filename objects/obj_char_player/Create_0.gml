@@ -1,5 +1,7 @@
 event_inherited()
 
+overworld_set_state(OW_STATE.FIELD)
+
 move_speed = {
 	left	:	3,
 	right	:	3,

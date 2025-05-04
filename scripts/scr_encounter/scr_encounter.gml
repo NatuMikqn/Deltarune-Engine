@@ -29,6 +29,7 @@ function EnemyGroup() constructor {
 	dialog = "";
 }
 
+///敵グループを作成するための関数
 function EnemyGroupBuilder() : EnemyGroup() constructor {
 	
 	///@arg {Real} id
@@ -70,17 +71,17 @@ function EnemyGroupData(_egb) : EnemyGroup() constructor {
 		other[$_e] = self[$_e];
 	}))
 	
+	///@arg {real} id
 	///@return {Bool}
 	///@pure
-	static equals_id = function(){
-		return id == encounter_get_id();
+	static equals_id = function(_id = encounter_get_id()){
+		return id == _id;
 	}
 	
 	///@return {Asset.GMSound}
 	static get_music = function(){
 		return music;
 	}
-	
 	
 	///@return {Array<Struct.EnemyData>}
 	static get_enemy = function(){
@@ -91,19 +92,6 @@ function EnemyGroupData(_egb) : EnemyGroup() constructor {
 	static get_dialog = function(){
 		return dialog;
 	}
-}
-
-///@desc 敵グループ情報を取得
-///@arg {real} id
-///@return {array}
-///@pure
-function encounter_get(_id){
-	var _index = array_find_index(global.encount_group, method({ _id }, function(_e){
-		return _e.equals_id();
-	}));
-	if (_index == -1) throw $"invalid ID (ID → {_id})";
-	
-	return global.encount_group[_index];
 }
 
 ///@desc 敵IDを設定
@@ -119,9 +107,43 @@ function encounter_get_id(){
 	return global.encount_id;
 }
 
-///@desc 現在指定されている敵IDからデータを取得
-function get_enemydata(){
-	return encounter_get(encounter_get_id());
+///現在指定されている敵IDからデータを取得します
+///直接idを指定することもできます
+///@arg {real} id
+///@return {Struct.EnemyGroupData}
+///@pure
+function get_enemydata(_id = encounter_get_id()){
+	return encounter_get(_id);
+}
+
+///現在指定中の敵グループIDが有効な物かどうか
+///@arg {real} id
+///@return {Bool}
+///@pure
+function check_enemyid(_id = encounter_get_id()){
+	return encounter_getindex(_id) != -1;
+}
+
+///@desc 敵グループ情報がある位置を取得
+///@arg {real} id
+///@return {real}
+///@pure
+function encounter_getindex(_id){
+	var _index = array_find_index(global.encount_group, method({ _id }, function(_e){
+		return _e.equals_id(_id);
+	}));
+	return _index;
+}
+
+///@desc 敵グループ情報を取得
+///@arg {real} id
+///@return {Struct.EnemyGroupData}
+///@pure
+function encounter_get(_id){
+	var _index = encounter_getindex(_id);
+	if (_index == -1) throw $"invalid ID (ID → {_id})";
+	
+	return global.encount_group[_index];
 }
 
 function encounter_autoset_teampos(){
