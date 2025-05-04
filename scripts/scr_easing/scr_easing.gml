@@ -22,9 +22,9 @@ function easing_init(){
 	global.easing_data = [];
 }
 
-///@arg {function} method
-function EasingCreate(_method) constructor{
-	func = _method;
+///@ignore
+function Easing() constructor{
+	func = undefined;
 	easing = undefined;
 	stacks = [];
 	value = 0;
@@ -35,18 +35,27 @@ function EasingCreate(_method) constructor{
 		ignore : false,
 	}
 	
-	state_tag = "";
-	state_sleep = 0;
+	tag = "";
+	sleep = 0;
 	
 	timer = 0;
 	call_stack = debug_get_callstack()
+}
+
+function EasingBuilder(_method) : Easing() constructor{
+	
+	func = _method;
 	
 	static start = function(_val){
 		value = _val;
 		return self;
 	}
 	
-	static add = function(_tween, _ease, _duration, _change){
+	///@arg {real} tween
+	///@arg {real} ease
+	///@arg {real} duration
+	///@arg {real} change
+	static add_step = function(_tween, _ease, _duration, _change){
 		array_push(stacks, [
 			"easing",
 			{
@@ -60,7 +69,7 @@ function EasingCreate(_method) constructor{
 	}
 	
 	
-	static set = function(_value){
+	static set_value = function(_value){
 		array_push(stacks, [
 			"set",
 			_value
@@ -68,7 +77,7 @@ function EasingCreate(_method) constructor{
 		return self;
 	}
 	
-	static sleep = function(_sleep){
+	static add_sleep = function(_sleep){
 		array_push(stacks, [
 			"sleep",
 			_sleep
@@ -76,36 +85,64 @@ function EasingCreate(_method) constructor{
 		return self;
 	}
 	
-	static target = function(_enable){
+	static set_target = function(_enable){
 		mode.target = _enable;
 		return self;
 	}
 	
-	static loop = function(_enable){
+	static set_loop = function(_enable){
 		mode.loop = _enable;
 		return self;
 	}
 	
-	static ignore = function(_enable){
+	static set_ignore = function(_enable){
 		mode.ignore = _enable;
 		return self;
 	}
 	
-	static tag = function(_tag){
-		state_tag = _tag;
+	static set_tag = function(_tag){
+		tag = _tag;
 		return self;
 	}
+	
+	static build = function(){
+		easing_run(new EasingData(self));
+	}
+}
+
+///@ignore
+function EasingData(_eb) : Easing() constructor{
+	
+	var _lists = variable_struct_get_names(self);
+	
+	array_foreach(_lists, method(_eb, function(_e){
+		other[$_e] = self[$_e];
+	}))
 	
 	///@pure
 	static get_next_type = function(){
 		return stacks[0][0];
 	}
+	
+	static func_call = function(_value){
+		method_call(func, [_value]);
+	}
+	
+	///@arg {String}
+	///@pure
+	///@return {Bool}
+	static check_tag = function(_tag){
+		return (tag == _tag);
+	}
+	
+	
 }
 
-///@arg {Struct.EasingCreate} data
+///@arg {Struct.EasingData} data
 function easing_run(_data){
+	//最初から休止系でなければ、早速funcを実行
 	if _data.get_next_type() != "sleep"{
-		method_call(_data.func, [_data.value])
+		_data.func_call(value);
 	}
 	array_push(global.easing_data, _data);
 }
@@ -113,61 +150,78 @@ function easing_run(_data){
 function easing_step(){
 	var _list = global.easing_data,
 		_data, _es, _array, _val, _delete
+	
+	_delete = []
+	
 	for(var i=0;i<array_length(_list);i++){
 		
 		_data = _list[i]
 		
 		with(_data){
-		
+			
+			///////////////////////////////////
+			/// debug - callstack
+			
 			/*show_debug_message("callstack------------------------------------")
 			for(var j=0;j<array_length(_data.cs);j++){
 				show_debug_message(_data.cs[j])
 			}
 			show_debug_message("---------------------------------------------")*/
 			
+			//一時停止を無視するかどうか
 			if (!mode.ignore && !is_paused()) || (mode.ignore){
-				if (state_sleep > 0){
-					state_sleep--
+				//sleep状態であれば、sleepタイマーを動かす
+				if (sleep > 0){
+					sleep--
 				}
+				//実行中のeasingがなければ
 				else if (is_undefined(easing)){
+					//次の行動は存在するかどうか
 					if (array_length(stacks) > 0){
 						switch (get_next_type()){
-							case "easing":
+							case "easing":		//easing実行
 								easing = array_shift(stacks)[1];
 								timer = 0;
 								if (mode.target) easing.change -= value
 								break;
-							case "set":
+							case "set":			//value設定
 								value = array_shift(stacks)[1];
-								method_call(func, [value])
+								func_call(value);
 								break;
-							case "sleep":
-								state_sleep = array_shift(stacks)[1];
+							case "sleep":		//sleep実行
+								sleep = array_shift(stacks)[1];
 								break;
 							default:
 								show_debug_message("EASING ERROR - Incorrect type")
+								array_push(_delete, i)
+								continue;
 						}
 					}else{
-						array_delete(global.easing_data, 0, 1)
-						i--
+						array_push(_delete, i)
+						continue;
 					}
 				}
 				
+				//実行中のeasingがあれば
 				if (is_struct(easing)){
 					timer++;
-					if (timer < easing.duration){
+					if (timer < easing.duration){	//実行中であるかどうか
 						_val = value + easing.change * easing_get_value(easing.tween, easing.ease, timer / easing.duration);
-						method_call(func, [_val]);
-					}else{
+						
+						func_call(_val);
+					}else{							//この行動の完了処理
 						value += easing.change;
-						method_call(func, [value]);
+						func_call(value);
 						easing = undefined;
 					}
 				}
-				
 			}
 		}
 	}
+	_delete = array_reverse(_delete)
+	array_foreach(_delete, function(_e){
+		array_delete(global.easing_data, _e, 1);
+	});
 }
 
 ///@arg {string} tag
@@ -198,15 +252,23 @@ function easing_skip(_tag){
 	}
 }
 
+///@desc 使用しない場合、または部屋移動で利用されなくなる場合は、これを実行してください。
 ///@arg {string} tag
 function easing_destroy(_tag){
-	var _list = global.easing_data;
-	for(var i=0;i<array_length(_list);i++){
-		if (_list[i].tag == _tag){
-			array_delete(_list, i, 1)
-			i--
+	var _list = global.easing_data,
+		_index_list = []
+	
+	for (var i=0;i<array_length(_list);i++){
+		var _e = _list[i]
+		if (_e.check_tag(_tag)) {
+			array_push(_index_list, i);
 		}
 	}
+	
+	_index_list = array_reverse(_index_list);
+	array_foreach(_index_list, function(_e){
+		array_delete(global.easing_data, _e, 1);
+	});
 }
 
 function easing_clear(){

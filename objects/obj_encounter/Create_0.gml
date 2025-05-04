@@ -1,3 +1,4 @@
-audio_play_sound(snd_tensionhorn, 0, 0, 1, 0);
-timer = 15;
+
+timer = 1;
 step = 0;
+enemy_target = noone;

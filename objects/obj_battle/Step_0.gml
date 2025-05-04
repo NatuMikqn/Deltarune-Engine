@@ -1,3 +1,10 @@
+if (next_state_timer >= 0){
+	next_state_timer--
+	if (next_state_timer == 0){
+		battle_set_state(next_state);
+	}
+}
+
 if mouse_wheel_up(){
 	dbg_screen_alpha+=0.05
 	if dbg_screen_alpha > 1{

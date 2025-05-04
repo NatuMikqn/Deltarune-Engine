@@ -15,111 +15,113 @@ function EnemyData(_x, _y, _obj, _depth = undefined) constructor{
 	depth = _depth ?? -_y;
 }
 
+///@desc 敵グループ情報を登録
 ///@arg {Struct.EnemyGroupData} 
 function encounter_register(_egd){
 	array_push(global.encount_group, _egd)
 }
 
-
+///@ignore
 function EnemyGroup() constructor {
-    id_ = -1;
-    enemygroup = [];
-    music = -1;
-    dialog = "";
+	id = -1;
+	enemygroup = [];
+	music = -1;
+	dialog = "";
 }
 
 function EnemyGroupBuilder() : EnemyGroup() constructor {
-    
-    ///@arg {Real} id
-    static set_id = function(_id){
-        id_ = _id;
-        return self;
-    }
-    
-    ///@arg {Struct.EnemyData} enemyData
-    static add_enemy = function(_enemy){
-        array_push(enemygroup, _enemy);
-        return self;
-    }
-    
-    ///@arg {Asset.GMSound} music
-    static set_music = function(_music){
-        music = _music;
-        return self;
-    }
-    
-    ///@arg {String} dialog
-    static set_dialog = function(_dialog){
-        dialog = _dialog;
-        return self;
-    }
-    
-    static build = function(){
-        var _egd = new EnemyGroupData(self);
-        encounter_register(_egd);
-    }
+	
+	///@arg {Real} id
+	static set_id = function(_id){
+		id = _id;
+		return self;
+	}
+	
+	///@arg {Struct.EnemyData} enemyData
+	static add_enemy = function(_enemy){
+		array_push(enemygroup, _enemy);
+		return self;
+	}
+	
+	///@arg {Asset.GMSound} music
+	static set_music = function(_music){
+		music = _music;
+		return self;
+	}
+	
+	///@arg {String} dialog
+	static set_dialog = function(_dialog){
+		dialog = _dialog;
+		return self;
+	}
+	
+	static build = function(){
+		encounter_register(new EnemyGroupData(self));
+	}
 }
 
+///@ignore
 ///@return {Struct.EnemyGroupBuilder}
 function EnemyGroupData(_egb) : EnemyGroup() constructor {
-    
-    lists = variable_struct_get_names(_egb)
-    array_foreach(lists, method({ self, _egb }, function(_e){
-        self[$_e] = _egb[$_e];
-    }))
-    
-    ///@return {Bool}
-    ///@pure
-    static equals_id = function(){
-        return id_ == encounter_get_id();
-    }
-    
-    ///@return {Asset.GMSound}
-    static get_music = function(){
-        return music;
-    }
-    
-    
-    ///@return {Array<Struct.EnemyData>}
-    static get_enemy = function(){
-        return enemygroup;
-    }
-    
-    ///@arg {String} dialog
-    static get_dialog = function(){
-        return dialog;
-    }
+	
+	var _lists = variable_struct_get_names(self);
+	
+	array_foreach(_lists, method(_egb, function(_e){
+		other[$_e] = self[$_e];
+	}))
+	
+	///@return {Bool}
+	///@pure
+	static equals_id = function(){
+		return id == encounter_get_id();
+	}
+	
+	///@return {Asset.GMSound}
+	static get_music = function(){
+		return music;
+	}
+	
+	
+	///@return {Array<Struct.EnemyData>}
+	static get_enemy = function(){
+		return enemygroup;
+	}
+	
+	///@arg {String} dialog
+	static get_dialog = function(){
+		return dialog;
+	}
 }
 
+///@desc 敵グループ情報を取得
 ///@arg {real} id
 ///@return {array}
+///@pure
 function encounter_get(_id){
-	return global.encount_group[_id];
+	var _index = array_find_index(global.encount_group, method({ _id }, function(_e){
+		return _e.equals_id();
+	}));
+	if (_index == -1) throw $"invalid ID (ID → {_id})";
+	
+	return global.encount_group[_index];
 }
 
+///@desc 敵IDを設定
 ///@arg {real} id
 function encounter_set_id(_id){
 	global.encount_id = _id;
 }
 
+///@desc 現在指定されている敵IDを取得
 ///@return {real}
+///@pure
 function encounter_get_id(){
 	return global.encount_id;
 }
 
-///@arg {real} id
-///@return {Asset.GMSound}
-function encounter_get_mus(_id){
-	return global.encount_data[_id].music;
-}
-///@arg {real} id
-///@return {string}
-function encounter_get_dialog(_id){
-	return global.encount_data[_id].dialog;
-}
+///@desc 現在指定されている敵IDからデータを取得
 function get_enemydata(){
-    //array_any()
-	return global.encount_data[_id].dialog;
+	return encounter_get(encounter_get_id());
 }
 
 function encounter_autoset_teampos(){
@@ -145,57 +147,8 @@ function encounter_start(_id = encounter_get_id(), _target = noone, _set_tp = tr
 	
 	if (_set_tp) encounter_autoset_teampos();
 	obj_char.movable = false;
-    
-    instance_create_depth(0, 0, 0, obj_encounter)
-    
-	/*
-	encounter_set_id(_id)
 	
-	if (_set_tp) encounter_autoset_teampos();
-	obj_char.movable = false;
+	var _inst = instance_create_depth(0, 0, 0, obj_encounter)
+	_inst.enemy_target = _target;
 	
-	audio_play_sound(snd_tensionhorn, 0, 0, 1, 0);
-	delay_create(function(){audio_play_sound(snd_tensionhorn, 0, 0, 1, 0, 1.1)}, "", true, 15);
-	
-	delay_create(method({_target, _id}, function(){
-		
-		var _team = team_get(),
-			_obj
-		for (var i=0;i<array_length(_team);i++){
-			_obj = team_get_flag(_team[i], TEAMCHAR_FLAG.AREA_OBJ)
-			team_set_flag(_team[i], TEAMCHAR_FLAG.ENCOUNTER_X, _obj.x)
-			team_set_flag(_team[i], TEAMCHAR_FLAG.ENCOUNTER_Y, _obj.y)
-		}
-
-		obj_char_player.visible = false;
-		if _target != noone _target.visible = false;
-		
-		var _i=instance_create_depth(0, 0, 0, obj_battle);
-		_i.music = encounter_get_mus(_id)
-		battle_set_dialog(encounter_get_dialog(_id))
-		encounter_anim();
-		
-	}), "", true, 40);
-    */
-}
-
-///@arg {real} id
-function encounter_anim(){
-	with(obj_battle_team){
-		var _val = {
-			id,
-			x,
-			y,
-			char
-		}
-		easing_create(method(_val, function(_v){
-			id.x = x + (team_get_flag(char, TEAMCHAR_FLAG.BATTLE_X, 0) - x) * _v
-			id.y = y + (team_get_flag(char, TEAMCHAR_FLAG.BATTLE_Y, 0) - y) * _v
-		}), "", false, [new EaseState(0, 0, 20)]);
-		easing_create(method(_val, function(_v){
-			if ((_v * 20) % 4 == 0){
-				afterimage_create(id.x, id.y, id.depth + 1, id.sprite[id.sprite_anim], id.subimg, 2, 2).surface = battle_get_surface();
-			}
-		}), "", false, [new EaseState(0, 0, 20)]);
-	}
 }

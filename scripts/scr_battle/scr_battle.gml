@@ -46,12 +46,23 @@ function battle_prev_char(){
 		if charturn > 0{
 			charturn--
 			battle_team_set_anim(team_get_flag(charturn, TEAMCHAR_FLAG.BATTLE_OBJ), BATTLE_TEAM_ANIM.IDLE, BATTLE_ANIM_LOOP.LOOP, 10)
-			battle_tension_sub(battle_tension_prev())
+			battle_tension_prev()
 			obj_battle_ui.charturn_icon_img[charturn] = 0
 			with(obj_battle_ui) event_user(1)
 		}
 	}
 }
+
+///@arg {real} state
+function battle_set_nextstate(_state){
+	obj_battle.next_state = _state;
+}
+
+///@arg {real} real
+function battle_set_nextstate_timer(_real){
+	obj_battle.next_state_timer = _real;
+}
+
 ///@arg {real} state
 function battle_set_state(_state){
 	with (obj_battle){
@@ -67,12 +78,18 @@ function battle_set_state(_state){
 				
 				break;
 			case BATTLE_STATE.INTURN:
-				with(obj_battle_board) event_user(0)
-				delay_create(function(){ battle_set_state(BATTLE_STATE.ENEMYTURN) }, "", false, 30)
+				with(obj_battle_board) event_user(0);
+				with(obj_battle){
+					next_state = BATTLE_STATE.ENEMYTURN;
+					next_state_timer = 30;
+				}
 				break;
 			case BATTLE_STATE.ENDTURN:
-				with(obj_battle_board) event_user(1)
-				delay_create(function(){ battle_set_state(BATTLE_STATE.MYTURN) }, "", false, 30)
+				with(obj_battle_board) event_user(1);
+				with(obj_battle){
+					next_state = BATTLE_STATE.MYTURN;
+					next_state_timer = 30;
+				}
 				break;
 		}
 		

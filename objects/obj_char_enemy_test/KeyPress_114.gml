@@ -1,1 +1,0 @@
-encounter_start(0)
