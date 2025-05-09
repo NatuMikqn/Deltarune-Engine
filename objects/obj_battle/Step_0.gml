@@ -21,7 +21,9 @@ if keyboard_check(vk_control) && keyboard_check_pressed(ord("S")){
 	dbg_screen_img++
 	if (dbg_screen_img >= sprite_get_number(spr_screen_debug)) dbg_screen_img = 0
 }
+//自ターン処理
 if (state == BATTLE_STATE.MYTURN){
+	//行動選択
 	if input_check_pressed(INPUT.LEFT){
 		select_list[charturn][select_step]--
 		if (select_list[charturn][select_step] < 0) select_list[charturn][0] = 4
@@ -60,17 +62,22 @@ if (state == BATTLE_STATE.MYTURN){
 				}
 		}
 	}else
+	//キャンセルキーで前のキャラクターに戻る
 	if input_check_pressed(INPUT.CANCEL){
 		battle_prev_char()
 		
 	}
-	if input_check_pressed(INPUT.MENU){
-		battle_set_state(BATTLE_STATE.ENDTURN)
+}
+//敵メッセージ時
+if (state == BATTLE_STATE.IN_ENEMYTURN){
+	if (!instance_exists(obj_typer)){
+		battle_set_state(BATTLE_STATE.ENEMYTURN)
 	}
 }
 if (state == BATTLE_STATE.ENEMYTURN){
+	//TODO - デバッグ機能 後に消す
 	if input_check_pressed(INPUT.MENU){
-		battle_set_state(BATTLE_STATE.ENDTURN)
+		battle_set_state(BATTLE_STATE.OUT_ENEMYTURN)
 	}
 }
 

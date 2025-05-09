@@ -7,7 +7,7 @@ draw_sprite_ext(spr_pixel, 0, 0, _anim_y, 640, 2, 0, #332033, 1)
 draw_sprite_ext(spr_pixel, 0, 0, _anim_y + 37, 640, _anim_y, 0, c_black, 1)
 draw_sprite_ext(spr_pixel, 0, 0, _anim_y + 37, 640, 3, 0, #332033, 1)
 
-if (battle_get_state() == BATTLE_STATE.ATTACK){
+if (battle_get_state() == BATTLE_STATE.MYTURN_ACTION){
 	draw_sprite_ext(spr_pixel, 0, 79, 403, 224, 2, 0, c_navy, 1)
 	draw_sprite_ext(spr_pixel, 0, 79, 441, 224, 2, 0, c_navy, 1)
 }

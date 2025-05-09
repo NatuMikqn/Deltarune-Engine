@@ -1,10 +1,10 @@
 enum BATTLE_STATE{
 	START_ANIM,
 	MYTURN,
-	ATTACK,
-	INTURN,
+	MYTURN_ACTION,
+	IN_ENEMYTURN,
 	ENEMYTURN,
-	ENDTURN,
+	OUT_ENEMYTURN,
 }
 enum BATTLE_TEAM_ANIM{
 	ENCOUNTER,
@@ -35,7 +35,7 @@ function battle_next_char(_icon){
 		if charturn >= array_length(team_get()){
 			battle_tension_clear_history()
 			instance_destroy(dialog_typer)
-			battle_set_state(BATTLE_STATE.INTURN)
+			battle_set_state(BATTLE_STATE.IN_ENEMYTURN)
 		}else{
 			battle_show_dialog(true);
 		}
@@ -54,12 +54,9 @@ function battle_prev_char(){
 }
 
 ///@arg {real} state
-function battle_set_nextstate(_state){
+///@arg {real} timer
+function battle_set_nextstate(_state, _real){
 	obj_battle.next_state = _state;
-}
-
-///@arg {real} real
-function battle_set_nextstate_timer(_real){
 	obj_battle.next_state_timer = _real;
 }
 
@@ -67,6 +64,8 @@ function battle_set_nextstate_timer(_real){
 function battle_set_state(_state){
 	with (obj_battle){
 		state = _state
+		//ここでそれぞれの行動(変更時のみ)をここに入力
+		//TODO - ここに記述させるべきではない
 		switch _state{
 			case BATTLE_STATE.MYTURN:
 				battle_show_dialog(false);
@@ -77,18 +76,16 @@ function battle_set_state(_state){
 				}
 				
 				break;
-			case BATTLE_STATE.INTURN:
-				with(obj_battle_board) event_user(0);
-				with(obj_battle){
-					next_state = BATTLE_STATE.ENEMYTURN;
-					next_state_timer = 30;
-				}
+			case BATTLE_STATE.IN_ENEMYTURN:
+				
 				break;
-			case BATTLE_STATE.ENDTURN:
+			case BATTLE_STATE.ENEMYTURN:
+				with(obj_battle_board) event_user(0);
+				break;
+			case BATTLE_STATE.OUT_ENEMYTURN:
 				with(obj_battle_board) event_user(1);
 				with(obj_battle){
-					next_state = BATTLE_STATE.MYTURN;
-					next_state_timer = 30;
+					battle_set_nextstate(BATTLE_STATE.MYTURN, 30);
 				}
 				break;
 		}
@@ -97,9 +94,8 @@ function battle_set_state(_state){
 
 }
 ///@return {real}
-function battle_get_state(){
-	return obj_battle.state;
-}
+///@pure
+function battle_get_state(){ return obj_battle.state; }
 
 ///@arg {Id.Instance} id
 ///@arg {real} anim
@@ -122,11 +118,11 @@ function battle_get_surface(){
 	}
 }
 
+///ターンダイアログを設定します
 ///@arg {string} dialog
-function battle_set_dialog(_dialog){
-	obj_battle.dialog = _dialog;
-}
+function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 
+///ターンダイアログを表示します
 ///@arg {bool} skipped
 function battle_show_dialog(_skipped){
 	with (obj_battle){
@@ -138,6 +134,7 @@ function battle_show_dialog(_skipped){
 	}
 }
 
+///バトル中かどうか
 ///@return {bool}
 function in_battle(){
 	return instance_exists(obj_battle)
