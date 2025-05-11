@@ -75,7 +75,7 @@
     {"name":"obj_char_player","order":2,"path":"objects/obj_char_player/obj_char_player.yy",},
     {"name":"obj_encounter","order":5,"path":"objects/obj_encounter/obj_encounter.yy",},
     {"name":"obj_system","order":2,"path":"objects/obj_system/obj_system.yy",},
-    {"name":"obj_typer","order":3,"path":"objects/obj_typer/obj_typer.yy",},
+    {"name":"obj_typewriter_manager","order":3,"path":"objects/obj_typewriter_manager/obj_typewriter_manager.yy",},
     {"name":"Object20","order":2,"path":"objects/Object20/Object20.yy",},
     {"name":"scr_afterimage","order":7,"path":"scripts/scr_afterimage/scr_afterimage.yy",},
     {"name":"scr_battle_tension","order":1,"path":"scripts/scr_battle_tension/scr_battle_tension.yy",},

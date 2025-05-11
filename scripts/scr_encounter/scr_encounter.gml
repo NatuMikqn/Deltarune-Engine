@@ -29,7 +29,7 @@ function EnemyGroup() constructor {
 	dialog = "";
 }
 
-///敵グループを作成するための関数
+///@desc 敵グループを作成します
 function EnemyGroupBuilder() : EnemyGroup() constructor {
 	
 	///@arg {Real} id
@@ -62,7 +62,7 @@ function EnemyGroupBuilder() : EnemyGroup() constructor {
 }
 
 ///@ignore
-///@return {Struct.EnemyGroupBuilder}
+///@arg {Struct.EnemyGroupBuilder} enemy_group_builder
 function EnemyGroupData(_egb) : EnemyGroup() constructor {
 	
 	var _lists = variable_struct_get_names(self);

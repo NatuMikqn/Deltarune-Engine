@@ -9,6 +9,10 @@ switch cmd[0]{
 	case "sleep":
 		time = real(cmd[1])
 		break;
+	case "spd":
+	case "speed":
+		spd = real(cmd[1])
+		break;
 	case "c":
 	case "color":
 		_col = typer_get_color(cmd[1])
@@ -18,7 +22,7 @@ switch cmd[0]{
 		_col = [real(cmd[1]), real(cmd[2]), real(cmd[3])]
 		color = array_create(4, make_color_rgb(_col[0], _col[1], _col[2]))
 		break;
-	case "color_hash":
+	case "color_hex":
 		var _bgr = $"{string_copy(cmd[1], 5, 2)}{string_copy(cmd[1], 3, 2)}{string_copy(cmd[1], 1, 2)}"
 		_col = real("0x" + _bgr)
 		color = array_create(4, _col)
@@ -41,16 +45,27 @@ switch cmd[0]{
 		break;
 	case "function":
 	case "method":
-	case "script":
-		var _script = asset_get_index(cmd[1])
-		if script_exists(_script){
-			script_execute_ext(_script, cmd, 2)
+		if array_exists(cmd_funcs, real(cmd[1])){
+			var _args = []
+			array_copy(_args, 0, cmd, 1, array_length(cmd)-1);
+			method_call(cmd_funcs[real(cmd[1])], _args, 2)
 		}
 		break;
 	case "font":
-		
+		font = asset_get_index(cmd[1])
 		break;
-	case "*":
-		asterisk = bool(cmd[1]);
+	case "secfont":
+		secfont = asset_get_index(cmd[1])
+		break;
+	case "anim":
+		anim = bool(cmd[1]);
+		break;
+	case "scale":
+		xscale = real(cmd[1]);
+		yscale = real(cmd[2]);
+		break;
+	case "offset":
+		xoffset = real(cmd[1]);
+		yoffset = real(cmd[2]);
 		break;
 }

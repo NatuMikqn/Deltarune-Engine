@@ -1,13 +1,16 @@
-if (pause && input_check_pressed(INPUT.CONFIRM)){
-	pause = false;
+if (input_check_pressed(INPUT.CONFIRM)){
+	if (pause) pause = false;
+	if (read >= string_length(text)) instance_destroy();
 }else
 if (!pause && skippable && input_check_pressed(INPUT.CANCEL)){
 	skipped = true;
 }
+
 while (!pause) && (time <= 0 || (skipped)) && (read < string_length(text)){
 	read++
 	var _char = string_char_at(text, read),
 		_cmdarg;
+	//コマンドライン
 	while (!pause && (_char == "<" || _char == "&")){
 		if (_char == "<"){
 			read++

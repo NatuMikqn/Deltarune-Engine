@@ -80,7 +80,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.13.0.190",
+    "IDEVersion":"2024.13.1.193",
   },
   "name":"Deltarune",
   "resources":[
@@ -106,7 +106,7 @@
     {"id":{"name":"obj_dev_encounter","path":"objects/obj_dev_encounter/obj_dev_encounter.yy",},},
     {"id":{"name":"obj_encounter","path":"objects/obj_encounter/obj_encounter.yy",},},
     {"id":{"name":"obj_system","path":"objects/obj_system/obj_system.yy",},},
-    {"id":{"name":"obj_typer","path":"objects/obj_typer/obj_typer.yy",},},
+    {"id":{"name":"obj_typewriter_manager","path":"objects/obj_typewriter_manager/obj_typewriter_manager.yy",},},
     {"id":{"name":"Object20","path":"objects/Object20/Object20.yy",},},
     {"id":{"name":"rm_area_test","path":"rooms/rm_area_test/rm_area_test.yy",},},
     {"id":{"name":"rm_init","path":"rooms/rm_init/rm_init.yy",},},
