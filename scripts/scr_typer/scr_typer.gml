@@ -2,12 +2,12 @@
 ///@arg {real} y
 ///@arg {string} text
 function typer_create(_x, _y, _text){
-	var _typer = instance_create_depth(_x, _y, 0, obj_typer);
-	_typer.text = _text;
-	if (instance_exists(obj_battle)){
-		_typer.battle_surface = true;
-	}
-	return _typer;
+	//var _typer = instance_create_depth(_x, _y, 0, obj_typer);
+	//_typer.text = _text;
+	//if (instance_exists(obj_battle)){
+	//	_typer.battle_surface = true;
+	//}
+	//return _typer;
 }
 
 ///@arg {real} x
@@ -27,7 +27,7 @@ function text_deserialize(_text){
 	}
 }
 
-//new
+///@ignore
 function TypeWriter() constructor{
 	x = 0;
 	y = 0;
@@ -50,35 +50,9 @@ function TypeWriterBuilder() : TypeWriter() constructor{
 		}
 		return self;
 	}
-	
-	///@arg {Struct.Context,String} font
-	static set_font = function(_font){
-		if (is_string(_font)){
-			font = _font;
-		}else if (asset_get_type(_font) == asset_font){
-			font = _font;
-		}else{
-			throw "指定されたものはフォントではありません"
-		}
-		return self;
-	}
-	
-	///@arg {real} depth
-	static set_depth = function(_depth){
-		if (!is_real(_depth) && !is_int64(_depth)) throw $"depth > 不正な型です : {_depth}"
-		depth = _depth
-		return self;
-	}
-	
-	///@arg {bool} gui
-	static set_gui = function(_gui){
-		if (!is_bool(_gui)) throw $"gui > 不正な型です : {_gui}"
-		gui = _gui
-		return self;
-	}
-	
 	static build = function(){
-		(new TypeWriterData(self));
+		var _data = new TypeWriterData(self);
+		//TODO - データを登録するコードを書く
 	}
 }
 
@@ -88,10 +62,13 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	
 	var _lists = variable_struct_get_names(self);
 	
-	array_foreach(_lists, method(_egb, function(_e){
+	array_foreach(_lists, method(_self, function(_e){
 		other[$_e] = self[$_e];
 	}))
 	
+	static get_text = function(){
+		return font;
+	}
 }
 
 

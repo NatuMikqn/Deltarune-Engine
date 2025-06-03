@@ -128,8 +128,8 @@ function battle_show_dialog(_skipped){
 	with (obj_battle){
 		if !instance_exists(dialog_typer){
 			localization_set_group(L10N_GROUP.BATTLE)
-			dialog_typer = typer_create(30, 376, get_text(dialog))
-			dialog_typer.skipped = _skipped;
+			//dialog_typer = typer_create(30, 376, get_text(dialog))
+			//dialog_typer.skipped = _skipped;
 		}
 	}
 }
