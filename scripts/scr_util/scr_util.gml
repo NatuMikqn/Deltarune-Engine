@@ -166,3 +166,15 @@ function instance_parent_equals(_id, _object){
 	
 	return false;
 }
+
+///@arg {String} char
+///@arg {String} search
+///@return {Bool}
+function string_char_contains(char, search){
+	var _char;
+	for (var i = 1; i <= string_length(search); i++) {
+		_char = string_char_at(search, i);
+		if (char == _char) return true;
+	}
+	return false;
+}
