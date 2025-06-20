@@ -2,17 +2,14 @@ depth = DEPTH.BOARD
 
 x = 320;
 y = 200;
-polygons = {
-	main : [
-		new Vector2(-75, -75),
-		new Vector2(-75, 75),
-		new Vector2(75, 75),
-		new Vector2(75, -75),
-	]
-}
-polygons_offset = {
-	main : []
-}
+polygons_data = {}
+polygons = {}
+polygons_offset = {}
+
+board_polygon_add("main", "lt", -75, -75)
+board_polygon_add("main", "lb", -75, 75)
+board_polygon_add("main", "rb", 75, 75)
+board_polygon_add("main", "rt", 75, -75)
 
 angle = 0;
 
@@ -39,7 +36,6 @@ function CreateAfterimage(_alpha, _id = obj_battle_board) constructor{
 	polygons = variable_clone(_id.polygons)
 	polygons_offset = variable_clone(_id.polygons_offset)
 	angle = _id.angle;
-	
 	color = _id.l_color;
 	alpha = _id.l_alpha * _id.bg_alpha;
 	scale = _id.scale;

@@ -6,10 +6,11 @@ if (!pause && skippable && input_check_pressed(INPUT.CANCEL)){
 	skipped = true;
 }
 
+var _char, _cmdarg;
+
 while (!pause) && (time <= 0 || (skipped)) && (read < string_length(text)){
 	read++
-	var _char = string_char_at(text, read),
-		_cmdarg;
+	_char = string_char_at(text, read);
 	//コマンドライン
 	while (!pause && (_char == "<" || _char == "&")){
 		if (_char == "<"){

@@ -18,10 +18,13 @@ enum EASING_EASE{
 	INOUT = 2
 }
 
+///初期化
+///@ignore
 function easing_init(){
 	global.easing_data = [];
 }
 
+///内部用
 ///@ignore
 function Easing() constructor{
 	func = undefined;
@@ -42,20 +45,24 @@ function Easing() constructor{
 	call_stack = debug_get_callstack()
 }
 
+///イージングシーケンスを作成します
 ///@arg {Function} method
 function EasingBuilder(_method) : Easing() constructor{
 	
 	func = _method;
 	
+	///TODO: startとset_valueの関係を見直す
 	static start = function(_val){
 		value = _val;
 		return self;
 	}
 	
+	///easingを追加します
 	///@arg {real} tween
 	///@arg {real} ease
 	///@arg {real} duration
 	///@arg {real} change
+	///@return {Struct.EasingBuilder}
 	static add_step = function(_tween, _ease, _duration, _change){
 		array_push(stacks, [
 			"easing",
@@ -69,7 +76,8 @@ function EasingBuilder(_method) : Easing() constructor{
 		return self;
 	}
 	
-	
+	///@arg {real} value
+	///@return {Struct.EasingBuilder}
 	static set_value = function(_value){
 		array_push(stacks, [
 			"set",
@@ -78,6 +86,9 @@ function EasingBuilder(_method) : Easing() constructor{
 		return self;
 	}
 	
+	///指定フレーム分休止します
+	///@arg {real} sleep
+	///@return {Struct.EasingBuilder}
 	static add_sleep = function(_sleep){
 		array_push(stacks, [
 			"sleep",
@@ -86,31 +97,45 @@ function EasingBuilder(_method) : Easing() constructor{
 		return self;
 	}
 	
+	///true: 目的地 false: 変更量
+	///@arg {bool} enable
+	///@return {Struct.EasingBuilder}
 	static set_target = function(_enable){
 		mode.target = _enable;
 		return self;
 	}
 	
+	///イージングが一通り終了した後、ループするかどうかを指定します
+	///@return {Struct.EasingBuilder}
 	static set_loop = function(_enable){
 		mode.loop = _enable;
 		return self;
 	}
 	
+	//TODO: pauseは廃止予定
+	///global.pauseを無視するかどうか
+	///@return {Struct.EasingBuilder}
+	///@deprecated
 	static set_ignore = function(_enable){
 		mode.ignore = _enable;
 		return self;
 	}
 	
+	///Easingにタグをつけます
+	///後にEasingを削除する際などに役立ちます
+	///@return {Struct.EasingBuilder}
 	static set_tag = function(_tag){
 		tag = _tag;
 		return self;
 	}
 	
+	///自動でイージングを実行します
 	static build = function(){
 		easing_run(new EasingData(self));
 	}
 }
 
+///内部用
 ///@ignore
 function EasingData(_eb) : Easing() constructor{
 	
@@ -139,6 +164,8 @@ function EasingData(_eb) : Easing() constructor{
 	
 }
 
+///イージングシーケンスを実行します
+///通常は`.build()`を利用してください
 ///@arg {Struct.EasingData} data
 function easing_run(_data){
 	//最初から休止系でなければ、早速funcを実行
@@ -169,52 +196,49 @@ function easing_step(){
 			}
 			show_debug_message("---------------------------------------------")*/
 			
-			//一時停止を無視するかどうか
-			if (!mode.ignore && !is_paused()) || (mode.ignore){
-				//sleep状態であれば、sleepタイマーを動かす
+			//sleep状態であれば、sleepタイマーを動かす
 				if (sleep > 0){
-					sleep--
-				}
-				//実行中のeasingがなければ
-				else if (is_undefined(easing)){
-					//次の行動は存在するかどうか
-					if (array_length(stacks) > 0){
-						switch (get_next_type()){
-							case "easing":		//easing実行
-								easing = array_shift(stacks)[1];
-								timer = 0;
-								if (mode.target) easing.change -= value
-								break;
-							case "set":			//value設定
-								value = array_shift(stacks)[1];
-								func_call(value);
-								break;
-							case "sleep":		//sleep実行
-								sleep = array_shift(stacks)[1];
-								break;
-							default:
-								show_debug_message("EASING ERROR - Incorrect type")
-								array_push(_delete, i)
-								continue;
-						}
-					}else{
-						array_push(_delete, i)
-						continue;
+				sleep--
+			}
+			//実行中のeasingがなければ
+			else if (is_undefined(easing)){
+				//次の行動は存在するかどうか
+				if (array_length(stacks) > 0){
+					switch (get_next_type()){
+						case "easing":		//easing実行
+							easing = array_shift(stacks)[1];
+							timer = 0;
+							if (mode.target) easing.change -= value
+							break;
+						case "set":			//value設定
+							value = array_shift(stacks)[1];
+							func_call(value);
+							break;
+						case "sleep":		//sleep実行
+							sleep = array_shift(stacks)[1];
+							break;
+						default:
+							show_debug_message("EASING ERROR - Incorrect type")
+							array_push(_delete, i)
+							continue;
 					}
+				}else{
+					array_push(_delete, i)
+					continue;
 				}
-				
-				//実行中のeasingがあれば
-				if (is_struct(easing)){
-					timer++;
-					if (timer < easing.duration){	//実行中であるかどうか
-						_val = value + easing.change * easing_get_value(easing.tween, easing.ease, timer / easing.duration);
-						
-						func_call(_val);
-					}else{							//この行動の完了処理
-						value += easing.change;
-						func_call(value);
-						easing = undefined;
-					}
+			}
+			
+			//実行中のeasingがあれば
+			if (is_struct(easing)){
+				timer++;
+				if (timer < easing.duration){	//実行中であるかどうか
+					_val = value + easing.change * easing_get_value(easing.tween, easing.ease, timer / easing.duration);
+					
+					func_call(_val);
+				}else{							//この行動の完了処理
+					value += easing.change;
+					func_call(value);
+					easing = undefined;
 				}
 			}
 		}
@@ -225,7 +249,8 @@ function easing_step(){
 	});
 }
 
-///@arg {string} tag
+///指定したタグのイージングシーケンスが存在するかどうか
+///@arg {string} tag `set_tag()`で設定したタグ
 ///@return {bool}
 function easing_exists(_tag){
 	var _m = method({tag : _tag}, function(_val){ return (_val.tag == tag) })
@@ -235,6 +260,9 @@ function easing_exists(_tag){
 	return false;
 }
 
+//TODO: 完成させる
+///指定したタグのイージングシーケンスをスキップします
+///`easing_destroy()`とは違い、破棄時に最終的の位置まで移動させます
 ///@arg {string} tag
 function easing_skip(_tag){
 	var _list = global.easing_data;
@@ -253,12 +281,15 @@ function easing_skip(_tag){
 	}
 }
 
-///@desc 使用しない場合、または部屋移動で利用されなくなる場合は、これを実行してください。
-///@arg {string} tag
+///指定したタグのイージングシーケンスを破棄します
+///使用しない場合、または部屋移動で利用されなくなる場合は、これを実行してください。
+///`easing_skip()`とは違い、イージングの進捗は完全に停止されます
+///@arg {string} tag `set_tag()`で設定したタグ
 function easing_destroy(_tag){
 	var _list = global.easing_data,
 		_index_list = []
 	
+	//タグが一致するイージングシーケンスを探します
 	for (var i=0;i<array_length(_list);i++){
 		var _e = _list[i]
 		if (_e.check_tag(_tag)) {
@@ -266,19 +297,21 @@ function easing_destroy(_tag){
 		}
 	}
 	
+	//削除します
 	_index_list = array_reverse(_index_list);
 	array_foreach(_index_list, function(_e){
 		array_delete(global.easing_data, _e, 1);
 	});
 }
 
+///イージングシーケンスを全部削除します
 function easing_clear(){
 	global.easing_data = []
 }
 
-///@arg {real} tween
-///@arg {real} ease
-///@arg {real} timer
+///@arg {real} tween EASING_TWEEN.?
+///@arg {real} ease EASING_EASE.?
+///@arg {real} timer range in 0 to 1
 ///@return {real}
 function easing_get_value(_tween,_ease,_t){
 	switch(_tween){
@@ -290,7 +323,7 @@ function easing_get_value(_tween,_ease,_t){
 			if _ease == 1 return dsin(_t * 90);
 			if _ease == 2 return -(dcos(_t * 90) - 1);
 		
-		case 2: // Quad
+		case 2: //Quad
 			if _ease == 0 return power(_t , 2);
 			if _ease == 1 return 1 - power(1 - _t , 2);
 			if _ease == 2 return _t < 0.5 ? 2 * power(_t , 2) : 1 - power(-2 * _t + 2 , 2) / 2;

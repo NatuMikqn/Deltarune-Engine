@@ -36,6 +36,7 @@ if (keyboard_check_pressed(vk_space)){
 	new EasingBuilder(method({id, _polys, _nextpolys}, function(_v){
 		var _count = array_length(id.polygons.main);
 		for (var i = 0; i < _count; i++) {
+			board_polygon_set("main", "yaju", 19, 19)
 			id.polygons.main[i].x = _polys[i].x + (_nextpolys[i].x - _polys[i].x) * _v;
 			id.polygons.main[i].y = _polys[i].y + (_nextpolys[i].y - _polys[i].y) * _v;
 		}

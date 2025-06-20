@@ -6,6 +6,11 @@ instance_create_depth(320, 180, 0, obj_battle_board)
 var _team = team_get(),
 	_obj, _pos, _inst
 
+
+charturn = 0;
+select_list = [];
+select_step = 0;
+
 event_user(0)
 
 timer = 0;
