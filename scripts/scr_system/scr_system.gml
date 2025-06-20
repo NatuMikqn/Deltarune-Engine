@@ -1,4 +1,4 @@
-global.screen_size = vector2(640, 480)
+global.screen_size = new Vector2(640, 480)
 
 ///@return {bool}
 function is_paused(){

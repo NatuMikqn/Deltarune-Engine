@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_encounter_custom",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_encounter_custom",
+  "parent":{
+    "name":"encounter",
+    "path":"folders/Scripts/encounter.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

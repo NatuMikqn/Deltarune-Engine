@@ -58,7 +58,7 @@ function typer_get_color(_c){
 			
 		}
 	}else{
-		_c = team_get_flag(real(_digits), TEAMCHAR_FLAG.COLOR);
+		_c = undefined;
 		if !is_undefined(_c){
 			_return = [_c, _c];
 		}

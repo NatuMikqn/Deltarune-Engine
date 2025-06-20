@@ -1,4 +1,4 @@
-char = TEAMCHAR.SUSIE;
+
 event_inherited();
 
 sprite[BATTLE_TEAM_ANIM.ENCOUNTER] = spr_char_dwsusie_battle_idle;

@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":135.768,
+  "duration":-1.0,
   "name":"mus_met",
   "parent":{
     "name":"battle",

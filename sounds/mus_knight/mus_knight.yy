@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"mus_knight",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":117.17331,
+  "name":"mus_knight",
+  "parent":{
+    "name":"battle",
+    "path":"folders/Sounds/music/battle.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"mus_knight.ogg",
+  "type":0,
+  "volume":1.0,
+}

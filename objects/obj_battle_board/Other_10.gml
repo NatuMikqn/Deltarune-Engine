@@ -6,8 +6,8 @@ new EasingBuilder(method(id, function(_v){
 			angle = _v * 180 - 180;
 			obj_battle.enemyturn_black = _v * 0.6;
 		}))
-		.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 30, 1)
+		.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, boardanim_speed, 1)
+		.set_tag("board_anim")
 		.build();
 
 afterimage = true;
-alarm[0] = 30;

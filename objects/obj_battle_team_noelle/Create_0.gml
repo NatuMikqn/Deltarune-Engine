@@ -1,4 +1,3 @@
-char = TEAMCHAR.NOELLE;
 event_inherited();
 
 sprite[BATTLE_TEAM_ANIM.ENCOUNTER] = spr_char_dwnoelle_battle_encounter;

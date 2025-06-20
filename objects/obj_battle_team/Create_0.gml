@@ -1,5 +1,5 @@
 encounter_sprite = -1;
-//color = team_get_flag(char, TEAMCHAR_FLAG.COLOR);
+color = c_white;
 animtime = 0;
 animspd = 4;
 

@@ -107,24 +107,31 @@ function TextData() constructor{
 	}
 }
 
+///////////////////////////////////////////////////////
+// typewriter
+
 ///@ignore
 function TypeWriter() constructor{
 	x = 0;
 	y = 0;
 	depth = 0;
-	textdata = "";
+	textdata = [];
 	font = "";
 	gui = false;
-}
-
-function TypeWriterBuilder() : TypeWriter() constructor{
+	color = c_white;
+	scale = new Vector2();
+	offset = new Vector2();
 	
-	///@arg {Array<Struct.TextData>} text
-	static set_text = function(_text){
-		textdata = _text;
+	///GUI描画を有効にするかどうか
+	///@arg {Bool} enable
+	///@return {Struct.TypeWriterBuilder}
+	static set_gui = function(_enable){
+		gui = _enable;
 		return self;
 	}
-	///@arg {Asset.GMFont,String} font
+	
+	///@arg {Asset.GMFont|String} font
+	///@return {Struct.TypeWriterBuilder}
 	static set_font = function(_font){
 		if (is_string(_font)){
 			font = _font;
@@ -135,9 +142,42 @@ function TypeWriterBuilder() : TypeWriter() constructor{
 		}
 		return self;
 	}
+	
+	///@arg {Constant.Color} color
+	///@return {Struct.TypeWriterBuilder}
+	static set_color = function(_color){
+		color = _color;
+		return self;
+	}
+	
+	///@arg {Real} h
+	///@arg {Real} v
+	///@return {Struct.TypeWriterBuilder}
+	static set_scale = function(_h, _v){
+		scale.set(_h, _v);
+		return self;
+	}
+	
+	///@arg {Real} x
+	///@arg {Real} y
+	///@return {Struct.TypeWriterBuilder}
+	static set_offset = function(_x, _y){
+		offset.set(_x, _y);
+		return self;
+	}
+}
+
+///@arg {Real} x
+///@arg {Real} y
+///@arg {Array<Struct.TextData>} y
+function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor{
+	x = _x;
+	y = _y;
+	textdata = _text;
+	
 	static build = function(){
 		var _data = new TypeWriterData(self);
-		//TODO - データを登録するコードを書く
+		array_push(obj_typewriter_manager.list, _data);
 	}
 }
 
@@ -151,8 +191,36 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		other[$_e] = self[$_e];
 	}))
 	
-	static get_text = function(){
-		return font;
+	charpos = 0;
+	read = 0;
+	chars = [];
+	
+	///@return {Asset.GMFont}
+	static get_textdata = function(){
+		return textdata[read];
+	}
+	
+	///@return {Asset.GMFont}
+	static next_read = function(){
+		read++
+		return get_textdata();
+	}
+	
+	///@return {Asset.GMFont}
+	static add_chars = function(_x, _y, _char){
+		array_push(chars, _char);
+	}
+
+	///@return {String}
+	static read_char = function(_x, _y, _char){
+		array_push(chars, _char);
+	}
+	
+	///@return {Asset.GMFont}
+	static draw = function(){
+		for (var i = 0; i < array_length(chars); i++) {
+			
+		}
 	}
 }
 

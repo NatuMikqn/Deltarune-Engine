@@ -1,4 +1,4 @@
-surface_set_target(obj_battle.srf_battle)
+surface_set_target(battle_get_surface())
 
 var _sprite = sprite[sprite_anim]
 

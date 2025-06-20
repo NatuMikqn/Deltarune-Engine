@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_encounter_group",
+  "%Name":"scr_vector2",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_encounter_group",
+  "name":"scr_vector2",
   "parent":{
-    "name":"encounter",
-    "path":"folders/Scripts/encounter.yy",
+    "name":"system",
+    "path":"folders/Scripts/system.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

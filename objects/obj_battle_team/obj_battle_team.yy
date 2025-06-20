@@ -11,7 +11,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"team",
-    "path":"folders/Objects/battle/char/team.yy",
+    "path":"folders/Objects/battle/entity/team.yy",
   },
   "parentObjectId":null,
   "persistent":true,

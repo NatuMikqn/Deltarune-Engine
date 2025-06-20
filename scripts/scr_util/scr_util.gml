@@ -1,25 +1,3 @@
-///@arg {real} x
-///@arg {real} y
-///@return {struct}
-function vector2(_x = 0,_y = 0){
-	return {x:_x,y:_y};
-}
-
-function vector2rot(_x = 0, _y = 0,_cx = 0, _cy = 0, _rot = 0){
-	var _xx = _x - _cx
-	var _yy = _y - _cy
-	return {
-		x : _cx + lengthdir_x(_xx,_rot) - lengthdir_y(_yy,_rot),
-		y : _cy + lengthdir_x(_yy,_rot) + lengthdir_y(_xx,_rot)
-	}
-}
-
-///@arg {real} x
-///@arg {real} y
-///@return {struct}
-function vector2_camera(_x = 0,_y = 0){
-	return {x:_x + obj_camera.every_x,y:_y + obj_camera.every_y};
-}
 
 ///@arg {bool} enable
 function alphafix(_bool){
@@ -114,12 +92,6 @@ function draw_set_align(_a){
 	draw_set_valign(_v[_a div 3])
 }
 
-///@return {Id.Surface}
-function surface_create_auto(){
-	var _w = sur_get_app_width();
-	var _h = sur_get_app_height();
-	return surface_create(_w,_h);
-}
 
 ///@arg {real} value
 ///@arg {real} s1

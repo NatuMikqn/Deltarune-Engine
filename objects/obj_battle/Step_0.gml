@@ -57,7 +57,7 @@ if (state == BATTLE_STATE.MYTURN){
 				}else
 				if (_sl[0] == BUTTON.DEFEND){
 					battle_tension_add(16)
-					battle_team_set_anim(team_get_flag(charturn, TEAMCHAR_FLAG.BATTLE_OBJ), BATTLE_TEAM_ANIM.DEFEND, BATTLE_ANIM_LOOP.ONLY)
+					battle_team_set_anim(battle_char_ids[charturn], BATTLE_TEAM_ANIM.DEFEND, BATTLE_ANIM_LOOP.ONLY)
 					battle_next_char(4)
 				}
 		}
@@ -69,15 +69,27 @@ if (state == BATTLE_STATE.MYTURN){
 	}
 }
 //敵メッセージ時
-if (state == BATTLE_STATE.IN_ENEMYTURN){
-	if (!instance_exists(obj_typer)){
-		battle_set_state(BATTLE_STATE.ENEMYTURN)
+if (state == BATTLE_STATE.ENEMY_TALK){
+	if (true || !instance_exists(obj_typewriter_manager)){
+		battle_set_state(BATTLE_STATE.ENEMY_IN)
 	}
 }
-if (state == BATTLE_STATE.ENEMYTURN){
+//枠アニメーション
+if (state == BATTLE_STATE.ENEMY_IN){
+	if (!easing_exists("board_anim")){
+		battle_set_state(BATTLE_STATE.ENEMY)
+	}
+}
+if (state == BATTLE_STATE.ENEMY){
 	//TODO - デバッグ機能 後に消す
 	if input_check_pressed(INPUT.MENU){
-		battle_set_state(BATTLE_STATE.OUT_ENEMYTURN)
+		battle_set_state(BATTLE_STATE.ENEMY_END)
+	}
+}
+//枠アニメーション
+if (state == BATTLE_STATE.ENEMY_END){
+	if (!easing_exists("board_anim")){
+		battle_set_state(BATTLE_STATE.MYTURN);
 	}
 }
 

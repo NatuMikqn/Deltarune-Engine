@@ -1,35 +1,35 @@
 ///@arg {real} x
 ///@arg {real} y
-///@arg {real} char_id
+///@arg {Struct.CharacterInfoData} char
 ///@arg {real} img
 function draw_charbox(_x, _y, _char, _img){
 	var _charsprite,
 		_namesprite,
 		_color
 	
-	_color = team_get_flag(_char, TEAMCHAR_FLAG.COLOR)
-	switch(_char){
-		case TEAMCHAR.KRIS:
+	_color = _char.get_color()
+	switch(_char.id){
+		case "kris":
 			_charsprite = spr_charbox_icon_kris
 			_namesprite = l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.NAME_KRIS)
 			break;
-		case TEAMCHAR.SUSIE:
+		case "susie":
 			_charsprite = spr_charbox_icon_susie
 			_namesprite = l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.NAME_SUSIE)
 			break;
-		case TEAMCHAR.RALSEI:
+		case "ralsei":
 			_charsprite = spr_charbox_icon_ralsei
 			_namesprite = l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.NAME_RALSEI)
 			break;
-		case TEAMCHAR.NOELLE:
+		case "noelle":
 			_charsprite = spr_charbox_icon_noelle
 			_namesprite = l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.NAME_NOELLE)
 			break;
 	}
 	
 	var _count = array_length(team_get())
-	var _hp = team_get_flag(_char, TEAMCHAR_FLAG.HEALTH),
-		_max = team_get_flag(_char, TEAMCHAR_FLAG.MAX_HEALTH)
+	var _hp = _char.get_hp(),
+		_max = _char.get_maxhp()
 	
 	draw_charbox_custom(_x, _y, _charsprite, _img, _namesprite, _color, _hp, _max)
 }

@@ -1,53 +1,31 @@
-if (input_check_pressed(INPUT.CONFIRM)){
-	if (pause) pause = false;
-	if (read >= string_length(text)) instance_destroy();
-}else
-if (!pause && skippable && input_check_pressed(INPUT.CANCEL)){
-	skipped = true;
-}
+var _e, _text, _data;
 
-while (!pause) && (time <= 0 || (skipped)) && (read < string_length(text)){
-	read++
-	var _char = string_char_at(text, read),
-		_cmdarg;
-	//コマンドライン
-	while (!pause && (_char == "<" || _char == "&")){
-		if (_char == "<"){
-			read++
-			cmd = [""];
-			_char = string_char_at(text, read);
-			_cmdarg = 0;
-			while (_char != ">"){
-				if (_char == " "){
-					_cmdarg++
-					cmd[_cmdarg] = "";
-				}else{
-					cmd[_cmdarg] += _char;
-				}
-				read++
-				_char = string_char_at(text, read);
-			}
-			event_user(2);
-			if (pause || (!skipped && time > 0)){
+for (var i = 0; i < array_length(list); i++) {
+	_e = list[i];
+	_text = _e.get_textdata();
+	while (_text.type == "cmd"){
+		
+		_data = _text.data;
+		
+		switch (_data[0]){
+			case "color":
+				_e.set_color(_data[1])
 				break;
-			}
-		}else
-		if (_char == "&"){
-			event_user(1);
+			case "scale":
+				_e.set_scale(_data[1])
+				break;
+			case "alpha":
+				_e.set_alpha(_data[1])
+				break;
+			case "offset":
+				_e.set_offset(_data[1])
+				break;
+			case "font":
+				_e.set_font(_data[1])
+				break;
 		}
-		read++
-		_char = string_char_at(text, read);
+		
+		_text = _e.next_read();
 	}
-	if (pause || (!skipped && time > 0)){
-		break;
-	}
-	event_user(0);
-	time += spd;
-}
-if (!pause){
-	time--
-}
-
-for(var i=0;i<array_length(char_list);i++){
-	char_list[i].step();
+	audio_play_sound(snd_text, 0, 0)
 }

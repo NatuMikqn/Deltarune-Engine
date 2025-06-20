@@ -42,6 +42,7 @@ function Easing() constructor{
 	call_stack = debug_get_callstack()
 }
 
+///@arg {Function} method
 function EasingBuilder(_method) : Easing() constructor{
 	
 	func = _method;

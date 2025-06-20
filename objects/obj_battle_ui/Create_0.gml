@@ -13,7 +13,7 @@ tension_anim = [0, 0, 0]; //white, red, orange
 moveline = []
 timer = 0;
 
-
+button_height = 30;
 
 function MoveLine() constructor{
 	pos = 0;
@@ -24,10 +24,10 @@ function MoveLine() constructor{
 		pos += hsp
 		alpha -= 0.01
 	}
-	static draw = function(_x, _y, _c){
+	static draw = function(_x, _y, _c, _h){
 		alphafix(true)
-		draw_sprite_ext(spr_pixel, 0, _x - 106 + pos, _y, 2, 30, 0, _c, alpha)
-		draw_sprite_ext(spr_pixel, 0, _x + 104 - pos, _y, 2, 30, 0, _c, alpha)
+		draw_sprite_ext(spr_pixel, 0, _x - 106 + pos, _y - _h, 2, _h, 0, _c, alpha)
+		draw_sprite_ext(spr_pixel, 0, _x + 104 - pos, _y - _h, 2, _h, 0, _c, alpha)
 		alphafix(false)
 	}
 }

@@ -1,4 +1,3 @@
-char = TEAMCHAR.KRIS;
 event_inherited();
 
 sprite[BATTLE_TEAM_ANIM.ENCOUNTER] = spr_char_dwkris_battle_encounter;

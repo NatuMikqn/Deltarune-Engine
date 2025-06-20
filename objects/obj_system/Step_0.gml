@@ -16,7 +16,6 @@ if keyboard_check_pressed(vk_f4){
 }
 if keyboard_check_pressed(vk_f5){
 	var _timer = current_time
-	var _texd = text_deserialize("<color red>RED<color yellow>YELLOW<>[battle.encount[]er][]twa!");
-	show_message($"{current_time - _timer}ms : {_texd}")
-	//new TypeWriterBuilder().set_text(text_deserialize("test<color red>message"))
+	var _texd = text_deserialize("<color red>RED<color yellow>YELLOW<>[battle.encountr]twa!");
+	new TypeWriterBuilder(20, 20, _texd).set_gui(true).build();
 }

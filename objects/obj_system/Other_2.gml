@@ -1,4 +1,5 @@
 instance_create_depth(0, 0, 0, obj_camera)
+instance_create_depth(0, 0, 0, obj_typewriter_manager)
 
 easing_init()
 

@@ -8,8 +8,9 @@ with(obj_battle_team){
 	
 	//TODO - ここの処理を作り直す
 	new EasingBuilder(method(_val, function(_v){
-				id.x = x + (team_get_flag(char, TEAMCHAR_FLAG.BATTLE_X, 0) - x) * _v
-				id.y = y + (team_get_flag(char, TEAMCHAR_FLAG.BATTLE_Y, 0) - y) * _v
+				var _pos = team_get()[char].get_position_battle()
+				id.x = x + (_pos.x - x) * _v
+				id.y = y + (_pos.y - y) * _v
 			}))
 			.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 20, 1)
 			.build();

@@ -4,7 +4,7 @@ instance_create_depth(0, 0, 0, obj_battle_ui)
 instance_create_depth(320, 180, 0, obj_battle_board)
 
 var _team = team_get(),
-	_obj, _x, _y, _inst
+	_obj, _pos, _inst
 
 event_user(0)
 
@@ -24,11 +24,24 @@ dialog_typer = noone;
 tension = 0;
 tension_history = [];
 
+battle_char_ids = [];
+battle_enemy_ids = [];
+
 for (var i=0;i<team_get_count();i++){
-	_obj = team_get_flag(_team[i], TEAMCHAR_FLAG.BATTLE_OBJ)
-	_x = team_get_flag(_team[i], TEAMCHAR_FLAG.ENCOUNTER_X) - obj_camera.x
-	_y = team_get_flag(_team[i], TEAMCHAR_FLAG.ENCOUNTER_Y) - obj_camera.y
-	_inst = instance_create_depth(_x, _y, DEPTH.BT_CHAR-i, _obj)
+	_obj = _team[i].get_obj_battle()
+	_pos = _team[i].get_position_encounter()
+	_inst = instance_create_depth(_pos.x - obj_camera.x, _pos.y - obj_camera.y, DEPTH.BT_CHAR-i, _obj)
+	_inst.char = i;
+	_inst.color = _team[i].get_color()
+	array_push(battle_char_ids, _inst);
+}
+var _enemygroup = get_enemydata().enemygroup;
+_pos = new Vector2();
+for (var i = 0; i < array_length(_enemygroup); i++) {
+	_obj = _enemygroup[i].object;
+	_pos.set(_enemygroup[i].x, _enemygroup[i].y)
+	_inst = instance_create_depth(_pos.x, _pos.y, _enemygroup[i].depth, _obj)
+	array_push(battle_enemy_ids, _inst);
 }
 
 dbg_screen_alpha = 0;

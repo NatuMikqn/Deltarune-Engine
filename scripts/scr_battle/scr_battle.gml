@@ -2,9 +2,10 @@ enum BATTLE_STATE{
 	START_ANIM,
 	MYTURN,
 	MYTURN_ACTION,
-	IN_ENEMYTURN,
-	ENEMYTURN,
-	OUT_ENEMYTURN,
+	ENEMY_TALK,
+	ENEMY_IN,
+	ENEMY,
+	ENEMY_END,
 }
 enum BATTLE_TEAM_ANIM{
 	ENCOUNTER,
@@ -35,7 +36,7 @@ function battle_next_char(_icon){
 		if charturn >= array_length(team_get()){
 			battle_tension_clear_history()
 			instance_destroy(dialog_typer)
-			battle_set_state(BATTLE_STATE.IN_ENEMYTURN)
+			battle_set_state(BATTLE_STATE.ENEMY_TALK)
 		}else{
 			battle_show_dialog(true);
 		}
@@ -45,7 +46,7 @@ function battle_prev_char(){
 	with (obj_battle){
 		if charturn > 0{
 			charturn--
-			battle_team_set_anim(team_get_flag(charturn, TEAMCHAR_FLAG.BATTLE_OBJ), BATTLE_TEAM_ANIM.IDLE, BATTLE_ANIM_LOOP.LOOP, 10)
+			battle_team_set_anim(battle_char_ids[charturn], BATTLE_TEAM_ANIM.IDLE, BATTLE_ANIM_LOOP.LOOP, 10)
 			battle_tension_prev()
 			obj_battle_ui.charturn_icon_img[charturn] = 0
 			with(obj_battle_ui) event_user(1)
@@ -65,28 +66,39 @@ function battle_set_state(_state){
 	with (obj_battle){
 		state = _state
 		//ここでそれぞれの行動(変更時のみ)をここに入力
-		//TODO - ここに記述させるべきではない
 		switch _state{
 			case BATTLE_STATE.MYTURN:
-				battle_show_dialog(false);
-				event_user(0)
-				with(obj_battle_ui){
-					event_user(2)
-					event_user(1)
+				if (team_get_count() == 0){
+					battle_set_state(BATTLE_STATE.ENEMY_TALK)
+				}else{
+					battle_show_dialog(false);
+					event_user(0)
+					with(obj_battle_ui){
+						event_user(2)
+						event_user(1)
+					}
 				}
 				
 				break;
-			case BATTLE_STATE.IN_ENEMYTURN:
+			
+			case BATTLE_STATE.ENEMY_TALK:
 				
 				break;
-			case BATTLE_STATE.ENEMYTURN:
-				with(obj_battle_board) event_user(0);
+			
+			case BATTLE_STATE.ENEMY_IN:
+				with(obj_battle_enemy) event_user(1);
+				if (instance_exists(obj_battle_turn)){
+					with(obj_battle_board) event_user(0);
+				}else{
+					battle_set_state(BATTLE_STATE.MYTURN)
+				}
 				break;
-			case BATTLE_STATE.OUT_ENEMYTURN:
+			
+			case BATTLE_STATE.ENEMY:
+				break;
+			
+			case BATTLE_STATE.ENEMY_END:
 				with(obj_battle_board) event_user(1);
-				with(obj_battle){
-					battle_set_nextstate(BATTLE_STATE.MYTURN, 30);
-				}
 				break;
 		}
 		
@@ -108,6 +120,7 @@ function battle_team_set_anim(_id, _anim, _loop, _spd = 4){
 			sprite_loop = _loop;
 			animtime = 0;
 			animspd = _spd;
+			subimg = 0;
 		}
 	}
 }
@@ -138,4 +151,11 @@ function battle_show_dialog(_skipped){
 ///@return {bool}
 function in_battle(){
 	return instance_exists(obj_battle)
+}
+
+///ターンを開始します
+///@arg {Asset.GMObject} turn 複製したターンオブジェクト
+///@return {Id.Instance} 作成されたターンのインスタンスID
+function create_turn(_trun){
+	return instance_create_depth(0, 0, 0, _trun);
 }

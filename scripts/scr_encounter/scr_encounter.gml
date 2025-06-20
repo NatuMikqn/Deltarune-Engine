@@ -1,9 +1,11 @@
+///encounterの初期化
 function encounter_init(){
 	global.encount_group = [];
 	global.encount_data = [];
 	global.encount_id = -1;
 }
 
+///敵情報を設定します
 ///@arg {real} x
 ///@arg {real} y
 ///@arg {Asset.GMObject} obj
@@ -15,8 +17,9 @@ function EnemyData(_x, _y, _obj, _depth = undefined) constructor{
 	depth = _depth ?? -_y;
 }
 
+///敵情報を登録します
 ///@desc 敵グループ情報を登録
-///@arg {Struct.EnemyGroupData} 
+///@arg {Struct.EnemyGroupData} enemygroupdata Struct.EnemyGroupData
 function encounter_register(_egd){
 	array_push(global.encount_group, _egd)
 }
@@ -29,7 +32,7 @@ function EnemyGroup() constructor {
 	dialog = "";
 }
 
-///@desc 敵グループを作成します
+///敵グループを作成します
 function EnemyGroupBuilder() : EnemyGroup() constructor {
 	
 	///@arg {Real} id
@@ -94,13 +97,13 @@ function EnemyGroupData(_egb) : EnemyGroup() constructor {
 	}
 }
 
-///@desc 敵IDを設定
+///敵IDを設定
 ///@arg {real} id
 function encounter_set_id(_id){
 	global.encount_id = _id;
 }
 
-///@desc 現在指定されている敵IDを取得
+///現在指定されている敵IDを取得
 ///@return {real}
 ///@pure
 function encounter_get_id(){
@@ -124,7 +127,7 @@ function check_enemyid(_id = encounter_get_id()){
 	return encounter_getindex(_id) != -1;
 }
 
-///@desc 敵グループ情報がある位置を取得
+///敵グループ情報がある位置を取得
 ///@arg {real} id
 ///@return {real}
 ///@pure
@@ -135,7 +138,7 @@ function encounter_getindex(_id){
 	return _index;
 }
 
-///@desc 敵グループ情報を取得
+///敵グループ情報を取得
 ///@arg {real} id
 ///@return {Struct.EnemyGroupData}
 ///@pure
@@ -146,21 +149,26 @@ function encounter_get(_id){
 	return global.encount_group[_index];
 }
 
+///チームキャラクターの位置を自動設定します
 function encounter_autoset_teampos(){
 	var _team = team_get(),
-		_count = team_get_count()
-	for (var i=0;i<_count;i++){
-		team_set_flag(_team[i], TEAMCHAR_FLAG.BATTLE_X, 100)
+		_count = team_get_count(),
+		_pos = new Vector2();
+	_pos.x = 100;
+	for (var i = 0; i < _count; i++)
+	{
 		if (_count == 1){
-			team_set_flag(_team[i], TEAMCHAR_FLAG.BATTLE_Y, 216)
+			_pos.y = 216;
 		}else if (_count == 2){
-			team_set_flag(_team[i], TEAMCHAR_FLAG.BATTLE_Y, 216 - 40 + i*100)
+			_pos.y = 216 - 40 + i * 100;
 		}else{
-			team_set_flag(_team[i], TEAMCHAR_FLAG.BATTLE_Y, 216 - 90 + i*(180/(_count-1)))
+			_pos.y = 216 - 90 + i * (180 / (_count - 1));
 		}
+		_team[i].set_position_battle(_pos.x, _pos.y);
 	}
 }
 
+///戦闘を開始します
 ///@arg {real} id
 ///@arg {Id.Instance} target_enemy
 ///@arg {bool} autoset_teampos

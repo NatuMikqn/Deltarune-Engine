@@ -1,4 +1,3 @@
-char = TEAMCHAR.RALSEI;
 event_inherited();
 
 sprite[BATTLE_TEAM_ANIM.ENCOUNTER] = spr_char_dwralsei_battle_encounter;

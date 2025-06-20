@@ -1,5 +1,6 @@
 surface_set_target(obj_battle.srf_battle)
 
+//下部分
 var _anim_y = 480 - in_anim*155
 draw_sprite_ext(spr_pixel, 0, 0, _anim_y, 640, _anim_y, 0, c_black, 1)
 draw_sprite_ext(spr_pixel, 0, 0, _anim_y, 640, 2, 0, #332033, 1)
@@ -27,22 +28,22 @@ for(var i=0;i<_count;i++){
 	}else{
 		_x = 320 - 213 + (i - show_target) * 213
 	}
-	/*if (((_count - 1) % 2) == 0){
-		_x = 320 - 213 * floor(_count / 2) + i * 213
-	}else{
-		_x = 320 - 106 * floor(_count / 2) + i * 213
-		//_x = 320 - 105 * floor(_count / 2) + i * 214
-	}*/
+	_y = _anim_y + 9 - _ctanim * (button_height + 2)
+	draw_sprite_ext(spr_pixel, 0, _x - 105, _y - 7, 209, (2 + button_height) * _ctanim, 0, c_black, 1)
 	if (_charturn == i){
 		_y = _anim_y - 23
-		_color = team_get_flag(_list[i], TEAMCHAR_FLAG.COLOR)
+		_color = _list[i].get_color()
+		
+		//UIライン
 		for(var j=0;j<array_length(moveline);j++){
-			moveline[j].draw(_x, _y+30, _color)
+			moveline[j].draw(_x, _y+60, _color, _ctanim * button_height)
 		}
+		
+		//ボタン
 		var _btselect = obj_battle.select_list[i][0],
 			_buttons = [
 				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_FIGHT),
-				team_get_flag(_list[i], TEAMCHAR_FLAG.TECHABLE) ? l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_TECH) : l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_ACT),
+				l10n_get_assets(ASSET_TYPE.SPRITE, _list[i].is_techable() ? ASSETS_SPRITE.BUTTON_TECH : ASSETS_SPRITE.BUTTON_ACT),
 				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_ITEM),
 				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_SPARE),
 				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_DEFEND)
@@ -50,18 +51,35 @@ for(var i=0;i<_count;i++){
 		for(var j=0;j<5;j++){
 			draw_sprite(_buttons[j], (j == _btselect), _x - 87 + j * 35, _y + 31)
 		}
-		_y = _anim_y + 9 - _ctanim * 32
+		_y = _anim_y + 9 - _ctanim * (button_height + 2)
 		
+		//////////////////////////
+		//枠
+		
+		//Top
 		draw_sprite_ext(spr_pixel, 0, _x - 107, _y - 9, 213, 2, 0, _color, 1)
-		draw_sprite_ext(spr_pixel, 0, _x - 107, _y - 7, 2, 35 + 32 * _ctanim, 0, _color, 1)
-		draw_sprite_ext(spr_pixel, 0, _x + 104, _y - 7, 2, 35 + 32 * _ctanim, 0, _color, 1)
+		//Left
+		draw_sprite_ext(spr_pixel, 0, _x - 107, _y - 7, 2, 35 + (2 + button_height) * _ctanim, 0, _color, 1)
+		//Right
+		draw_sprite_ext(spr_pixel, 0, _x + 104, _y - 7, 2, 35 + (2 + button_height) * _ctanim, 0, _color, 1)
+		//Down
 		draw_sprite_ext(spr_pixel, 0, _x - 105, _y + 28, 209, 2, 0, _color, 1)
 		
+	}else{
+		if (_ctanim > 0){
+			//Top
+			draw_sprite_ext(spr_pixel, 0, _x - 107, _y - 9, 213, 2, 0, #332033, 1)
+			//Left
+			draw_sprite_ext(spr_pixel, 0, _x - 107, _y - 7, 2, 0 + (2 + button_height) * _ctanim, 0, #332033, 1)
+			//Right
+			draw_sprite_ext(spr_pixel, 0, _x + 104, _y - 7, 2, 0 + (2 + button_height) * _ctanim, 0, #332033, 1)
+		}
 	}
-	_y = _anim_y + 9 - _ctanim * 32
+	//キャラUI
 	draw_charbox(_x, _y, _list[i], charturn_icon_img[i])
 }
 
+//テンションバー
 _x = -30 + in_anim * 68
 _y = 40
 draw_sprite_ext(spr_tensionbar, 0, _x, _y, 1, 1, 0, c_white, 1)
