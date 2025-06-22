@@ -12,13 +12,13 @@ for (var i = 0; i < array_length(list); i++) {
 				_e.set_color(_data[1])
 				break;
 			case "scale":
-				_e.set_scale(_data[1])
+				_e.set_scale(_data[1], 2)
 				break;
 			case "alpha":
 				_e.set_alpha(_data[1])
 				break;
 			case "offset":
-				_e.set_offset(_data[1])
+				_e.set_offset(_data[1], 2)
 				break;
 			case "font":
 				_e.set_font(_data[1])

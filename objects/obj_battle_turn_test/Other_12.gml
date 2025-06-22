@@ -1,1 +1,1 @@
-///@desc StartTrun
+start = true;

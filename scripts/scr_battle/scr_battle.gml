@@ -87,6 +87,7 @@ function battle_set_state(_state){
 			
 			case BATTLE_STATE.ENEMY_IN:
 				with(obj_battle_enemy) event_user(1);
+				with(obj_battle_turn) event_user(1);
 				if (instance_exists(obj_battle_turn)){
 					with(obj_battle_board) event_user(0);
 				}else{
@@ -95,9 +96,12 @@ function battle_set_state(_state){
 				break;
 			
 			case BATTLE_STATE.ENEMY:
+				with(obj_battle_turn) event_user(2);
 				break;
 			
 			case BATTLE_STATE.ENEMY_END:
+				with(obj_battle_turn) event_user(3);
+				instance_destroy(obj_battle_turn);
 				with(obj_battle_board) event_user(1);
 				break;
 		}

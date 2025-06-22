@@ -40,7 +40,7 @@ if (timer == 0){
 	//background fadein
 	else if (step == 3){
 		new EasingBuilder(function (_v) {
-					obj_battle.background_alpha = _v;
+					//obj_battle.background_alpha = _v;
 				})
 				.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 20, 1)
 				.build();

@@ -5,4 +5,5 @@ enum DEPTH{
 	BT_CHAR = -100,
 	UI = -200,
 	BOARD = -300,
+	SOULS = -400,
 }

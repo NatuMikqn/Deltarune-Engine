@@ -1,22 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"obj_battle_turn_test",
+  "%Name":"obj_battle_soul_red",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":13,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":12,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_battle_turn_test",
+  "name":"obj_battle_soul_red",
   "overriddenProperties":[],
   "parent":{
-    "name":"turns",
-    "path":"folders/Objects/battle/turns.yy",
+    "name":"souls",
+    "path":"folders/Objects/battle/souls.yy",
   },
   "parentObjectId":{
-    "name":"obj_battle_turn",
-    "path":"objects/obj_battle_turn/obj_battle_turn.yy",
+    "name":"obj_battle_soul",
+    "path":"objects/obj_battle_soul/obj_battle_soul.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -35,7 +33,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_battle_soul_red",
+    "path":"sprites/spr_battle_soul_red/spr_battle_soul_red.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

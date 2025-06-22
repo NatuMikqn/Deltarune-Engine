@@ -8,91 +8,69 @@ enum INPUT{
 	MENU,
 	ANY
 }
-
-///@ignore
-function input_init(){
-	global.input_list = [];
-	global.input_list_previous = [];
-	global.input_config = [];
-	global.input_setting = {
-		delay : 20,
-		interval : 2
-	};
+enum INPUT_TYPE{
+	KEYBOARD,
+	GAMEPAD
 }
 
-///@arg {Real} target
-///@arg {Constant.VirtualKey,Real,Array} key
-function input_config(_target, _key){
-	global.input_config[_target] = _key;
+
+/// 入力タイプを変更します
+///@arg {Real} type INPUT_TYPE.ANY
+function input_type(type){
+	obj_input_manager.type = type;
+}
+
+/// キーを登録します
+/// gamepadのアナログスティックの向きを感知する場合は
+/// "left" "right" "up" "down" のいずれかを入力してください
+///@arg {Real} input INPUT.ANY
+///@arg {Constant.VirtualKey|Constant.GamepadButton|Real|Array|String} key key
+function input_config(input, key){
+	obj_input_manager.config[obj_input_manager.type, input] = key;
 }
 
 ///@ignore
 function input_endsetup(){
-	var _count = array_length(global.input_config)
-	global.input_list = array_create(_count,0);
-	global.input_list_previous = array_create(_count,0);
-}
-
-///@ignore
-function input_step(){
-	var _len = array_length(global.input_list);
-    array_copy(global.input_list_previous, 0, global.input_list, 0, _len);
-	var _config
-	for(var i=0;i<_len;i++){
-		_config = global.input_config[i]
-		if is_array(_config){
-			var _true = false
-			for(var j=0;j<array_length(_config);j++){
-				if keyboard_check(_config[j]){
-					global.input_list[i]++;
-					_true = true;
-					break;
-				}
-			}
-			if (!_true) global.input_list[i] = 0;
-		}else{
-			if keyboard_check(_config){
-				global.input_list[i] ++;
-			}else{
-				global.input_list[i] = 0;
-			}
-		}
-	}
+	var _count = array_length(obj_input_manager.config[obj_input_manager.type])
+	obj_input_manager.list = array_create(_count,0);
+	obj_input_manager.list_previous = array_create(_count,0);
+	
+	input_type(INPUT_TYPE.KEYBOARD);
 }
 
 ///@arg {real} key
 ///@return {bool}
-function input_check_interval(_key){
-	var _if, _time, _setting = global.input_setting
-	_time = global.input_list[_key]
+function input_check_interval(key){
+	var _if, _time, _setting = obj_input_manager.setting
+	_time = obj_input_manager.list[key]
 	_if = ((_time == 1) || (_time >= _setting.delay && ((_time - _setting.delay) % _setting.interval == 0)))
 	return _if;
 }
 
 ///@arg {real} key
 ///@return {bool}
-function input_check(_key){
+function input_check(key){
 	var _if, _time
-	_time = global.input_list[_key]
+	_time = obj_input_manager.list[key]
 	_if = (_time >= 1)
 	return _if;
 }
 
 ///@arg {real} key
 ///@return {bool}
-function input_check_pressed(_key){
+function input_check_pressed(key){
 	var _if, _time
-	_time = global.input_list[_key]
+	_time = obj_input_manager.list[key]
 	_if = (_time == 1)
 	return _if;
 }
 
 ///@arg {real} key
 ///@return {bool}
-function input_check_released(_key){
+function input_check_released(key){
 	var _if, _time, _prevtime
-	_time = global.input_list[_key]
-	_prevtime = global.input_list_previous[_key]
+	_time = obj_input_manager.list[key]
+	_prevtime = obj_input_manager.list_previous[key]
 	_if = (_time < _prevtime)
 	return _if;
 }

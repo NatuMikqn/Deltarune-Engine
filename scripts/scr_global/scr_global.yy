@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_draw_charbox",
+  "%Name":"scr_global",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_draw_charbox",
+  "name":"scr_global",
   "parent":{
     "name":"system",
     "path":"folders/Scripts/system.yy",

@@ -1,4 +1,3 @@
-input_step()
 easing_step()
 
 if keyboard_check_pressed(vk_f1){

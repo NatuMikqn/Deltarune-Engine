@@ -40,12 +40,17 @@ function Vector2(_x = 0, _y = _x) constructor {
 	
 	///@desc このvec2に値を設定します
 	///返り値はこのvec2です
-	///@arg {Real} x
+	///@arg {Struct.Vector2,Real} x
 	///@arg {Real} y
 	///@return {Struct.Vector2}
 	static set = function(_x, _y = _x){
-		x = _x;
-		y = _y;
+		if is_struct(_x){
+			x = _x.x;
+			y = _x.y;
+		}else if is_real(_x){
+			x = _x;
+			y = _y;
+		}
 		return self;
 	}
 	
@@ -129,6 +134,19 @@ function Vector2(_x = 0, _y = _x) constructor {
 		return self;
 	}
 	
+	///@desc 2つのvec2の値が同じであるかどうか
+	///@arg {Struct.Vector2,Real} x
+	///@arg {Real} y
+	///@return {Bool}
+	static equals = function(_x, _y = _x){
+		if is_struct(_x){
+			return (x == _x.x && y == _x.y);
+		}else if is_real(_x){
+			return (x == _x && y == _y);
+		}
+		return false;
+	}
+	
 	///@desc 二つの値を絶対値にかけます
 	///@return {Struct.Vector2}
 	static apply_abs = function(){
@@ -156,10 +174,36 @@ function Vector2(_x = 0, _y = _x) constructor {
 	///@desc ベクトルの正規化を行います
 	///@return {Struct.Vector2}
 	static normalize = function(){
+		
 		var _len = sqrt(sqr(x) + sqr(y));
 		x /= _len;
 		y /= _len;
 		return self;
+	}
+	
+	///@desc 距離を求めます
+	///@arg {Struct.Vector2|Real} x
+	///@arg {Real} y
+	///@return {Real}
+	static distance = function(_x = 0, _y = _x){
+		if is_struct(_x){
+			return point_distance(x, y, _x.x, _x.y);
+		}else if is_real(_x){
+			return point_distance(x, y, _x, _y);
+		}
+		return 0;
+	}
+	
+	///@desc 大きい方の値を返します
+	///@return {Real}
+	static get_max = function(){
+		return max(x, y);
+	}
+	
+	///@desc 小さい方の値を返します
+	///@return {Real}
+	static get_min = function(){
+		return min(x, y);
 	}
 	
 	///@desc 内積を求めます
@@ -167,5 +211,12 @@ function Vector2(_x = 0, _y = _x) constructor {
 	///@return {Real}
 	static dot = function(vec2){
 		return x * vec2.x + y * vec2.y;
+	}
+	
+	///@desc 外積を求めます
+	///@arg {Struct.Vector2} vec2
+	///@return {Real}
+	static cross = function(vec2){
+		return x * vec2.y - y * vec2.x;
 	}
 }

@@ -1,4 +1,4 @@
-surface_set_target(obj_battle.srf_battle)
+surface_set_target(battle_get_surface())
 
 //下部分
 var _anim_y = 480 - in_anim*155

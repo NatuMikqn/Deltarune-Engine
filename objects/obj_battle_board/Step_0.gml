@@ -11,7 +11,10 @@ if (afterimage){
 	
 	if (easing_exists("board_anim")){
 		if (timer % 2 == 0){
-			array_push(afterimage_list, new CreateAfterimage(1 - alpha + 0.1))
+			var _len = array_length(lists)
+			for (var i = 0; i < _len; i++) {
+				array_push(afterimage_list, new CreateAfterImage(lists[i], 1 - alpha + 0.1))
+			}
 		}
 	}else{
 		afterimage = false;
@@ -24,7 +27,7 @@ timer++
 
 if (keyboard_check_pressed(vk_space)){
 	
-	var _polys = polygons.main
+	var _polys = polygons_data[$"main"]
 	
 	var _nextpolys = [
 		new Vector2(irandom_range(-140, 0), irandom_range(-140, 0)),
@@ -34,11 +37,13 @@ if (keyboard_check_pressed(vk_space)){
 	]
 	
 	new EasingBuilder(method({id, _polys, _nextpolys}, function(_v){
-		var _count = array_length(id.polygons.main);
+		var _count = 4;
+		var _x, _y, _name;
 		for (var i = 0; i < _count; i++) {
-			board_polygon_set("main", "yaju", 19, 19)
-			id.polygons.main[i].x = _polys[i].x + (_nextpolys[i].x - _polys[i].x) * _v;
-			id.polygons.main[i].y = _polys[i].y + (_nextpolys[i].y - _polys[i].y) * _v;
+			_name = $"x{i}"
+			_x = _polys[$_name].pos.x + (_nextpolys[i].x - _polys[$_name].pos.x) * _v
+			_y = _polys[$_name].pos.y + (_nextpolys[i].y - _polys[$_name].pos.y) * _v
+			board_polygon_set("main", $"x{i}", _x, _y)
 		}
 		board_update();
 	}))

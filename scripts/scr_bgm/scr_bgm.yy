@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_bgm",
   "parent":{
-    "name":"util",
-    "path":"folders/Scripts/util.yy",
+    "name":"system",
+    "path":"folders/Scripts/system.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

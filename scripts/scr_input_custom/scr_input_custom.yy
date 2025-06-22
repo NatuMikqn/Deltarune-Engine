@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_draw_charbox",
+  "%Name":"scr_input_custom",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_draw_charbox",
+  "name":"scr_input_custom",
   "parent":{
-    "name":"system",
-    "path":"folders/Scripts/system.yy",
+    "name":"util",
+    "path":"folders/Scripts/util.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -1,23 +1,23 @@
-surface_set_target(obj_battle.srf_battle)
+surface_set_target(battle_get_surface())
 alphafix(true)
 
-if (scale > 0 && !array_empty(polygons_offset.main)){
-	var _polygon, _count = array_length(polygons.main);
+var _len = array_length(lists)
+if (scale > 0 && _len){
+	var _board_data;
 	
-	draw_set_ca(bg_color, bg_alpha);
+	var _name, _a, _b;
 	
-	draw_primitive_begin(pr_trianglestrip);
-	for(var i=0;i<_count + 1;i++){
-		_polygon = polygons.main[i % _count].copy();
+	for (var i = 0; i < _len; i++) {
+		_board_data = lists[i]
 		
-		if (angle % 360 != 0) _polygon.rot(angle).mul(scale);
+		_board_data = board_ef_apply(_board_data);
 		
-		draw_vertex(x + _polygon.x, y + _polygon.y);
+		draw_set_ca(bg_color, bg_alpha);
+		draw_background(_board_data)
+		
+		draw_set_ca(l_color, l_alpha);
+		draw_board(_board_data)
 	}
-	draw_primitive_end()
-	
-	draw_set_ca(l_color, l_alpha * alpha);
-	draw_board(polygons, polygons_offset, scale, angle)
 	draw_set_ca()
 }
 
