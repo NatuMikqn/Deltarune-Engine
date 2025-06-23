@@ -1,3 +1,4 @@
+
 global_init()
 
 instance_create_depth(0, 0, 0, obj_camera)
@@ -21,5 +22,6 @@ team_custom()
 encounter_group()
 
 global.hpfont = font_add_sprite_ext(spr_font_small, "0123456789-+", false, 1)
+
 
 room_goto(rm_area_test)

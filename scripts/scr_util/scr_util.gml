@@ -84,8 +84,8 @@ function draw_set_align(_a){
 ///@arg {real} r1 ある範囲までのx~
 ///@arg {real} r2 ある範囲までの~x
 ///@pure
-function map_value(_value,_s1,_s2,_r1,_r2){
-	var _a = (_s2 + _value) / (_s2 - _s1);
+function map_value(_value, _s1, _s2, _r1, _r2){
+	var _a = (_value - _s1) / (_s2 - _s1);
 	return lerp(_r1, _r2, _a)
 }
 

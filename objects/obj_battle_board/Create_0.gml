@@ -9,15 +9,26 @@ lists = [];
 
 var _board;
 
-_board = new PolygonGroup(220, 200, 0)
-_board.add("lt", -75, -75)
-_board.add("lb", -75, 75)
-_board.add("rb", 75, 75)
-_board.add("rt", 75, -75)
+_board = new PolygonGroup(220, 200, 0);
+_board.add("lt", -75, -75);
+_board.add("lb", -75, 75);
+_board.add("d", 0, 125);
+_board.add("rb", 75, 75);
+_board.add("rt", 75, -75);
 
-board_data_register(_board, "main")
 
-board_update()
+_board = new PolygonGroup(220, 200, 0);
+var _pos = new Vector2()
+for (var i = 0; i < 24; i++) {
+	_pos.x = lengthdir_x((i % 2) == 0 ? 120 : 80, i * 360 / 24)
+	_pos.y = lengthdir_y((i % 2) == 0 ? 120 : 80, i * 360 / 24)
+	_board.add($"{i}", _pos.x, _pos.y);
+}
+
+
+board_data_register(_board, "main");
+
+board_update();
 
 l_color = #00c000;
 l_alpha = 1;
@@ -52,12 +63,12 @@ function CreateAfterImage(_data, _alpha, _id = obj_battle_board) constructor{
 	data = board_ef_apply(_data);
 	
 	static step = function(){
-		fadeout -= 0.02
+		fadeout -= 0.02;
 	}
 	static draw = function(){
-		draw_set_ca(color, alpha * fadeout)
-		draw_board(data)
-		draw_set_ca()
+		draw_set_ca(color, alpha * fadeout);
+		draw_board(data);
+		draw_set_ca();
 	}
 }
 
@@ -75,27 +86,27 @@ function draw_board(board_data){
 				_a = board_data.polydata[i % _count];
 				_b = board_data.polyoffset[i % _count];
 				
-				draw_vertex(_offset.x + _a.x, _offset.y + _a.y)
-				draw_vertex(_offset.x + _b.x, _offset.y + _b.y)
+				draw_vertex(_offset.x + _a.x, _offset.y + _a.y);
+				draw_vertex(_offset.x + _b.x, _offset.y + _b.y);
 			}
-			draw_primitive_end()
+			draw_primitive_end();
 		}
 	}else if (board_data.type == BOARD_TYPE.CIRCLE){
 		_a = new Vector2();
 		var _p = board_data.precision,
 			_ang = board_data.angle;
-		draw_primitive_begin(pr_trianglestrip)
+		draw_primitive_begin(pr_trianglestrip);
 		for (var i = 0; i < _p + 1; i++) {
 			for (var j = 0; j < 2; j++) {
-				_a.x = lengthdir_x(board_data.scale + j * 5 * scale, 360 / _p * i)
-				_a.y = lengthdir_y(board_data.scale + j * 5 * scale, 360 / _p * i)
+				_a.x = lengthdir_x(board_data.scale + j * 5 * scale, 360 / _p * i);
+				_a.y = lengthdir_y(board_data.scale + j * 5 * scale, 360 / _p * i);
 				
-				_a.rot(_ang)
+				_a.rot(_ang);
 				
-				draw_vertex(_offset.x + _a.x, _offset.y + _a.y)
+				draw_vertex(_offset.x + _a.x, _offset.y + _a.y);
 			}
 		}
-		draw_primitive_end()
+		draw_primitive_end();
 	}
 }
 
@@ -119,7 +130,7 @@ function draw_background(board_data){
 					_points[2] = _polydata[(i + 1) % _count];
 					
 					if (in_ear(i, _polydata, _points, board_data.ccw)){
-						array_push(_cache, [_points[0], _points[1], _points[2]])
+						array_push(_cache, [_points[0], _points[1], _points[2]]);
 						
 						array_delete(_polydata, i, 1);
 						_count--;
@@ -128,32 +139,32 @@ function draw_background(board_data){
 				}
 			}
 			//残りはそのまま
-			array_push(_cache, [_polydata[0], _polydata[1], _polydata[2]])
+			array_push(_cache, [_polydata[0], _polydata[1], _polydata[2]]);
 			
 			draw_primitive_begin(pr_trianglelist);
 			for (var i = 0; i < array_length(_cache); i++) {
 				for (var j = 0; j < 3; j++) {
 					//draw_set_color(make_color_hsv(((i * 3 + j) * 32) % 255, 255, 255))
-					draw_vertex(_offset.x + _cache[i, j].x, _offset.y + _cache[i, j].y)
+					draw_vertex(_offset.x + _cache[i, j].x, _offset.y + _cache[i, j].y);
 				}
 			}
-			draw_primitive_end()
+			draw_primitive_end();
 		}
 	}else if (board_data.type == BOARD_TYPE.CIRCLE){
 		var _a = new Vector2(),
 			_p = board_data.precision,
 			_ang = board_data.angle;
 		
-		draw_primitive_begin(pr_trianglefan)
-		draw_vertex(_offset.x, _offset.y)
+		draw_primitive_begin(pr_trianglefan);
+		draw_vertex(_offset.x, _offset.y);
 		
 		for (var i = 0; i < _p + 1; i++) {
-			_a.x = lengthdir_x(board_data.scale, 360 / _p * i)
-			_a.y = lengthdir_y(board_data.scale, 360 / _p * i)
+			_a.x = lengthdir_x(board_data.scale, 360 / _p * i);
+			_a.y = lengthdir_y(board_data.scale, 360 / _p * i);
 			
-			_a.rot(_ang)
+			_a.rot(_ang);
 			
-			draw_vertex(_offset.x + _a.x, _offset.y + _a.y)
+			draw_vertex(_offset.x + _a.x, _offset.y + _a.y);
 		}
 		draw_primitive_end()
 	}
@@ -164,7 +175,7 @@ function draw_background(board_data){
 ///@return {Struct}
 function board_ef_apply(board_data){
 	var _data = variable_clone(board_data);
-	var _a, _b, _ang = angle + _data.angle;
+	var _a, _b, _c, _ang = angle + _data.angle;
 	if (_data.type == BOARD_TYPE.POLYGON){
 		for (var i = 0; i < array_length(_data.polydata); i++) {
 			_a = _data.polydata[i].mul(scale);

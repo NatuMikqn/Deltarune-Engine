@@ -1,3 +1,4 @@
+angle++
 
 for(var i=0;i<array_length(afterimage_list);i++){
 	afterimage_list[i].step()

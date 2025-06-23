@@ -160,9 +160,6 @@ function board_update(polygon_name = undefined){
 				
 				//ポリゴンのオフセットをする
 				_data.polyoffset = offset_point_jtmiter(_data.polydata, 5, _ccw);
-				
-				//あたり判定用のポリゴンを作成
-				_data.polyhitbox = offset_point_jtmiter(_data.polydata, new Vector2(-5), _ccw);
 			}
 			//円形の場合
 			else if (_e.type == BOARD_TYPE.CIRCLE){
@@ -182,6 +179,22 @@ function board_update(polygon_name = undefined){
 			if (_is_lastpos) array_push(lists, _data)
 			
 			
+		}
+		
+		//ソウルが存在すればあたり判定用のポリゴンを作成
+		if (instance_exists(obj_battle_soul)){
+			board_update_hitbox()
+		}
+	}
+}
+
+///枠の当たり判定を更新します
+function board_update_hitbox(){
+	var _e;
+	with (obj_battle_board){
+		for (var i = 0; i < array_length(lists); i++) {
+			_e = lists[i];
+			_e.polyhitbox = offset_point_jtmiter(_e.polydata, obj_battle_soul.collision_size.copy().mul(-1), _e.ccw);
 		}
 	}
 }
