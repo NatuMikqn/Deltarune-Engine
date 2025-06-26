@@ -1,31 +1,3 @@
-angle++
-
-for(var i=0;i<array_length(afterimage_list);i++){
-	afterimage_list[i].step()
-	if (afterimage_list[i].fadeout < 0){
-		array_delete(afterimage_list, i, 1)
-		i--
-	}
-}
-
-if (afterimage){
-	
-	if (easing_exists("board_anim")){
-		if (timer % 2 == 0){
-			var _len = array_length(lists)
-			for (var i = 0; i < _len; i++) {
-				array_push(afterimage_list, new CreateAfterImage(lists[i], 1 - alpha + 0.1))
-			}
-		}
-	}else{
-		afterimage = false;
-	}
-}
-
-
-timer++
-
-
 if (keyboard_check_pressed(vk_space)){
 	
 	var _polys = polygons_data[$"main"]

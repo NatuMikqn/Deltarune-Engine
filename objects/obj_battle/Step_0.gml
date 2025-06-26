@@ -83,7 +83,7 @@ if (state == BATTLE_STATE.ENEMY_IN){
 if (state == BATTLE_STATE.ENEMY){
 	//TODO - デバッグ機能 後に消す
 	if input_check_pressed(INPUT.MENU){
-		battle_set_state(BATTLE_STATE.ENEMY_END)
+		battle_turn_end()
 	}
 }
 //枠アニメーション

@@ -1,38 +1,20 @@
 depth = DEPTH.BOARD;
 
-x = 320;
-y = 200;
+x = 0;
+y = 0;
 angle = 0;
 
 data = {};
-lists = [];
+original_list = [];
+list = [];
 
-var _board;
-
-_board = new PolygonGroup(220, 200, 0);
-_board.add("lt", -75, -75);
-_board.add("lb", -75, 75);
-_board.add("d", 0, 125);
-_board.add("rb", 75, 75);
-_board.add("rt", 75, -75);
-
-
-_board = new PolygonGroup(220, 200, 0);
-var _pos = new Vector2()
-for (var i = 0; i < 24; i++) {
-	_pos.x = lengthdir_x((i % 2) == 0 ? 120 : 80, i * 360 / 24)
-	_pos.y = lengthdir_y((i % 2) == 0 ? 120 : 80, i * 360 / 24)
-	_board.add($"{i}", _pos.x, _pos.y);
-}
-
-
-board_data_register(_board, "main");
+board_create_rectangle("main", 320, 200, 75, 75, 75, 75, 0, 0)
 
 board_update();
 
 l_color = #00c000;
 l_alpha = 1;
-bg_color = c_red;
+bg_color = c_black;
 bg_alpha = 1;
 
 alpha = 0;
@@ -60,7 +42,7 @@ function CreateAfterImage(_data, _alpha, _id = obj_battle_board) constructor{
 	
 	fadeout = _alpha;
 	
-	data = board_ef_apply(_data);
+	data = _data;
 	
 	static step = function(){
 		fadeout -= 0.02;
@@ -91,7 +73,8 @@ function draw_board(board_data){
 			}
 			draw_primitive_end();
 		}
-	}else if (board_data.type == BOARD_TYPE.CIRCLE){
+	}
+	else if (board_data.type == BOARD_TYPE.CIRCLE){
 		_a = new Vector2();
 		var _p = board_data.precision,
 			_ang = board_data.angle;
@@ -144,13 +127,14 @@ function draw_background(board_data){
 			draw_primitive_begin(pr_trianglelist);
 			for (var i = 0; i < array_length(_cache); i++) {
 				for (var j = 0; j < 3; j++) {
-					//draw_set_color(make_color_hsv(((i * 3 + j) * 32) % 255, 255, 255))
+					if (BOARD_BG_COLOR_DEBUG) draw_set_color(make_color_hsv(((i * 3 + j) * 32) % 255, 255, 255))
 					draw_vertex(_offset.x + _cache[i, j].x, _offset.y + _cache[i, j].y);
 				}
 			}
 			draw_primitive_end();
 		}
-	}else if (board_data.type == BOARD_TYPE.CIRCLE){
+	}
+	else if (board_data.type == BOARD_TYPE.CIRCLE){
 		var _a = new Vector2(),
 			_p = board_data.precision,
 			_ang = board_data.angle;
@@ -168,27 +152,4 @@ function draw_background(board_data){
 		}
 		draw_primitive_end()
 	}
-}
-
-///枠に回転等適応します
-///@arg {Struct} board_data
-///@return {Struct}
-function board_ef_apply(board_data){
-	var _data = variable_clone(board_data);
-	var _a, _b, _c, _ang = angle + _data.angle;
-	if (_data.type == BOARD_TYPE.POLYGON){
-		for (var i = 0; i < array_length(_data.polydata); i++) {
-			_a = _data.polydata[i].mul(scale);
-			_b = _data.polyoffset[i].mul(scale);
-			
-			if (_ang % 360 != 0){
-				_a.rot(_ang);
-				_b.rot(_ang);
-			}
-		}
-	}else if (_data.type == BOARD_TYPE.CIRCLE){
-		_data.scale *= scale;
-		_data.angle = _ang;
-	}
-	return _data;
 }

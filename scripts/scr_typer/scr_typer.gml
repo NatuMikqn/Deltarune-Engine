@@ -10,9 +10,10 @@ function typer_create(_x, _y, _text){
 	//return _typer;
 }
 
-///@arg {Array} cmd
-function get_cmdresult(cmd){
-	
+///@arg {String} type
+///@arg {Any} data
+function get_textdata_format(type, data){
+	return { type : type, data : data }
 }
 
 ///@arg {String} text
@@ -57,19 +58,19 @@ function TextData() constructor{
 	///@arg {Array} data
 	///@arg {String} str
 	static set_string = function (data, str) {
-		if (str != "") array_push(data, { type : "str", data : str });
+		if (str != "") array_push(data, get_textdata_format("str", str));
 	}
 	
 	///@arg {Array} data
 	///@arg {Array} cmd
 	static set_cmd = function (data, cmd) {
-		if (!array_empty(cmd) && cmd[0] != "") array_push(data, { type : "cmd", data : cmd });
+		if (!array_empty(cmd) && cmd[0] != "") array_push(data, get_textdata_format("cmd", cmd));
 	}
 	
 	///@arg {Array} data
 	///@arg {Array} l10n
 	static set_l10n = function (data, l10n) {
-		if (!array_empty(l10n) && l10n[0] != "") array_push(data, { type : "l10n", data : l10n });
+		if (!array_empty(l10n) && l10n[0] != "") array_push(data, get_textdata_format("l10n", l10n));
 	}
 	
 	///@arg {Real} pos readstart position
@@ -112,15 +113,21 @@ function TextData() constructor{
 
 ///@ignore
 function TypeWriter() constructor{
-	x = 0;
-	y = 0;
+	//文字座標
+	pos = new Vector2();
+	startpos = new Vector2();
 	depth = 0;
 	textdata = [];
-	font = "";
+	font = fnt_8bit;
 	gui = false;
 	color = c_white;
-	scale = new Vector2();
+	alpha = 1;
+	scale = new Vector2(1);
 	offset = new Vector2();
+	
+	voice = snd_text;
+	speed = 3;
+	sleep = 0;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
@@ -143,26 +150,10 @@ function TypeWriter() constructor{
 		return self;
 	}
 	
-	///@arg {Constant.Color} color
+	///@arg {Asset.GMSound} voice
 	///@return {Struct.TypeWriterBuilder}
-	static set_color = function(_color){
-		color = _color;
-		return self;
-	}
-	
-	///@arg {Real} h
-	///@arg {Real} v
-	///@return {Struct.TypeWriterBuilder}
-	static set_scale = function(_h, _v){
-		scale.set(_h, _v);
-		return self;
-	}
-	
-	///@arg {Real} x
-	///@arg {Real} y
-	///@return {Struct.TypeWriterBuilder}
-	static set_offset = function(_x, _y){
-		offset.set(_x, _y);
+	static set_voice = function(_voice){
+		color = _voice;
 		return self;
 	}
 }
@@ -171,14 +162,44 @@ function TypeWriter() constructor{
 ///@arg {Real} y
 ///@arg {Array<Struct.TextData>} y
 function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor{
-	x = _x;
-	y = _y;
+	pos.set(_x, _y);
+	startpos.set(_x, _y);
 	textdata = _text;
 	
 	static build = function(){
 		var _data = new TypeWriterData(self);
 		array_push(obj_typewriter_manager.list, _data);
+		return _data;
 	}
+}
+
+///@arg {Struct.Vector2} pos
+///@arg {String} char
+///@arg {Constant.Color} color
+///@arg {Struct.Vector2} scale
+///@arg {Real} alpha
+function CharData(_pos, _char, _color, _scale, _alpha) : TypeWriter() constructor{
+	pos = _pos.copy();
+	char = _char;
+	color = color_converter(_color);
+	scale = _scale;
+	alpha = _alpha;
+	offset = new Vector2();
+	
+	static get_char = function(){ return char; }
+	
+	static get_pos = function(){ return pos; }
+	
+	static get_scale = function(){ return scale; }
+	
+	static get_offset = function(){ return offset; }
+	static set_offset = function(_value){ offset = _value; }
+	
+	static get_alpha = function(){ return alpha; }
+	
+	static get_color = function(){ return color; }
+	
+	
 }
 
 ///@ignore
@@ -191,35 +212,85 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		other[$_e] = self[$_e];
 	}))
 	
+	//文字読み取り位置
 	charpos = 0;
+	//
 	read = 0;
+	//文字データリスト
 	chars = [];
 	
-	///@return {Asset.GMFont}
+	///現在のテキストデータからl10nを実行
+	static l10n = function(){
+		var _text = textdata[read].data
+		textdata[read] = get_textdata_format("str", _text[0]);
+		read--;
+	}
+	
+	///
+	///@return {Bool}
+	static is_sleep = function(){
+		sleep--;
+		if (sleep > 0){
+			return true;
+		}
+		return false;
+	}
+	
+	///現在のテキストデータを取得
+	///@return {Struct.TextData}
 	static get_textdata = function(){
 		return textdata[read];
 	}
 	
-	///@return {Asset.GMFont}
+	///テキストデータの読み取りが終了したかどうか
+	///@return {Bool}
+	static is_end = function(){
+		return (array_length(textdata) <= read);
+	}
+	
+	///次のテキストデータを読み取る
+	///@return {Struct.TextData}
 	static next_read = function(){
 		read++
 		return get_textdata();
 	}
 	
-	///@return {Asset.GMFont}
-	static add_chars = function(_x, _y, _char){
-		array_push(chars, _char);
-	}
-
-	///@return {String}
-	static read_char = function(_x, _y, _char){
-		array_push(chars, _char);
+	///文字データを追加
+	static add_chars = function(){
+		charpos++;
+		var _char = string_char_at(textdata[read].data, charpos);
+		var _data = new CharData(pos, _char, color, scale, alpha);
+		pos.x += string_width(_char) * scale.x;
+		array_push(chars, _data);
+		
+		audio_play_sound(voice, 0, 0);
+		
+		if (string_length(textdata[read].data) <= charpos){
+			read++;
+			charpos = 0;
+		}
 	}
 	
-	///@return {Asset.GMFont}
+	///改行
+	static newline = function(){
+		pos.x = startpos.x;
+		var _font = draw_get_font();
+		pos.y += string_height("A") * scale.y;
+		draw_set_font(_font)
+	}
+	
+	///描画
 	static draw = function(){
+		var _chardata, _pos, _scale, _offset, _color;
 		for (var i = 0; i < array_length(chars); i++) {
-			
+			_chardata = chars[i];
+			_pos = _chardata.get_pos();
+			_scale = _chardata.get_scale();
+			_offset = _chardata.get_offset();
+			_color = _chardata.get_color();
+			draw_text_transformed_color(_pos.x, _pos.y, _chardata.get_char(), _scale.x, _scale.y, 0,
+				_color[0], _color[1], _color[2], _color[3], _chardata.get_alpha()
+			);
 		}
 	}
 }

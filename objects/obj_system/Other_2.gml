@@ -22,6 +22,7 @@ team_custom()
 encounter_group()
 
 global.hpfont = font_add_sprite_ext(spr_font_small, "0123456789-+", false, 1)
+global.dmgfont = font_add_sprite_ext(spr_font_big, "0123456789-+%/", true, 0)
 
 
 room_goto(rm_area_test)

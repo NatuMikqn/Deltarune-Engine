@@ -101,7 +101,6 @@ function battle_set_state(_state){
 			
 			case BATTLE_STATE.ENEMY_END:
 				with(obj_battle_turn) event_user(3);
-				instance_destroy(obj_battle_turn);
 				with(obj_battle_board) event_user(1);
 				break;
 		}
@@ -133,6 +132,7 @@ function battle_get_surface(){
 	if (instance_exists(obj_battle) && surface_exists(obj_battle.srf_battle)){
 		return obj_battle.srf_battle;
 	}
+	return -1;
 }
 
 ///ターンダイアログを設定します
@@ -160,6 +160,19 @@ function in_battle(){
 ///ターンを開始します
 ///@arg {Asset.GMObject} turn 複製したターンオブジェクト
 ///@return {Id.Instance} 作成されたターンのインスタンスID
-function create_turn(_trun){
+function battle_turn_start(_trun){
 	return instance_create_depth(0, 0, 0, _trun);
+}
+
+///ターンを終了します
+///@arg {Asset.GMObject} turn 複製したターンオブジェクト
+///@return {Id.Instance} 作成されたターンのインスタンスID
+function battle_turn_end(){
+	battle_set_state(BATTLE_STATE.ENEMY_END);
+	instance_destroy(obj_battle_turn);
+	with(obj_battle_soul){
+		show = false;
+		hitbox = false;
+		movable = false;
+	}
 }

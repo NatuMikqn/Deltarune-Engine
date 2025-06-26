@@ -1,3 +1,3 @@
 /// @description EnemyIn
 
-create_turn(obj_battle_turn_test);
+battle_turn_start(obj_battle_turn_test);

@@ -1,5 +1,9 @@
-xscale = 1;
-yscale = 1;
+//does not work with circular boards
+//modifying obj_battle_board.angle has no effect
+//collision detection behaves unnaturally with diagonal borders when width and height differ
+scale = new Vector2(2, 1);
+/////////////////////////////////
+
 angle = 0;
 alpha = 1;
 

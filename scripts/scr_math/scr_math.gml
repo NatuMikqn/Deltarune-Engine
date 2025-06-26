@@ -4,6 +4,14 @@
 ///@arg {Bool} ccw
 ///@return {Array<Struct.Vector2>}
 function offset_point_jtmiter(poly, offset, ccw){
+	
+	//offset値が0なら変える必要ないのでコピーを返す
+	if (is_real(offset)){
+		if (offset == 0) return variable_clone(poly);
+	}else if (is_struct(offset)){
+		if (offset.equals(0)) return variable_clone(poly);
+	}else throw "The 'offset' argument in offset_point_jtmiter() must be either a Real or a Struct.Vector2"
+	
 	var _count = array_length(poly);
 	
 	//各ポリゴン位置を保存する場所
@@ -45,7 +53,7 @@ function offset_point_jtmiter(poly, offset, ccw){
 			_len = offset / _dot;
 		}else if (is_struct(offset)){
 			_len = offset.copy().divide(_dot);
-		}else throw "offset_point_jtmiter() offset"
+		}
 		
 		
 		//元ポリゴンから座標をずらす

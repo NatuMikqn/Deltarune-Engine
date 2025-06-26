@@ -18,12 +18,13 @@ function BoardData(_x, _y, _order) constructor {
 ///@arg {Real} x 中心x座標
 ///@arg {Real} y 中心y座標
 ///@arg {Real} order 順番
-function PolygonGroup(_x, _y, _order) : BoardData(_x, _y, _order) constructor {
+function BoardPolygonGroup(_x, _y, _order) : BoardData(_x, _y, _order) constructor {
 	type = BOARD_TYPE.POLYGON;
 	
 	polygons_data = {};
+	angle = 0;
 	
-	///ポリゴンを追加します
+	///ポリゴンを追加(又は編集)します
 	///@arg {String} tag ポリゴンのタグ
 	///@arg {Real} x x座標
 	///@arg {Real} y y座標
@@ -32,7 +33,7 @@ function PolygonGroup(_x, _y, _order) : BoardData(_x, _y, _order) constructor {
 		polygons_data[$tag] = {
 			pos : new Vector2(_x, _y),
 			order : (order < 0 ? struct_names_count(polygons_data) : order)
-		};
+		}; 
 	}
 	
 	///ポリゴンを削除します
@@ -43,9 +44,15 @@ function PolygonGroup(_x, _y, _order) : BoardData(_x, _y, _order) constructor {
 	}
 	
 	///ポリゴンを全消去します
-	function clear(){
+	static clear = function(){
 		delete polygons_data;
 		polygons_data = {};
+	}
+	
+	///枠の角度を指定します
+	///@arg {Real} ang
+	static set_angle = function(ang){
+		angle = ang;
 	}
 }
 
@@ -66,12 +73,6 @@ function BoardCircle(_x, _y, _order, _scale) : BoardData(_x, _y, _order) constru
 	static set_precision = function(c){
 		precision = c;
 	}
-	
-	///円の角度を指定します
-	///@arg {Real} ang
-	static set_angle = function(ang){
-		angle = ang;
-	}
 }
 
 ///枠の情報を更新します
@@ -83,7 +84,7 @@ function board_update(polygon_name = undefined){
 	with (obj_battle_board){
 		//dataからorder順に並び変えます
 		//数値が若い順に並べられます
-		lists = [];
+		original_list = [];
 		//枠名を_parentnamesに代入していきます
 		if (is_undefined(polygon_name)){
 			_parentnames = struct_get_names(data);
@@ -107,7 +108,6 @@ function board_update(polygon_name = undefined){
 			_data = {
 				type : _e.type,
 				pos : new Vector2(_e.x, _e.y),
-				angle : 0,
 				order : _e.order
 			};
 			
@@ -115,7 +115,7 @@ function board_update(polygon_name = undefined){
 			if (_e.type == BOARD_TYPE.POLYGON){
 				_polytemp = []
 				
-				//PolygonGroup.[tag].posの中身を_polytemp.[name]にコピー
+				//polygons_data.[tag]の中身を_polytempに入れていく
 				struct_foreach(_e.polygons_data, method({_polytemp}, function (_name, _value) {
 					array_push(_polytemp, _value);
 				}))
@@ -126,58 +126,65 @@ function board_update(polygon_name = undefined){
 				})
 				
 				//データを移すための構造体に情報を追加する
-				
 				_data.polydata = [];
 				_data.polyoffset = [];
 				_data.polyhitbox = [];
 				_data.ccw = true;
 				
 				//orderのデータはいらないので、posデータのみをpolydataの配列にぶち込む
-				array_foreach(_polytemp, method({data : _data.polydata}, function(_e){
-					array_push(data, _e.pos)
+				//ついでに回転もする
+				array_foreach(_polytemp, method({data : _data.polydata, ang : _e.angle}, function(_e){
+					array_push(data, _e.pos.copy().rot(ang))
 				}));
 				
-				//前後で重複するポリゴンがあれば除外
-				_len = array_length(_data.polydata);
-				for (var j = 0; j < _len; j++) {
-					var _points = [
-						_data.polydata[(j + _len - 1) % _len],
-						_data.polydata[j],
-						_data.polydata[(j + 1) % _len]
-					]
-					for (var k = 0; k < 2; k++) {
-						if (_points[k].equals(_points[k + 1])) {
-							array_delete(_data.polydata, j, 1)
-							j--
-							break;
-						};
-					}
+				if (BOARD_POINT_OVERLAPPING_CHECKER){
+					//前後で重複するポリゴンがあれば除外
 					_len = array_length(_data.polydata);
+					for (var j = 0; j < _len; j++) {
+						var _points = [
+							_data.polydata[(j + _len - 1) % _len],
+							_data.polydata[j],
+							_data.polydata[(j + 1) % _len]
+						]
+						for (var k = 0; k < 2; k++) {
+							if (_points[k].equals(_points[k + 1])) {
+								array_delete(_data.polydata, j, 1)
+								j--
+								break;
+							};
+						}
+						_len = array_length(_data.polydata);
+					}
 				}
 				
-				var _ccw = polygon_is_ccw(_data.polydata);
-				_data.ccw = _ccw;
+				if (BOARD_CCW_CHECKER){
+					//左回りか右回りか
+					var _ccw = polygon_is_ccw(_data.polydata);
+					_data.ccw = _ccw;
+				}else{
+					_data.ccw = true;
+				}
 				
 				//ポリゴンのオフセットをする
-				_data.polyoffset = offset_point_jtmiter(_data.polydata, 5, _ccw);
+				_data.polyoffset = offset_point_jtmiter(_data.polydata, 5, _data.ccw);
 			}
 			//円形の場合
 			else if (_e.type == BOARD_TYPE.CIRCLE){
 				//データを移すための構造体に情報を追加する
 				_data.scale = _e.scale;
+				_data.scalehitbox = 0;
 				_data.precision = _e.precision;
 			}
 			
 			_is_lastpos = true;
-			for (var j = 0; j < array_length(lists); j++) {
-				if (_data.order < lists[j].order){
-					array_insert(lists, j, _data)
+			for (var j = 0; j < array_length(original_list); j++) {
+				if (_data.order < original_list[j].order){
+					array_insert(original_list, j, _data)
 					_is_lastpos = false;
 					break;
 				}
 			}
-			if (_is_lastpos) array_push(lists, _data)
-			
+			if (_is_lastpos) array_push(original_list, _data)
 			
 		}
 		
@@ -190,19 +197,60 @@ function board_update(polygon_name = undefined){
 
 ///枠の当たり判定を更新します
 function board_update_hitbox(){
-	var _e;
+	var _e, _scale, _of; 
+	_scale = obj_battle_soul.scale;
 	with (obj_battle_board){
-		for (var i = 0; i < array_length(lists); i++) {
-			_e = lists[i];
-			_e.polyhitbox = offset_point_jtmiter(_e.polydata, obj_battle_soul.collision_size.copy().mul(-1), _e.ccw);
+		for (var i = 0; i < array_length(original_list); i++) {
+			_e = original_list[i];
+			if (_e.type == BOARD_TYPE.POLYGON){
+				_of = obj_battle_soul.collision_size.copy().mul(-1).mul(_scale);
+				
+				_e.polyhitbox = offset_point_jtmiter(_e.polydata, _of, _e.ccw);
+			}
+			else if (_e.type == BOARD_TYPE.CIRCLE){
+				_e.scalehitbox -= obj_battle_soul.collision_size.get_min();
+			}
 		}
+	}
+}
+
+///長方形の枠を作成します
+///@arg {String} name boardName
+///@arg {Real} ox offsetX
+///@arg {Real} oy offsetY
+///@arg {Real} left left
+///@arg {Real} up up
+///@arg {Real} right right
+///@arg {Real} down down
+///@arg {Real} angle angle
+///@arg {Real} order order
+function board_create_rectangle(name, ox, oy, left, up, right, down, angle, order){
+	
+	var _board = new BoardPolygonGroup(ox, oy, order);
+	
+	_board.add("upperLeft", -left, -up)
+	_board.add("lowerLeft", -left, down)
+	_board.add("lowerRight", right, down)
+	_board.add("upperRight", right, -up)
+	
+	_board.set_angle(angle);
+	
+	board_register_data(_board, name);
+}
+
+///枠データを取得します
+///@arg {String} name 名前
+///@return {Struct.BoardData}
+function board_get_data(name){
+	with (obj_battle_board){
+		return data[$name];
 	}
 }
 
 ///枠を登録します
 ///@arg {Struct.BoardData} boarddata 枠
 ///@arg {String} name 名前
-function board_data_register(boarddata, name){
+function board_register_data(boarddata, name){
 	with (obj_battle_board){
 		data[$name] = boarddata;
 	}
@@ -210,7 +258,7 @@ function board_data_register(boarddata, name){
 
 ///枠を削除します
 ///@arg {String} board_name 枠名
-function board_data_delete(board_name){
+function board_delete_data(board_name){
 	with (obj_battle_board){
 		delete data[$ board_name];
 		struct_remove(data, board_name);
