@@ -15,12 +15,12 @@ if keyboard_check_pressed(vk_f4){
 }
 if keyboard_check_pressed(vk_f5){
 	var _timer = current_time
-	var _texd = text_deserialize("<speed 3><color red>RED<color yellow>YELLOW[battle.encounter test]<newline>twa!");
-	new TypeWriterBuilder(220, 220, _texd).set_gui(true).build();
+	var _texd = text_deserialize("[l10n.test.0]");
+	new TypeWriterBuilder(20, 20, _texd).set_gui(true).build();
 }
 if keyboard_check_pressed(vk_f6){
-	player_damage(88)
+	show_message(get_text("l10n.test", ["29", 52, "50"]))
 }
-if keyboard_check(vk_f7){
+if keyboard_check_pressed(vk_f7){
 	player_damage(88)
 }

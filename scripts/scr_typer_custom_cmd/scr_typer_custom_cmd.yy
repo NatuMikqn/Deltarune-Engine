@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_typer_custom_cmd",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_typer_custom_cmd",
+  "parent":{
+    "name":"custom",
+    "path":"folders/Scripts/system/typewriter/custom.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

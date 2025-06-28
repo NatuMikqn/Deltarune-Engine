@@ -1,60 +1,50 @@
-var _e, _text, _data;
+var _e, _text, _data, _delete;
 
 for (var i = 0; i < array_length(list); i++) {
+	_delete = false;
 	_e = list[i];
 	with (_e){
-		if (!is_sleep()){
+		
+		if (input_check_pressed(INPUT.CANCEL) || input_check(INPUT.MENU)) start_skip();
+		
+		if (input_check_pressed(INPUT.CONFIRM) || input_check(INPUT.MENU)){
+			if (is_end()){
+				_delete = true;
+			}else{
+				resume();
+			}
+			
+		}
+		
+		while (can_read()){
 			_text = get_textdata();
-			while (_text.type == "cmd" || _text.type == "l10n"){
+			while ((_text.type == "cmd" || _text.type == "l10n") && can_read()) {
 				_data = _text.data;
 				
 				if (_text.type == "cmd"){
-					switch (_data[0]){
-						case "color":
-							color = _data[1];
-							break;
-						case "scale":
-							scale = _data[1];
-							break;
-						case "alpha":
-							alpha = _data[1];
-							break;
-						case "offset":
-							offset = _data[1];
-							break;
-						case "font":
-							font = _data[1];
-							break;
-						case "newline":
-							newline()
-							break;
-						case "spd":
-						case "speed":
-							speed = real(_data[1]);
-							break;
-						case "sleep":
-							sleep = real(_data[1]);
-							break;
-					}
+					typewriter_custom_cmd(self, _data);
 				}
 				
-				if (_text.type == "l10n"){
-					_e.l10n();
-				}
-				
-				_text = _e.next_read();
+				_text = next_step();
 			}
 			
-			_e.add_chars();
+			if (can_read()){
+				add_chars();
+				sleep_add();
+			}
 			
-			sleep += speed;
+			if (is_end()){
+				pause();
+				break;
+			}
+			
 		}
 		
 	}
-	if (_e.is_end()){
-		array_delete(list, i, 1);
-		i--;
-	}
 	
+	if (_delete){
+		array_delete(list, i, 1)
+		i--
+	}
 	
 }

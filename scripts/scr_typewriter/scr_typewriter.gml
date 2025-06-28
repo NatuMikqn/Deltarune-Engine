@@ -1,0 +1,370 @@
+///@arg {real} x
+///@arg {real} y
+///@arg {string} text
+function typer_create(_x, _y, _text){
+	//var _typer = instance_create_depth(_x, _y, 0, obj_typer);
+	//_typer.text = _text;
+	//if (instance_exists(obj_battle)){
+	//	_typer.battle_surface = true;
+	//}
+	//return _typer;
+}
+
+///@arg {String} type
+///@arg {Any} data
+function get_textdata_format(type, data){
+	return { type : type, data : data }
+}
+
+///@arg {String} text
+///@return {Array<Struct.TextData>}
+function text_deserialize(text){
+	var _char, _cmd, _text, _str = "",
+		_data = [],
+		_td = new TextData();
+	
+	for (var i = 1; i <= string_length(text); i++) {
+		_char = string_char_at(text, i)
+		if (string_char_contains(_char, "<[")){
+			_td.set_string(_data, _str);
+			_str = "";
+			
+			while (string_char_contains(_char, "<[")){
+				//cmd
+				if (_char == "<"){
+					_cmd = _td.get_data(i, "<>", text);
+					i += _cmd[1]
+					_td.set_cmd(_data, _cmd[0]);
+					i++
+				}
+				//l10n
+				else if (_char == "["){
+					_cmd = _td.get_data(i, "[]", text);
+					text = string_delete(text, i, _cmd[1] + 1);
+					
+					_text = _cmd[0][0]
+					array_delete(_cmd[0], 0, 1)
+					
+					text = string_insert(get_text(_text, _cmd[0]), text, i);
+				}
+				_char = string_char_at(text, i)
+			}
+		}
+		_str += _char;
+	}
+	_td.set_string(_data, _str);
+	return _data;
+}
+
+function TextData() constructor{
+	
+	///@arg {Array} data
+	///@arg {String} str
+	static set_string = function (data, str) {
+		if (str != "") array_push(data, get_textdata_format("str", str));
+	}
+	
+	///@arg {Array} data
+	///@arg {Array} cmd
+	static set_cmd = function (data, cmd) {
+		if (!array_empty(cmd) && cmd[0] != "") array_push(data, get_textdata_format("cmd", cmd));
+	}
+	
+	///@arg {Real} pos readstart position
+	///@arg {String} cmdchars example: "<>"
+	///@arg {String} text alltext
+	///@return {Array<Any>}
+	static get_data = function (pos, cmdchars, text) {
+		var _startpos = pos,
+			_cmd = [],
+			_str = "",
+			_char = string_char_at(text, pos),
+			_nest = 0,
+			_cmdchars = [
+				string_char_at(cmdchars, 1),
+				string_char_at(cmdchars, 2)
+			];
+		
+		do {
+			pos++
+			_char = string_char_at(text, pos);
+			if (_nest == 0 && (_char == " " || _char == _cmdchars[1])){
+				array_push(_cmd, _str);
+				_str = "";
+			}else{
+				_str += _char;
+				if (_char == _cmdchars[0]) _nest++
+				if (_char == _cmdchars[1]){
+					_nest--
+					_char = ""
+				}
+			}
+		} until (_nest == 0 && (_char == _cmdchars[1]));
+		
+		return [_cmd, pos - _startpos];
+	}
+}
+
+///////////////////////////////////////////////////////
+// typewriter
+
+///@ignore
+function TypeWriter() constructor{
+	//文字座標
+	pos = new Vector2();
+	startpos = new Vector2();
+	depth = 0;
+	textdata = [];
+	font = fnt_8bit;
+	gui = false;
+	color = array_create(4, c_white);
+	alpha = 1;
+	scale = new Vector2(1);
+	offset = new Vector2();
+	
+	//声
+	voice = snd_text;
+	//文字送りの速度
+	speed = 3;
+	//文字送りタイマー
+	sleep = 0;
+	//スキップ可能か
+	skippable = true;
+	
+	///GUI描画を有効にするかどうか
+	///@arg {Bool} enable
+	///@return {Struct.TypeWriterBuilder}
+	static set_gui = function(_enable){
+		gui = _enable;
+		return self;
+	}
+	
+	///@arg {Asset.GMFont|String} font
+	///@return {Struct.TypeWriterBuilder}
+	static set_font = function(_font){
+		if (is_string(_font)){
+			font = _font;
+		}else if (asset_get_type(_font) == asset_font){
+			font = _font;
+		}else{
+			throw "指定されたものはフォントではありません"
+		}
+		return self;
+	}
+	
+	///スキップ可能にするかどうか
+	///初期値は`true`です
+	///@arg {Bool} skippable
+	///@return {Struct.TypeWriterBuilder}
+	static set_skippable = function(_skippable){
+		skippable = _skippable;
+		return self;
+	}
+	
+	///@arg {Asset.GMSound} voice
+	///@return {Struct.TypeWriterBuilder}
+	static set_voice = function(_voice){
+		voice = _voice;
+		return self;
+	}
+}
+
+///@arg {Real} x
+///@arg {Real} y
+///@arg {Array<Struct.TextData>} y
+function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor{
+	pos.set(_x, _y);
+	startpos.set(_x, _y);
+	textdata = _text;
+	
+	static build = function(){
+		var _data = new TypeWriterData(self);
+		array_push(obj_typewriter_manager.list, _data);
+		return _data;
+	}
+}
+
+///@arg {Struct.Vector2} pos
+///@arg {String} char
+///@arg {Array<Constant.Color>} color
+///@arg {Struct.Vector2} scale
+///@arg {Real} alpha
+function CharData(_pos, _char, _color, _scale, _alpha) : TypeWriter() constructor{
+	pos = _pos.copy();
+	char = _char;
+	color = _color;
+	scale = _scale;
+	alpha = _alpha;
+	offset = new Vector2();
+	
+	static get_char = function(){ return char; }
+	
+	static get_pos = function(){ return pos; }
+	
+	static get_scale = function(){ return scale; }
+	
+	static get_offset = function(){ return offset; }
+	static set_offset = function(_value){ offset = _value; }
+	
+	static get_alpha = function(){ return alpha; }
+	
+	static get_color = function(){ return color; }
+	
+	
+}
+
+///@ignore
+///@arg {Struct.TypeWriterBuilder} type_writer_builder
+function TypeWriterData(_self) : TypeWriter() constructor{
+	
+	var _lists = variable_struct_get_names(self);
+	
+	array_foreach(_lists, method(_self, function(_e){
+		other[$_e] = self[$_e];
+	}))
+	
+	//文字読み取り位置
+	read = 0;
+	//段階読み取り位置
+	step = 0;
+	//文字データリスト
+	chars = [];
+	//決定キーの有効化
+	interaction = true;
+	//スキップ中か
+	skipped = false;
+	//文字送り停止中かどうか
+	paused = false;
+	//メタトンのような文字送り
+	mtt_mode = false;
+	mtt_already_voice = false;
+	
+	///現在のテキストデータからl10nを実行
+	static l10n = function(){
+		var _data = textdata[step].data
+		var _text = _data[0]
+		array_delete(_data, 0, 1)
+		textdata[step] = get_textdata_format("str", get_text(_text, _data));
+		step--;
+	}
+	
+	///次の文字を読み取ることはできるか
+	///@return {Bool}
+	static can_read = function(){
+		if (is_end() || paused) return false;
+		
+		if (sleep > 0){
+			sleep--;
+			if (sleep <= 0 || skipped){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	///スキップが開始できるならば、スキップをする
+	static start_skip = function(){
+		if (skippable && !paused) {
+			skipped = true;
+			sleep = 0;
+		}
+	}
+	
+	///sleep checker
+	static resume = function(){
+		if (interaction) {
+			paused = false;
+		}
+	}
+	
+	///sleep add
+	static sleep_add = function(){
+		if (!skipped && (!mtt_mode || (mtt_mode && mtt_sleepcheck()))){
+			sleep += speed;
+			mtt_already_voice = false;
+		}
+	}
+	
+	///文字送りを停止する
+	static pause = function(){
+		paused = true;
+		skipped = false;
+		mtt_already_voice = false;
+	}
+	
+	///現在のテキストデータを取得
+	///@return {Struct.TextData}
+	static get_textdata = function(){
+		return textdata[step];
+	}
+	
+	///テキストデータの読み取りが終了したかどうか
+	///@return {Bool}
+	static is_end = function(){
+		return (array_length(textdata) <= step);
+	}
+	
+	///ステップを進め、次のテキストデータを読み取る
+	///@return {Struct.TextData}
+	static next_step = function(){
+		step++
+		return get_textdata();
+	}
+	
+	///今の文字は空白であるかどうか
+	///@return Bool}
+	///@pure
+	static mtt_sleepcheck = function(){
+		return (textdata[step].type == "str" && string_char_at(textdata[step].data, read) == " ");
+	}
+	
+	///文字データを追加
+	static add_chars = function(){
+		read++;
+		var _char = string_char_at(textdata[step].data, read);
+		var _data = new CharData(pos, _char, color, scale, alpha);
+		pos.x += string_width(_char) * scale.x;
+		array_push(chars, _data);
+		
+		if (!skipped && !mtt_already_voice && _char != " "){
+			audio_play_sound(voice, 0, 0);
+			mtt_already_voice = true;
+		}
+		
+		if (string_length(textdata[step].data) <= read){
+			step++;
+			read = 0;
+		}
+	}
+	
+	///改行を行う
+	static newline = function(){
+		//x位置を作成時のx位置に戻す
+		pos.x = startpos.x;
+		//y位置を"A"の高さ分下げる
+		var _font = draw_get_font();
+		draw_set_font(font)
+		pos.y += string_height("A") * scale.y;
+		draw_set_font(_font)
+	}
+	
+	///描画
+	static draw = function(){
+		var _chardata, _pos, _scale, _offset, _color;
+		for (var i = 0; i < array_length(chars); i++) {
+			_chardata = chars[i];
+			_pos = _chardata.get_pos();
+			_scale = _chardata.get_scale();
+			_offset = _chardata.get_offset();
+			_color = _chardata.get_color();
+			draw_text_transformed_color(_pos.x, _pos.y, _chardata.get_char(), _scale.x, _scale.y, 0,
+				_color[0], _color[1], _color[2], _color[3], _chardata.get_alpha()
+			);
+		}
+	}
+}
+
+
+

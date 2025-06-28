@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_typewriter",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_typewriter",
+  "parent":{
+    "name":"typewriter",
+    "path":"folders/Scripts/system/typewriter.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

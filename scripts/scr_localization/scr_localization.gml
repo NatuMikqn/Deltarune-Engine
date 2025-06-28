@@ -3,17 +3,10 @@ enum LANG{
 	JA,
 	ZH
 }
-enum L10N_GROUP{
-	TITLE,
-	DIALOG,
-	MENU,
-	BATTLE
-}
 
 function localization_init(){
 	global.localization_data = [];
 	global.lang = LANG.EN;
-	global.localization_target_group = -1;
 	
 	global.localization_assets = [];
 	
@@ -25,24 +18,17 @@ function localization_init(){
 }
 
 ///@arg {real} lang
-///@arg {real} group
 ///@arg {string} name
 ///@arg {string} text
-function localization_set(_lang, _group, _name, _text){
-	global.localization_data[_group][_lang][_name] = _text;
+function localization_set(_lang, _name, _text){
+	global.localization_data[_lang][_name] = _text;
 }
 
 ///@arg {real} lang
-///@arg {real} group
 ///@arg {string} name
 ///@return {string}
-function localization_get(_lang, _group, _name){
-	return global.localization_data[_group][_lang][_name];
-}
-
-///@arg {real} group
-function localization_set_group(_group){
-	global.localization_target_group = _group;
+function localization_get(_lang, _name){
+	return global.localization_data[_lang][_name];
 }
 
 ///@arg {real} lang
@@ -79,27 +65,42 @@ function l10n_get_assets(_type, _id){
 ///@arg {string} text
 ///@return {string}
 function set_text(_name, _text){
-	var _group = global.localization_target_group,
-		_lang = global.lang
+	var _lang = global.lang;
 	
-	if !array_exists(global.localization_data, _group) global.localization_data[_group] = []
-	if !array_exists(global.localization_data[_group], _lang) global.localization_data[_group][_lang] = {}
+	if !array_exists(global.localization_data, _lang) global.localization_data[_lang] = {}
 	
-	global.localization_data[_group][_lang][$ _name] = _text;
+	global.localization_data[_lang][$ _name] = _text;
 }
 
-///@arg {string} name
+///ローカライズされた文章を取得します
+///@arg {String} name localizationで設定した名前を指定
+///@arg {Array<String>} template %を置き換えます 
 ///@return {string}
-function get_text(_name){
-	var _group = global.localization_target_group,
-		_lang = global.lang
+function get_text(_name, _template = []){
+	var _lang = global.lang;
+	if !array_exists(global.localization_data, _lang)	return _name;
 	
-	if !array_exists(global.localization_data, _group)			return _name;
-	if !array_exists(global.localization_data[_group], _lang)	return _name;
-	
-	var _data = global.localization_data[_group][_lang]
+	var _data = global.localization_data[_lang]
 	
 	if struct_exists(_data, _name){
-		return _data[$ _name];
+		var _text = _data[$ _name];
+		var _pos = string_pos_ext("%", _text, 1);
+		var _string = "";
+		while (_pos != 0) {
+			if (string_char_at(_text, _pos + 1) != "%"){
+				_text = string_delete(_text, _pos, 1)
+				_string = array_shift(_template)
+				_text = string_insert(_string, _text, _pos);
+				_pos += string_length(_string);
+				if (array_empty(_template)){
+					break;
+				}
+			}else{
+				_text = string_delete(_text, _pos, 1);
+				_pos++
+			}
+			_pos = string_pos_ext("%", _text, _pos);
+		}
+		return _text;
 	}return _name;
 }

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_twc_font",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_twc_font",
+  "parent":{
+    "name":"constructor",
+    "path":"folders/Scripts/system/typewriter/custom/constructor.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
