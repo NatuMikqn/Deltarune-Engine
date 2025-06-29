@@ -14,12 +14,10 @@ if keyboard_check_pressed(vk_f4){
 	window_center()
 }
 if keyboard_check_pressed(vk_f5){
-	var _timer = current_time
-	var _texd = text_deserialize("[l10n.test.0]");
-	new TypeWriterBuilder(20, 20, _texd).set_gui(true).build();
+	new TypeWriterBuilder(20, 20, "[l10n.test.0]").set_gui(true).build();
 }
 if keyboard_check_pressed(vk_f6){
-	show_message(get_text("l10n.test", ["29", 52, "50"]))
+	new TypeWriterBuilder(irandom(320), irandom(460), "[l10n.test.0]").set_gui(true).build();
 }
 if keyboard_check_pressed(vk_f7){
 	player_damage(88)

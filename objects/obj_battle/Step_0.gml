@@ -56,7 +56,7 @@ if (state == BATTLE_STATE.MYTURN){
 					battle_next_char(10)
 				}else
 				if (_sl[0] == BUTTON.DEFEND){
-					battle_tension_add(16)
+					battle_tension_add(16, true)
 					battle_team_set_anim(battle_char_ids[charturn], BATTLE_TEAM_ANIM.DEFEND, BATTLE_ANIM_LOOP.ONLY)
 					battle_next_char(4)
 				}

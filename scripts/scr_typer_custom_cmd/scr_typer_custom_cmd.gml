@@ -55,8 +55,17 @@ function typewriter_custom_cmd(_self, _data)
 				chars = [];
 				break;
 			
+			case "interact":
+			case "interaction":
+				interaction = bool(_data[1]);
+				break;
+			
+			case "skippable":
+				skippable = bool(_data[1]);
+				break;
+			
 			case "mtt":
-				mtt_mode = bool(_data[1])
+				mtt_mode = bool(_data[1]);
 				if (!mtt_mode) sleep_add();
 				break;
 		}

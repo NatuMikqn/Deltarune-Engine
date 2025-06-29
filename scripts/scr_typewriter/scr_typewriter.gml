@@ -1,122 +1,11 @@
-///@arg {real} x
-///@arg {real} y
-///@arg {string} text
-function typer_create(_x, _y, _text){
-	//var _typer = instance_create_depth(_x, _y, 0, obj_typer);
-	//_typer.text = _text;
-	//if (instance_exists(obj_battle)){
-	//	_typer.battle_surface = true;
-	//}
-	//return _typer;
-}
-
-///@arg {String} type
-///@arg {Any} data
-function get_textdata_format(type, data){
-	return { type : type, data : data }
-}
-
-///@arg {String} text
-///@return {Array<Struct.TextData>}
-function text_deserialize(text){
-	var _char, _cmd, _text, _str = "",
-		_data = [],
-		_td = new TextData();
-	
-	for (var i = 1; i <= string_length(text); i++) {
-		_char = string_char_at(text, i)
-		if (string_char_contains(_char, "<[")){
-			_td.set_string(_data, _str);
-			_str = "";
-			
-			while (string_char_contains(_char, "<[")){
-				//cmd
-				if (_char == "<"){
-					_cmd = _td.get_data(i, "<>", text);
-					i += _cmd[1]
-					_td.set_cmd(_data, _cmd[0]);
-					i++
-				}
-				//l10n
-				else if (_char == "["){
-					_cmd = _td.get_data(i, "[]", text);
-					text = string_delete(text, i, _cmd[1] + 1);
-					
-					_text = _cmd[0][0]
-					array_delete(_cmd[0], 0, 1)
-					
-					text = string_insert(get_text(_text, _cmd[0]), text, i);
-				}
-				_char = string_char_at(text, i)
-			}
-		}
-		_str += _char;
-	}
-	_td.set_string(_data, _str);
-	return _data;
-}
-
-function TextData() constructor{
-	
-	///@arg {Array} data
-	///@arg {String} str
-	static set_string = function (data, str) {
-		if (str != "") array_push(data, get_textdata_format("str", str));
-	}
-	
-	///@arg {Array} data
-	///@arg {Array} cmd
-	static set_cmd = function (data, cmd) {
-		if (!array_empty(cmd) && cmd[0] != "") array_push(data, get_textdata_format("cmd", cmd));
-	}
-	
-	///@arg {Real} pos readstart position
-	///@arg {String} cmdchars example: "<>"
-	///@arg {String} text alltext
-	///@return {Array<Any>}
-	static get_data = function (pos, cmdchars, text) {
-		var _startpos = pos,
-			_cmd = [],
-			_str = "",
-			_char = string_char_at(text, pos),
-			_nest = 0,
-			_cmdchars = [
-				string_char_at(cmdchars, 1),
-				string_char_at(cmdchars, 2)
-			];
-		
-		do {
-			pos++
-			_char = string_char_at(text, pos);
-			if (_nest == 0 && (_char == " " || _char == _cmdchars[1])){
-				array_push(_cmd, _str);
-				_str = "";
-			}else{
-				_str += _char;
-				if (_char == _cmdchars[0]) _nest++
-				if (_char == _cmdchars[1]){
-					_nest--
-					_char = ""
-				}
-			}
-		} until (_nest == 0 && (_char == _cmdchars[1]));
-		
-		return [_cmd, pos - _startpos];
-	}
-}
-
-///////////////////////////////////////////////////////
-// typewriter
-
 ///@ignore
 function TypeWriter() constructor{
-	//文字座標
+	//文字変数
 	pos = new Vector2();
 	startpos = new Vector2();
 	depth = 0;
 	textdata = [];
 	font = fnt_8bit;
-	gui = false;
 	color = array_create(4, c_white);
 	alpha = 1;
 	scale = new Vector2(1);
@@ -130,12 +19,26 @@ function TypeWriter() constructor{
 	sleep = 0;
 	//スキップ可能か
 	skippable = true;
+	//識別用タグ
+	tag = "";
+	//描画系
+	gui = false;
+	surface = -1;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
 	///@return {Struct.TypeWriterBuilder}
 	static set_gui = function(_enable){
 		gui = _enable;
+		return self;
+	}
+	
+	///描画対象となるsurfaceを設定する
+	///-1で指定しない
+	///@arg {Id.Surface} surface_id
+	///@return {Struct.TypeWriterBuilder}
+	static set_surface = function(_surface){
+		surface = _surface;
 		return self;
 	}
 	
@@ -171,46 +74,24 @@ function TypeWriter() constructor{
 
 ///@arg {Real} x
 ///@arg {Real} y
-///@arg {Array<Struct.TextData>} y
+///@arg {String} text
 function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor{
 	pos.set(_x, _y);
 	startpos.set(_x, _y);
-	textdata = _text;
+	textdata = text_deserialize(_text);
+	
+	///@arg {String} tag
+	///@return {Struct.TypeWriterBuilder}
+	static set_tag = function(_tag){
+		tag = _tag;
+		return self;
+	}
 	
 	static build = function(){
 		var _data = new TypeWriterData(self);
 		array_push(obj_typewriter_manager.list, _data);
 		return _data;
 	}
-}
-
-///@arg {Struct.Vector2} pos
-///@arg {String} char
-///@arg {Array<Constant.Color>} color
-///@arg {Struct.Vector2} scale
-///@arg {Real} alpha
-function CharData(_pos, _char, _color, _scale, _alpha) : TypeWriter() constructor{
-	pos = _pos.copy();
-	char = _char;
-	color = _color;
-	scale = _scale;
-	alpha = _alpha;
-	offset = new Vector2();
-	
-	static get_char = function(){ return char; }
-	
-	static get_pos = function(){ return pos; }
-	
-	static get_scale = function(){ return scale; }
-	
-	static get_offset = function(){ return offset; }
-	static set_offset = function(_value){ offset = _value; }
-	
-	static get_alpha = function(){ return alpha; }
-	
-	static get_color = function(){ return color; }
-	
-	
 }
 
 ///@ignore
@@ -314,10 +195,18 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	}
 	
 	///今の文字は空白であるかどうか
-	///@return Bool}
+	///@return {Bool}
 	///@pure
 	static mtt_sleepcheck = function(){
 		return (textdata[step].type == "str" && string_char_at(textdata[step].data, read) == " ");
+	}
+
+	///指定されたタグとこのTypeWriterのタグが一致するかどうか
+	///@arg {String} tag
+	///@return {Bool}
+	///@pure
+	static tag_equals = function(_tag){
+		return (tag == _tag);
 	}
 	
 	///文字データを追加
@@ -366,5 +255,32 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	}
 }
 
-
+///@arg {Struct.Vector2} pos
+///@arg {String} char
+///@arg {Array<Constant.Color>} color
+///@arg {Struct.Vector2} scale
+///@arg {Real} alpha
+function CharData(_pos, _char, _color, _scale, _alpha) : TypeWriter() constructor{
+	pos = _pos.copy();
+	char = _char;
+	color = _color;
+	scale = _scale;
+	alpha = _alpha;
+	offset = new Vector2();
+	
+	static get_char = function(){ return char; }
+	
+	static get_pos = function(){ return pos; }
+	
+	static get_scale = function(){ return scale; }
+	
+	static get_offset = function(){ return offset; }
+	static set_offset = function(_value){ offset = _value; }
+	
+	static get_alpha = function(){ return alpha; }
+	
+	static get_color = function(){ return color; }
+	
+	
+}
 

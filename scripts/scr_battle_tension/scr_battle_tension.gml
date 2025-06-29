@@ -1,7 +1,7 @@
 
 ///@arg {real} value
 ///@arg {bool} add_history
-function battle_tension_add(_add, _history = true){
+function battle_tension_add(_add, _history = false){
 	if (_add > 0){		//増加時
 		with(obj_battle){
 			if (_history) battle_tension_add_history(min(100 - tension, _add))

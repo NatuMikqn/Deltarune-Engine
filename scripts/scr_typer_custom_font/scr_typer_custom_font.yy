@@ -6,7 +6,7 @@
   "name":"scr_typer_custom_font",
   "parent":{
     "name":"custom",
-    "path":"folders/Scripts/system/typewriter/custom.yy",
+    "path":"folders/Scripts/typewriter/custom.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

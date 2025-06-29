@@ -6,7 +6,7 @@
   "name":"scr_twc_font",
   "parent":{
     "name":"constructor",
-    "path":"folders/Scripts/system/typewriter/custom/constructor.yy",
+    "path":"folders/Scripts/typewriter/custom/constructor.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

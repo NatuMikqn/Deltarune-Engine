@@ -35,7 +35,7 @@ function battle_next_char(_icon){
 		with(obj_battle_ui) event_user(1)
 		if charturn >= array_length(team_get()){
 			battle_tension_clear_history()
-			instance_destroy(dialog_typer)
+			typewriter_delete("DialogText")
 			battle_set_state(BATTLE_STATE.ENEMY_TALK)
 		}else{
 			battle_show_dialog(true);
@@ -143,9 +143,11 @@ function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 ///@arg {bool} skipped
 function battle_show_dialog(_skipped){
 	with (obj_battle){
-		if !instance_exists(dialog_typer){
-			//dialog_typer = typer_create(30, 376, get_text(dialog))
-			//dialog_typer.skipped = _skipped;
+		if (!typewriter_exists("DialogText")){
+			new TypeWriterBuilder(30, 376, "<scale 2><interact false><skippable false>[battle.test.dialog.encounter]") 
+				.set_gui(true)
+				.set_tag("DialogText")
+				.build();
 		}
 	}
 }

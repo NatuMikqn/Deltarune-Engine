@@ -26,7 +26,6 @@ state = BATTLE_STATE.START_ANIM;
 next_state = -1;
 next_state_timer = -1;
 dialog = "* It is known.";
-dialog_typer = noone;
 tension = 0;
 tension_history = [];
 

@@ -8,7 +8,7 @@ for (var i = 0; i < array_length(list); i++) {
 		if (input_check_pressed(INPUT.CANCEL) || input_check(INPUT.MENU)) start_skip();
 		
 		if (input_check_pressed(INPUT.CONFIRM) || input_check(INPUT.MENU)){
-			if (is_end()){
+			if (is_end() && interaction){
 				_delete = true;
 			}else{
 				resume();
