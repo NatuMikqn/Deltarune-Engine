@@ -45,9 +45,7 @@ function TypeWriter() constructor{
 	///@arg {Asset.GMFont|String} font
 	///@return {Struct.TypeWriterBuilder}
 	static set_font = function(_font){
-		if (is_string(_font)){
-			font = _font;
-		}else if (asset_get_type(_font) == asset_font){
+		if (asset_get_type(_font) == asset_font){
 			font = _font;
 		}else{
 			throw "指定されたものはフォントではありません"
@@ -213,7 +211,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	static add_chars = function(){
 		read++;
 		var _char = string_char_at(textdata[step].data, read);
-		var _data = new CharData(pos, _char, color, scale, alpha);
+		var _data = new CharData(pos, _char, color, scale, alpha, font);
 		pos.x += string_width(_char) * scale.x;
 		array_push(chars, _data);
 		
@@ -244,6 +242,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		var _chardata, _pos, _scale, _offset, _color;
 		for (var i = 0; i < array_length(chars); i++) {
 			_chardata = chars[i];
+			draw_set_font(_chardata.get_font())
 			_pos = _chardata.get_pos();
 			_scale = _chardata.get_scale();
 			_offset = _chardata.get_offset();
@@ -260,12 +259,14 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 ///@arg {Array<Constant.Color>} color
 ///@arg {Struct.Vector2} scale
 ///@arg {Real} alpha
-function CharData(_pos, _char, _color, _scale, _alpha) : TypeWriter() constructor{
+///@arg {Asset.GMFont} font
+function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() constructor{
 	pos = _pos.copy();
 	char = _char;
 	color = _color;
 	scale = _scale;
 	alpha = _alpha;
+	font = _font;
 	offset = new Vector2();
 	
 	static get_char = function(){ return char; }
@@ -280,6 +281,8 @@ function CharData(_pos, _char, _color, _scale, _alpha) : TypeWriter() constructo
 	static get_alpha = function(){ return alpha; }
 	
 	static get_color = function(){ return color; }
+	
+	static get_font = function(){ return font; }
 	
 	
 }

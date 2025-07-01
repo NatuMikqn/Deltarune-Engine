@@ -18,7 +18,7 @@ for (var i = 0; i < array_length(list); i++) {
 		
 		while (can_read()){
 			_text = get_textdata();
-			while ((_text.type == "cmd" || _text.type == "l10n") && can_read()) {
+			while ((_text.type == "cmd") && can_read()) {
 				_data = _text.data;
 				
 				if (_text.type == "cmd"){

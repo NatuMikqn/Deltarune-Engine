@@ -1,5 +1,3 @@
-depth = DEPTH.UI
-
 in_anim = 0;
 
 charturn_prev = 0;

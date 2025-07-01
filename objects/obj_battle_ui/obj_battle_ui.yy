@@ -34,7 +34,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_engine_ui",
+    "path":"sprites/spr_engine_ui/spr_engine_ui.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

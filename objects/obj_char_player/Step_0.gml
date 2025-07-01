@@ -1,3 +1,4 @@
+//TODO: FIX CHAR MOVE DIRECTION
 
 if (movable){
 	

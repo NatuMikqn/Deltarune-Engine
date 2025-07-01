@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_localization_en",
+  "%Name":"scr_l10n",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_localization_en",
+  "name":"scr_l10n",
   "parent":{
-    "name":"localization",
-    "path":"folders/Scripts/localization.yy",
+    "name":"l10n",
+    "path":"folders/Scripts/l10n.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

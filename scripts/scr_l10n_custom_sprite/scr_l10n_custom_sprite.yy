@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_localization_ja",
+  "%Name":"scr_l10n_custom_sprite",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_localization_ja",
+  "name":"scr_l10n_custom_sprite",
   "parent":{
     "name":"l10n",
     "path":"folders/Scripts/l10n.yy",

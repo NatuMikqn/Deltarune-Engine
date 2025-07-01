@@ -1,6 +1,6 @@
 if (start){
 	timer ++
-	if (timer == 10){
+	if (timer == 1){
 		obj_battle_soul.show = true;
 		obj_battle_soul.hitbox = true;
 		obj_battle_soul.movable = true;
@@ -19,6 +19,7 @@ if (start){
 		board_update()
 	}
 	if (timer > 10){
+		
 		
 		//battle_turn_end()
 	}

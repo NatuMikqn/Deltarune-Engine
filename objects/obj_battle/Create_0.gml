@@ -1,7 +1,7 @@
 
 depth = DEPTH.BATTLE_BG
-instance_create_depth(0, 0, 0, obj_battle_ui)
-instance_create_depth(320, 180, 0, obj_battle_board)
+instance_create_depth(0, 0, DEPTH.UI, obj_battle_ui)
+instance_create_depth(320, 180, DEPTH.BOARD, obj_battle_board)
 instance_create_depth(320, 200, DEPTH.SOULS, obj_battle_soul_red)
 
 var _team = team_get(),

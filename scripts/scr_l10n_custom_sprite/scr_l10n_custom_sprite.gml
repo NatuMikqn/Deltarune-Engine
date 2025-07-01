@@ -18,11 +18,9 @@ enum ASSETS_SPRITE{
 	NAME_NOELLE
 }
 
-function localization_assets_font(){
+function l10n_assets_sprite(){
 	
 	lang_set(LANG.EN)
-	
-	l10n_set_assets(ASSET_TYPE.FONT, ASSETS_FONT.DIALOG, fnt_8bit)
 	
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_FIGHT, spr_battle_button_fight)
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_ACT, spr_battle_button_act)
@@ -37,8 +35,6 @@ function localization_assets_font(){
 	
 	lang_set(LANG.JA)
 	
-	l10n_set_assets(ASSET_TYPE.FONT, ASSETS_FONT.DIALOG, fnt_jf14)
-	
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_FIGHT, spr_battle_button_fight_jp)
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_ACT, spr_battle_button_act_jp)
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_TECH, spr_battle_button_tech_jp)
@@ -51,8 +47,6 @@ function localization_assets_font(){
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.NAME_NOELLE, spr_charbox_name_noelle_ja)
 	
 	lang_set(LANG.ZH)
-	
-	l10n_set_assets(ASSET_TYPE.FONT, ASSETS_FONT.DIALOG, fnt_fzxs12)
 	
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_FIGHT, spr_battle_button_fight_zh)
 	l10n_set_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_ACT, spr_battle_button_act_zh)

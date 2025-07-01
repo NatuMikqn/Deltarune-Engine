@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_localization_zh",
   "parent":{
-    "name":"localization",
-    "path":"folders/Scripts/localization.yy",
+    "name":"l10n",
+    "path":"folders/Scripts/l10n.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
