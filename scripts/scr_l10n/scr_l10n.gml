@@ -14,8 +14,6 @@ function localization_init(){
 	}
 	
 	l10n_custom_lang();
-	
-	localization_assets_font();
 }
 
 ///langjsonの登録
