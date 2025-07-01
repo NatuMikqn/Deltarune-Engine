@@ -1,4 +1,4 @@
-list = []
+list = [];
 
 font_list = [];
 

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_l10n_custom_sprite_en",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_l10n_custom_sprite_en",
+  "parent":{
+    "name":"sprite",
+    "path":"folders/Scripts/l10n/custom/sprite.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

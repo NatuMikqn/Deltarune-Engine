@@ -7,12 +7,16 @@ scale = new Vector2(1);
 angle = 0;
 alpha = 1;
 
-collision_size = new Vector2(10, 10);
-
-sprite = spr_battle_soul;
+collision_size = new Vector2(8, 8);
 
 show = false;
 hitbox = false;
 movable = false;
+
+target_hitbox = {
+	hit : false,
+	pos : [],
+	ccw : false
+}
 
 board_update_hitbox()

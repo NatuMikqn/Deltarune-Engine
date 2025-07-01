@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_l10n_load_text",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_l10n_load_text",
+  "parent":{
+    "name":"l10n",
+    "path":"folders/Scripts/l10n.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

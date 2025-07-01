@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_l10n_custom_font_en",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_l10n_custom_font_en",
+  "parent":{
+    "name":"font",
+    "path":"folders/Scripts/l10n/custom/font.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

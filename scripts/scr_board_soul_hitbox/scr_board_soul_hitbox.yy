@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_board_soul_hitbox",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_board_soul_hitbox",
+  "parent":{
+    "name":"board",
+    "path":"folders/Scripts/battle/board.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

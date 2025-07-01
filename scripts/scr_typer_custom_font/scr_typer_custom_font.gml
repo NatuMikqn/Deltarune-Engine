@@ -3,17 +3,13 @@ function typewriter_custom_font()
 {
 	with(obj_typewriter_manager){
 		
-		new TyperCustomFont("normal")
-			
-			.add_font(new TyperFontData(LANG.EN).add_font(fnt_8bit))
-			
-			.add_font(new TyperFontData(LANG.JA).add_font(fnt_jf14))
-			
-			.add_font(new TyperFontData(LANG.ZH).add_font(fnt_fzxs12))
-			
+		new TCFBuilder("default", "default")
+			.set_spacing_char(LANG.EN, 10)
+			.set_spacing_char(LANG.JA, 10)
+			.set_spacing_char(LANG.ZH, 10)
 			.register()
-			
-		new TyperCustomFont("special")
+		
+		/*new TyperCustomFont("special")
 			
 			.add_font(
 				new TyperFontData(LANG.JA)
@@ -22,6 +18,6 @@ function typewriter_custom_font()
 				)
 			
 			.register()
-		
+		*/
 	}
 }

@@ -39,7 +39,7 @@ if (scale > 0 && _len){
 }
 
 //ソウル判定
-with (obj_battle_soul) event_user(0)
+soul_hitbox()
 
 //フェードアウト
 for(var i=0;i<array_length(afterimage_list);i++){

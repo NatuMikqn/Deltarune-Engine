@@ -1,3 +1,7 @@
+//言語の自動設定機能を有効にします
+//PCの言語に合わせて自動で設定されます
+#macro AUTO_LANGUAGE true
+
 //枠のポリゴンポイントが重複しているかどうかを確認します
 //不要な場合はfalseにしてください
 //trueにすると、負荷が少し増えます
@@ -17,4 +21,4 @@
 // debug
 
 //枠背景のポリゴン描画を可視化
-#macro BOARD_BG_COLOR_DEBUG true
+#macro BOARD_BG_COLOR_DEBUG false

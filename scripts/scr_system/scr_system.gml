@@ -1,8 +1,8 @@
-
-
+///IDEから実行されているかどうかを確認します
 ///@return {bool}
-function is_paused(){
-	return global.pause;
+///@pure
+function is_test(){
+	return (GM_build_type == "run");
 }
 
 ///@arg {real} width

@@ -194,6 +194,19 @@ function Vector2(_x = 0, _y = _x) constructor {
 		return 0;
 	}
 	
+	///@desc 角度を求めます
+	///@arg {Struct.Vector2|Real} x
+	///@arg {Real} y
+	///@return {Real}
+	static dir = function(_x = 0, _y = _x){
+		if is_struct(_x){
+			return point_direction(x, y, _x.x, _x.y);
+		}else if is_real(_x){
+			return point_direction(x, y, _x, _y);
+		}
+		return 0;
+	}
+	
 	///@desc 大きい方の値を返します
 	///@return {Real}
 	static get_max = function(){

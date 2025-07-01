@@ -42,11 +42,11 @@ for(var i=0;i<_count;i++){
 		//ボタン
 		var _btselect = obj_battle.select_list[i][0],
 			_buttons = [
-				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_FIGHT),
-				l10n_get_assets(ASSET_TYPE.SPRITE, _list[i].is_techable() ? ASSETS_SPRITE.BUTTON_TECH : ASSETS_SPRITE.BUTTON_ACT),
-				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_ITEM),
-				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_SPARE),
-				l10n_get_assets(ASSET_TYPE.SPRITE, ASSETS_SPRITE.BUTTON_DEFEND)
+				get_sprite("battle.button.fight"),
+				get_sprite(_list[i].is_techable() ? "battle.button.tech" : "battle.button.act"),
+				get_sprite("battle.button.item"),
+				get_sprite("battle.button.spare"),
+				get_sprite("battle.button.defend")
 			]
 		for(var j=0;j<5;j++){
 			draw_sprite(_buttons[j], (j == _btselect), _x - 87 + j * 35, _y + 31)
