@@ -1,0 +1,42 @@
+[
+    {
+        "parentname": "default",
+        "lang": 1,
+        "font": "./ttf/JF-Dot-Shinonome14.ttf",
+        "size": 10.5,
+        "range": {
+            "first": 32,
+            "last": 255
+        }
+    },
+    {
+        "parentname": "default",
+        "lang": 1,
+        "font": "./ttf/JF-Dot-Shinonome14.ttf",
+        "size": 10.5,
+        "range": {
+            "first": 32,
+            "last": 40959
+        }
+    },
+    {
+        "parentname": "default",
+        "lang": 2,
+        "font": "./ttf/方正像素12.ttf",
+        "size": 12,
+        "range": {
+            "first": 32,
+            "last": 40959
+        }
+    },
+    {
+        "parentname": "special",
+        "lang": 0,
+        "font": "./ttf/msgothic001.ttf",
+        "size": 12,
+        "range": {
+            "first": 32,
+            "last": 40959
+        }
+    }
+]

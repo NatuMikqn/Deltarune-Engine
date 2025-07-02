@@ -9,6 +9,10 @@ function typewriter_custom_cmd(_self, _data)
 				color = color_converter(_data[1]);
 				break;
 			
+			case "alpha":
+				alpha = real(_data[1]);
+				break;
+			
 			case "scale":
 				if (array_length(_data) < 3){
 					scale.set(real(_data[1]));
@@ -17,10 +21,6 @@ function typewriter_custom_cmd(_self, _data)
 					scale.set(real(_data[1]), real(_data[2]));
 				}
 				
-				break;
-			
-			case "alpha":
-				alpha = real(_data[1]);
 				break;
 			
 			case "offset":

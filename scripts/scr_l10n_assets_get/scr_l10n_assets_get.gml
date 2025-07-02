@@ -1,10 +1,10 @@
 ///ローカライズされた文章を取得します
 ///@arg {String} name localizationで設定した名前を指定
-///@arg {Array<String>} template %を置き換えます 
+///@arg {Array<String>} template %を置き換えます
+///@arg {Real} lang 言語指定
 ///@return {string}
-function get_text(_name, _template = [])
+function get_text(_name, _template = [], _lang = lang_get())
 {
-	var _lang = global.lang;
 	if (!array_exists(global.localization_data.text, _lang)) return _name;
 	
 	var _data = global.localization_data.text[_lang];
@@ -35,11 +35,10 @@ function get_text(_name, _template = [])
 ///ローカライズされたフォントを取得します
 ///@arg {String|Asset.GMFont} name localizationで設定した名前を指定 Assetの場合そのまま返します
 ///@return {Asset.GMFont}
-function get_font(_name)
+function get_font(_name, _lang = lang_get())
 {
 	if (asset_get_type(_name) == asset_font) return _name;
 	
-	var _lang = global.lang;
 	if (!array_exists(global.localization_data.font, _lang)) throw "Unknown language : " + string(_lang);
 	if (!struct_exists(global.localization_data.font[_lang], _name)) throw "Font not found";
 	
@@ -49,11 +48,10 @@ function get_font(_name)
 ///ローカライズされたスプライトを取得します
 ///@arg {String|Asset.GMSprite} name localizationで設定した名前を指定 Assetの場合そのまま返します
 ///@return {Asset.GMSprite}
-function get_sprite(_name)
+function get_sprite(_name, _lang = lang_get())
 {
 	if (asset_get_type(_name) == asset_sprite) return _name;
 	
-	var _lang = global.lang;
 	if (!array_exists(global.localization_data.sprite, _lang)) throw "Unknown language : " + string(_lang);
 	if (!struct_exists(global.localization_data.sprite[_lang], _name)) return spr_missing;
 	

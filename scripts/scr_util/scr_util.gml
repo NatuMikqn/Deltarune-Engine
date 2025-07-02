@@ -163,3 +163,21 @@ function screen_size(_w, _h){
 	surface_resize(application_surface, _w, _h)
 	window_center()
 }
+
+///JSONを読み込み、ネストされた配列構造体を返します
+///@arg {String} path
+///@return {Any}
+function json_load(_path){
+	
+	var _file = file_text_open_read(_path)
+	var _json = "";
+		while (!file_text_eof(_file)){
+		_json += file_text_read_string(_file);
+		file_text_readln(_file);
+	}
+	
+	var _return = json_parse(_json);
+	file_text_close(_file);
+	
+	return _return;
+}

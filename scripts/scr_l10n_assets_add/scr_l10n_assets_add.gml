@@ -5,15 +5,7 @@ function l10n_loadjson(_lang, _fname)
 {
 	var _path = $"langs/{_fname}";
 	if (file_exists(_path)){
-		var _file = file_text_open_read(_path)
-		var _json = "";
-		while (!file_text_eof(_file)){
-			_json += file_text_read_string(_file);
-			file_text_readln(_file);
-		}
-		
-		global.localization_data.text[_lang] = json_parse(_json);
-		file_text_close(_file);
+		global.localization_data.text[_lang] = json_load(_path);
 	}else{
 		show_debug_message($"Language JSON file not found : {_path}");
 	}
@@ -50,7 +42,7 @@ function l10n_add_sprite(_name, _sprite)
 ///@ignore
 function l10n_add(_target, _name, _value)
 {
-	var _lang = global.lang;
+	var _lang = lang_get();
 	
 	if !array_exists(global.localization_data[$_target], _lang) global.localization_data[$_target][_lang] = {};
 	

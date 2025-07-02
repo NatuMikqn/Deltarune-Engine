@@ -5,11 +5,12 @@ function TypeWriter() constructor{
 	startpos = new Vector2();
 	depth = 0;
 	textdata = [];
-	font = fnt_8bit;
+	font = "default";
 	color = array_create(4, c_white);
 	alpha = 1;
 	scale = new Vector2(1);
 	offset = new Vector2();
+	lang = lang_get();
 	
 	//声
 	voice = snd_text;
@@ -42,30 +43,36 @@ function TypeWriter() constructor{
 		return self;
 	}
 	
-	///@arg {Asset.GMFont|String} font
+	///初期フォントを指定
+	///`scr_typer_custom_font`で設定したタグを指定してください
+	///@arg {String} font default : "default"
 	///@return {Struct.TypeWriterBuilder}
 	static set_font = function(_font){
-		if (asset_get_type(_font) == asset_font){
-			font = _font;
-		}else{
-			throw "指定されたものはフォントではありません"
-		}
+		font = _font;
 		return self;
 	}
 	
 	///スキップ可能にするかどうか
-	///初期値は`true`です
-	///@arg {Bool} skippable
+	///@arg {Bool} skippable default : true
 	///@return {Struct.TypeWriterBuilder}
 	static set_skippable = function(_skippable){
 		skippable = _skippable;
 		return self;
 	}
 	
-	///@arg {Asset.GMSound} voice
+	///初期ボイスを指定
+	///@arg {Asset.GMSound} voice default : snd_text
 	///@return {Struct.TypeWriterBuilder}
 	static set_voice = function(_voice){
 		voice = _voice;
+		return self;
+	}
+	
+	///言語を上書き設定します
+	///@arg {Real} lang default : get_lang()
+	///@return {Struct.TypeWriterBuilder}
+	static set_lang = function(_lang){
+		lang = _lang;
 		return self;
 	}
 }
@@ -210,9 +217,17 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	///文字データを追加
 	static add_chars = function(){
 		read++;
-		var _char = string_char_at(textdata[step].data, read);
-		var _data = new CharData(pos, _char, color, scale, alpha, font);
-		pos.x += string_width(_char) * scale.x;
+		var _char = string_char_at(textdata[step].data, read),
+			_font = typewriter_font_get(font).get_font(lang);
+		var _data = new CharData(pos, _char, color, scale, alpha, _font);
+		
+		//x位置を_charの横幅 + 字間進める
+		var _w = typewriter_font_get(font).get_sp_char(lang);
+		draw_set_font(_font);
+		_w += string_width(_char) * scale.x;
+		
+		pos.x += _w;
+		
 		array_push(chars, _data);
 		
 		if (!skipped && !mtt_already_voice && _char != " "){
@@ -230,10 +245,15 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	static newline = function(){
 		//x位置を作成時のx位置に戻す
 		pos.x = startpos.x;
-		//y位置を"A"の高さ分下げる
+		//y位置を"A"の縦幅 + 行間下げる
 		var _font = draw_get_font();
-		draw_set_font(font)
-		pos.y += string_height("A") * scale.y;
+		
+		var _h = typewriter_font_get(font).get_sp_line(lang);
+		draw_set_font(typewriter_font_get(font).get_font(lang));
+		_h += string_height("A") * scale.y;
+		
+		pos.y += _h;
+		
 		draw_set_font(_font)
 	}
 	

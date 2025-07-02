@@ -1,9 +1,7 @@
 ///@ignore
 function l10n_load_text()
 {
-	l10n_loadjson(LANG.EN, "en.json");
-	l10n_loadjson(LANG.JA, "ja.json");
-	l10n_loadjson(LANG.ZH, "zh.json");
+	l10n_custom_text_loadjson();
 	
 	lang_set(LANG.EN);
 	l10n_custom_text_en();
