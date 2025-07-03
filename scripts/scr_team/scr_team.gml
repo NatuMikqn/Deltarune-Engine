@@ -111,13 +111,13 @@ function CharacterInfoData(_self) : CharacterInfo() constructor
 	static get_charbox_iconsprite = function()
 	{
 		var _spr = charbox_info.icon;
-		if (is_string(_spr)) _spr = get_sprite(_spr);
+		if (is_string(_spr)) _spr = l10n_get_sprite(_spr);
 		return _spr;
 	}
 	static get_charbox_namesprite = function()
 	{
 		var _spr = charbox_info.name;
-		if (is_string(_spr)) _spr = get_sprite(_spr);
+		if (is_string(_spr)) _spr = l10n_get_sprite(_spr);
 		return _spr;
 	}
 	 

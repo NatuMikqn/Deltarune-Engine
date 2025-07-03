@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_twc_anim",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_twc_anim",
+  "parent":{
+    "name":"constructor",
+    "path":"folders/Scripts/typewriter/custom/constructor.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

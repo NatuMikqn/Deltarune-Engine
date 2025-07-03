@@ -1,7 +1,6 @@
 ///@ignore
 function TyperCustomFont() constructor
 {
-	tag = "";
 	font = -1;
 	
 	asterisk = [["*", "＊"]];
@@ -18,7 +17,7 @@ function TyperCustomFont() constructor
 ///タイプライター用のフォントを追加します
 ///@arg {String} tag
 ///@arg {Asset.GMFont|String} font Asset or l10nFont(StringName)
-function TCFBuilder(_tag, _font) : TyperCustomFont() constructor
+function TCFontBuilder(_tag, _font) : TyperCustomFont() constructor
 {
 	tag = _tag;
 	font = _font;
@@ -27,7 +26,7 @@ function TCFBuilder(_tag, _font) : TyperCustomFont() constructor
 	
 	///言語に依存しないようにするかどうか
 	///@arg {Bool} enable
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static set_global = function (_enable){
 		globalmode = _enable;
 		if (globalmode) lang = 0;
@@ -36,28 +35,28 @@ function TCFBuilder(_tag, _font) : TyperCustomFont() constructor
 	///編集対象の言語指定
 	///グローバルモードの場合、この設定は意味を成しません
 	///@arg {Real} lang
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static target_lang = function (_lang){
 		if (!globalmode) lang = _lang;
 		return self;
 	}
 	///字間設定
 	///@arg {Real} spacing
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static set_sp_char = function (_s){
 		spacing.char[lang] = _s;
 		return self;
 	}
 	///行間設定
 	///@arg {Real} spacing
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static set_sp_line = function (_s){
 		spacing.line[lang] = _s;
 		return self;
 	}
 	///スペース文字の字間設定
 	///@arg {Real} spacing
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static set_sp_space = function (_s){
 		spacing.space[lang] = _s;
 		return self;
@@ -65,7 +64,7 @@ function TCFBuilder(_tag, _font) : TyperCustomFont() constructor
 	
 	///アスタリスク文字の設定
 	///@arg {Array<String>} asterisk_list
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static set_asterisk = function (_al){
 		asterisk[lang] = _al;
 		return self;
@@ -73,22 +72,22 @@ function TCFBuilder(_tag, _font) : TyperCustomFont() constructor
 	
 	///空白文字の設定
 	///@arg {Array<String>} space_list
-	///@return {Struct.TCFBuilder}
+	///@return {Struct.TCFontBuilder}
 	static set_space = function (_sl){
 		space[lang] = _sl;
 		return self;
 	}
 	
 	///フォントの登録
-	static register = function () {
-		var _data = new TCFData(self);
-		array_push(obj_typewriter_manager.font_list, _data);
+	static build = function () {
+		var _data = new TCFontData(self);
+		obj_typewriter_manager.font_list[$ tag] = _data;
 	}
 }
 
 ///@ignore
-///@arg {Struct.TCFBuilder} builder
-function TCFData(_self) : TyperCustomFont() constructor
+///@arg {Struct.TCFontBuilder} builder
+function TCFontData(_self) : TyperCustomFont() constructor
 {
 	var _lists = variable_struct_get_names(self);
 	
@@ -96,17 +95,10 @@ function TCFData(_self) : TyperCustomFont() constructor
 		other[$_e] = self[$_e];
 	}))
 	
-	///タグが一致するかどうか
-	///@arg {String} tag
-	///@return {Bool}
-	static tag_equals = function (_tag) {
-		return (_tag == tag);
-	}
-	
 	///フォントを返します
 	///@return {Asset.GMFont}
 	static get_font = function (_lang = lang_get()) {
-		return get_font(font, _lang);
+		return l10n_get_font(font, _lang);
 	}
 	
 	///字間を返します
@@ -135,5 +127,11 @@ function TCFData(_self) : TyperCustomFont() constructor
 	static set_space = function (_lang = lang_get()){
 		if (_lang < array_length(space)) return (space[_lang] ?? space[0]);
 		return space[0];
+	}
+
+	///グローバグフォントかどうか
+	///@return {Bool}
+	static get_globalmode = function (){
+		return globalmode;
 	}
 }

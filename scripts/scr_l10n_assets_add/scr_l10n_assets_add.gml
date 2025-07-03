@@ -3,7 +3,7 @@
 ///@arg {string} fname
 function l10n_loadjson(_lang, _fname)
 {
-	var _path = $"langs/{_fname}";
+	var _path = _fname;
 	if (file_exists(_path)){
 		global.localization_data.text[_lang] = json_load(_path);
 	}else{
@@ -43,7 +43,6 @@ function l10n_add_sprite(_name, _sprite)
 function l10n_add(_target, _name, _value)
 {
 	var _lang = lang_get();
-	
 	if !array_exists(global.localization_data[$_target], _lang) global.localization_data[$_target][_lang] = {};
 	
 	global.localization_data[$_target][_lang][$ _name] = _value;

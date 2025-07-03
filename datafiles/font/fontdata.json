@@ -1,9 +1,9 @@
 [
     {
         "parentname": "default",
-        "lang": 1,
-        "font": "./ttf/JF-Dot-Shinonome14.ttf",
-        "size": 10.5,
+        "lang": "en",
+        "font": "./ttf/8bitoperator_jve.ttf",
+        "size": 12,
         "range": {
             "first": 32,
             "last": 255
@@ -11,7 +11,7 @@
     },
     {
         "parentname": "default",
-        "lang": 1,
+        "lang": "ja",
         "font": "./ttf/JF-Dot-Shinonome14.ttf",
         "size": 10.5,
         "range": {
@@ -21,9 +21,9 @@
     },
     {
         "parentname": "default",
-        "lang": 2,
+        "lang": "zh",
         "font": "./ttf/方正像素12.ttf",
-        "size": 12,
+        "size": 9,
         "range": {
             "first": 32,
             "last": 40959
@@ -31,9 +31,10 @@
     },
     {
         "parentname": "special",
-        "lang": 0,
-        "font": "./ttf/msgothic001.ttf",
-        "size": 12,
+        "lang": "global",
+        "font": "./ttf/1_UzuraFont_uzura_font.ttf",
+        "size": 24,
+        "aa": true,
         "range": {
             "first": 32,
             "last": 40959

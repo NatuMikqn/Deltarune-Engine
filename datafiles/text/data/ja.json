@@ -1,0 +1,8 @@
+{
+    "l10n.test.0" : "<scale 2><speed 3><color red>赤<color yellow>黄<newline><font msgothic><scale 1><sleep 20>[l10n.test.1 123 345]",
+    "l10n.test.1" : "<color #00ffff>やわらかうずら。<newline><font default><scale 2>フォント戻り<pause><clear>[l10n.test.2]",
+    "l10n.test.2" : "<mtt true><speed 18>ミナサマ コンニチ ハ<color red>ワ<pause>[l10n.test.3]",
+    "l10n.test.3" : "タシハ ニンゲン<mtt false><color #007080><speed 3>ですわ",
+    "setting.lang" : "日本語",
+    "battle.test.dialog.encounter" : "* 即出だ。"
+}

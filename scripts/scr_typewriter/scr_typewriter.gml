@@ -11,6 +11,12 @@ function TypeWriter() constructor{
 	scale = new Vector2(1);
 	offset = new Vector2();
 	lang = lang_get();
+	globalmode = false;
+	
+	anim = {
+		create: undefined,
+		step: undefined
+	}
 	
 	//声
 	voice = snd_text;
@@ -130,7 +136,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		var _data = textdata[step].data
 		var _text = _data[0]
 		array_delete(_data, 0, 1)
-		textdata[step] = get_textdata_format("str", get_text(_text, _data));
+		textdata[step] = get_textdata_format("str", l10n_get_text(_text, _data));
 		step--;
 	}
 	
@@ -214,15 +220,35 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		return (tag == _tag);
 	}
 	
+	///改行を行う
+	static newline = function(){
+		//x位置を作成時のx位置に戻す
+		pos.x = startpos.x;
+		//y位置を"A"の縦幅 + 行間下げる
+		var _font = draw_get_font(),
+			_lang = globalmode ? 0 : lang;
+		
+		var _h = typewriter_font_get(font).get_sp_line(_lang);
+		draw_set_font(typewriter_font_get(font).get_font(_lang));
+		_h += string_height("A") * scale.y;
+		
+		pos.y += _h;
+		
+		draw_set_font(_font)
+	}
+	
 	///文字データを追加
 	static add_chars = function(){
 		read++;
-		var _char = string_char_at(textdata[step].data, read),
-			_font = typewriter_font_get(font).get_font(lang);
-		var _data = new CharData(pos, _char, color, scale, alpha, _font);
+		var _lang = globalmode ? 0 : lang,
+			_char = string_char_at(textdata[step].data, read),
+			_font = typewriter_font_get(font).get_font(_lang),
+			_data = new CharData(pos, _char, color, scale, alpha, _font);
+		
+		if (is_method(anim.create[0])) anim.create[0](_data);
 		
 		//x位置を_charの横幅 + 字間進める
-		var _w = typewriter_font_get(font).get_sp_char(lang);
+		var _w = typewriter_font_get(font).get_sp_char(_lang);
 		draw_set_font(_font);
 		_w += string_width(_char) * scale.x;
 		
@@ -241,25 +267,18 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		}
 	}
 	
-	///改行を行う
-	static newline = function(){
-		//x位置を作成時のx位置に戻す
-		pos.x = startpos.x;
-		//y位置を"A"の縦幅 + 行間下げる
-		var _font = draw_get_font();
-		
-		var _h = typewriter_font_get(font).get_sp_line(lang);
-		draw_set_font(typewriter_font_get(font).get_font(lang));
-		_h += string_height("A") * scale.y;
-		
-		pos.y += _h;
-		
-		draw_set_font(_font)
+	///ステップ
+	static step = function(){
+		var _chardata;
+		for (var i = 0; i < array_length(chars); i++) {
+			_chardata = chars[i];
+			if (is_method(anim.step[0])) anim.step[0](_chardata);
+		}
 	}
 	
 	///描画
 	static draw = function(){
-		var _chardata, _pos, _scale, _offset, _color;
+		var _chardata, _pos, _scale, _offset, _color, _alpha;
 		for (var i = 0; i < array_length(chars); i++) {
 			_chardata = chars[i];
 			draw_set_font(_chardata.get_font())
@@ -267,8 +286,9 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 			_scale = _chardata.get_scale();
 			_offset = _chardata.get_offset();
 			_color = _chardata.get_color();
-			draw_text_transformed_color(_pos.x, _pos.y, _chardata.get_char(), _scale.x, _scale.y, 0,
-				_color[0], _color[1], _color[2], _color[3], _chardata.get_alpha()
+			_alpha = _chardata.get_alpha();
+			draw_text_transformed_color(_pos.x + _offset.x, _pos.y + _offset.y, _chardata.get_char(), _scale.x, _scale.y, 0,
+				_color[0], _color[1], _color[2], _color[3], _alpha
 			);
 		}
 	}
@@ -284,7 +304,7 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	pos = _pos.copy();
 	char = _char;
 	color = _color;
-	scale = _scale;
+	scale = _scale.copy();
 	alpha = _alpha;
 	font = _font;
 	offset = new Vector2();

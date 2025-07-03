@@ -1,0 +1,14 @@
+[
+    {
+        "lang": "en",
+        "path": "./data/en.json"
+    },
+    {
+        "lang": "ja",
+        "path": "./data/ja.json"
+    },
+    {
+        "lang": "zh",
+        "path": "./data/zh.json"
+    }
+]

@@ -45,7 +45,7 @@ function text_deserialize(text){
 					_text = _cmd[0][0]
 					array_delete(_cmd[0], 0, 1)
 					
-					text = string_insert(get_text(_text, _cmd[0]), text, i);
+					text = string_insert(l10n_get_text(_text, _cmd[0]), text, i);
 				}
 				_char = string_char_at(text, i)
 			}

@@ -3,7 +3,7 @@
 ///@arg {Array<String>} template %を置き換えます
 ///@arg {Real} lang 言語指定
 ///@return {string}
-function get_text(_name, _template = [], _lang = lang_get())
+function l10n_get_text(_name, _template = [], _lang = lang_get())
 {
 	if (!array_exists(global.localization_data.text, _lang)) return _name;
 	
@@ -35,7 +35,7 @@ function get_text(_name, _template = [], _lang = lang_get())
 ///ローカライズされたフォントを取得します
 ///@arg {String|Asset.GMFont} name localizationで設定した名前を指定 Assetの場合そのまま返します
 ///@return {Asset.GMFont}
-function get_font(_name, _lang = lang_get())
+function l10n_get_font(_name, _lang = lang_get())
 {
 	if (asset_get_type(_name) == asset_font) return _name;
 	
@@ -48,7 +48,7 @@ function get_font(_name, _lang = lang_get())
 ///ローカライズされたスプライトを取得します
 ///@arg {String|Asset.GMSprite} name localizationで設定した名前を指定 Assetの場合そのまま返します
 ///@return {Asset.GMSprite}
-function get_sprite(_name, _lang = lang_get())
+function l10n_get_sprite(_name, _lang = lang_get())
 {
 	if (asset_get_type(_name) == asset_sprite) return _name;
 	

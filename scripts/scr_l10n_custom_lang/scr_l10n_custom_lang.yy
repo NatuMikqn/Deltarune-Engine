@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_l10n_custom_lang",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_l10n_custom_lang",
+  "parent":{
+    "name":"custom",
+    "path":"folders/Scripts/l10n/custom.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

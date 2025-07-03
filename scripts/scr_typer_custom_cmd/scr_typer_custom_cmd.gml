@@ -29,6 +29,7 @@ function typewriter_custom_cmd(_self, _data)
 			
 			case "font":
 				font = _data[1];
+				globalmode = typewriter_font_get(font).get_globalmode();
 				break;
 			
 			case "newline":
@@ -67,6 +68,16 @@ function typewriter_custom_cmd(_self, _data)
 			case "mtt":
 				mtt_mode = bool(_data[1]);
 				if (!mtt_mode) sleep_add();
+				break;
+			
+			case "anim":
+				if (_data[1] == "create"){
+					anim.create = typewriter_anim_get(TCANIM.CREATE, _data[2]);
+				}
+				if (_data[1] == "step"){
+					anim.step = typewriter_anim_get(TCANIM.STEP, _data[2]);
+				}
+				
 				break;
 		}
 	}
