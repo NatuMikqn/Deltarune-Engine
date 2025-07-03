@@ -75,6 +75,9 @@ function typewriter_custom_cmd(_self, _data)
 					anim.create = typewriter_anim_get(TCANIM.CREATE, _data[2]);
 				}
 				if (_data[1] == "step"){
+					anim.charstep = typewriter_anim_get(TCANIM.STEP, _data[2]);
+				}
+				if (_data[1] == "twstep"){
 					anim.step = typewriter_anim_get(TCANIM.STEP, _data[2]);
 				}
 				

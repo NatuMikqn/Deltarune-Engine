@@ -39,7 +39,7 @@ for (var i = 0; i < array_length(list); i++) {
 			}
 			
 		}
-		
+		step();
 	}
 	
 	if (_delete){

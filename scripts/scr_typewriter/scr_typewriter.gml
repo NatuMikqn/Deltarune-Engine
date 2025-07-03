@@ -15,7 +15,8 @@ function TypeWriter() constructor{
 	
 	anim = {
 		create: undefined,
-		step: undefined
+		step: undefined,
+		charstep: undefined
 	}
 	
 	//声
@@ -118,7 +119,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	//文字読み取り位置
 	read = 0;
 	//段階読み取り位置
-	step = 0;
+	readstep = 0;
 	//文字データリスト
 	chars = [];
 	//決定キーの有効化
@@ -133,11 +134,11 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	
 	///現在のテキストデータからl10nを実行
 	static l10n = function(){
-		var _data = textdata[step].data
+		var _data = textdata[readstep].data
 		var _text = _data[0]
 		array_delete(_data, 0, 1)
-		textdata[step] = get_textdata_format("str", l10n_get_text(_text, _data));
-		step--;
+		textdata[readstep] = get_textdata_format("str", l10n_get_text(_text, _data));
+		readstep--;
 	}
 	
 	///次の文字を読み取ることはできるか
@@ -189,19 +190,19 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	///現在のテキストデータを取得
 	///@return {Struct.TextData}
 	static get_textdata = function(){
-		return textdata[step];
+		return textdata[readstep];
 	}
 	
 	///テキストデータの読み取りが終了したかどうか
 	///@return {Bool}
 	static is_end = function(){
-		return (array_length(textdata) <= step);
+		return (array_length(textdata) <= readstep);
 	}
 	
 	///ステップを進め、次のテキストデータを読み取る
 	///@return {Struct.TextData}
 	static next_step = function(){
-		step++
+		readstep++
 		return get_textdata();
 	}
 	
@@ -209,7 +210,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	///@return {Bool}
 	///@pure
 	static mtt_sleepcheck = function(){
-		return (textdata[step].type == "str" && string_char_at(textdata[step].data, read) == " ");
+		return (textdata[readstep].type == "str" && string_char_at(textdata[readstep].data, read) == " ");
 	}
 
 	///指定されたタグとこのTypeWriterのタグが一致するかどうか
@@ -241,11 +242,12 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	static add_chars = function(){
 		read++;
 		var _lang = globalmode ? 0 : lang,
-			_char = string_char_at(textdata[step].data, read),
+			_char = string_char_at(textdata[readstep].data, read),
 			_font = typewriter_font_get(font).get_font(_lang),
 			_data = new CharData(pos, _char, color, scale, alpha, _font);
+		_data.set_stepanim(anim.charstep);
 		
-		if (is_method(anim.create[0])) anim.create[0](_data);
+		if (is_method(anim.create)) anim.create(_data);
 		
 		//x位置を_charの横幅 + 字間進める
 		var _w = typewriter_font_get(font).get_sp_char(_lang);
@@ -261,8 +263,8 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 			mtt_already_voice = true;
 		}
 		
-		if (string_length(textdata[step].data) <= read){
-			step++;
+		if (string_length(textdata[readstep].data) <= read){
+			readstep++;
 			read = 0;
 		}
 	}
@@ -272,7 +274,8 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		var _chardata;
 		for (var i = 0; i < array_length(chars); i++) {
 			_chardata = chars[i];
-			if (is_method(anim.step[0])) anim.step[0](_chardata);
+			if (is_method(anim.step)) anim.step(_chardata, _chardata.createtrigger());
+			_chardata.run_animstep();
 		}
 	}
 	
@@ -287,7 +290,14 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 			_offset = _chardata.get_offset();
 			_color = _chardata.get_color();
 			_alpha = _chardata.get_alpha();
-			draw_text_transformed_color(_pos.x + _offset.x, _pos.y + _offset.y, _chardata.get_char(), _scale.x, _scale.y, 0,
+			
+			var _finalpos = _pos.copy().add(_offset),
+				_offset_user = _chardata.get_offset_user();
+			for (var j = 0; j < array_length(_offset_user); j++) {
+				_finalpos.add(_offset_user[j])
+			}
+			
+			draw_text_transformed_color(_finalpos.x, _finalpos.y, _chardata.get_char(), _scale.x, _scale.y, 0,
 				_color[0], _color[1], _color[2], _color[3], _alpha
 			);
 		}
@@ -308,12 +318,31 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	alpha = _alpha;
 	font = _font;
 	offset = new Vector2();
+	offset_user = [];
+	create_trigger_once = {
+		char : true,
+		typer : true
+	};
+	stepanim = undefined;
+	
+	static set_stepanim = function(func){ stepanim = func; }
+	
+	static run_animstep = function(){
+		if (is_method(stepanim)){
+			stepanim(self, create_trigger_once.char);
+			if (create_trigger_once.char){
+				create_trigger_once.char = false;
+			}
+		}
+	}
 	
 	static get_char = function(){ return char; }
 	
 	static get_pos = function(){ return pos; }
 	
 	static get_scale = function(){ return scale; }
+	
+	static get_offset_user = function(){ return offset_user; }
 	
 	static get_offset = function(){ return offset; }
 	static set_offset = function(_value){ offset = _value; }
@@ -323,6 +352,14 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	static get_color = function(){ return color; }
 	
 	static get_font = function(){ return font; }
+	
+	static createtrigger = function(){
+		if (create_trigger_once.typer){
+			create_trigger_once.typer = false;
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

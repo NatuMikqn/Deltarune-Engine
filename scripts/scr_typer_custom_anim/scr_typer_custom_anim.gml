@@ -8,7 +8,17 @@ function typewriter_custom_anim()
 {
 	with(obj_typewriter_manager){
 		
+		//function (charData, [anything], ...)
 		typewriter_add_anim(TCANIM.CREATE, "template", function (_chardata){
+			with(_chardata){
+				
+				//anything here...
+				
+			}
+		})
+		
+		//function (charData, createTrigger, [anything], ...)
+		typewriter_add_anim(TCANIM.STEP, "template", function (_chardata, _once){
 			with(_chardata){
 				
 				//anything here...
@@ -21,8 +31,7 @@ function typewriter_custom_anim()
 				
 				var _rand = [1 - irandom(1) * 2, 1 - irandom(1) * 2]
 				var _eb = new EasingBuilder(method({char: _chardata, _rand}, function (_v) {
-					char.offset.x = _v * _rand[0];
-					char.offset.y = _v * _rand[1];
+					char.set_offset(_v * _rand[0], _v * _rand[1]);
 				}))
 				_eb.start(12).add_step(3, 1, 60, 0).set_target(true).build();
 				
@@ -35,13 +44,18 @@ function typewriter_custom_anim()
 			
 		})
 		
-		typewriter_add_anim(TCANIM.STEP, "shake", function (_chardata){
+		typewriter_add_anim(TCANIM.STEP, "shiftshake", function (_chardata, _once, _chance, _power){
 			with(_chardata){
-				
-				if (chance(5)){
-					
+				if (_once){
+					offset_user[0] = new Vector2();
 				}
-				
+				if ((get_worldtimer() % 2) == 0){
+					if (chance(5)){
+						offset_user[0].set(irandom_range(-1, 1), irandom_range(-1, 1))
+					}else{
+						offset_user[0].set(0, 0)
+					}
+				}
 			}
 		})
 		

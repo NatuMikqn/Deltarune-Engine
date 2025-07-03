@@ -3,8 +3,7 @@
 ///@arg {Real} type TCANIM.?
 ///@arg {String} name animationName
 ///@arg {Function} func method
-///@arg {Real} sleeptime 1 -> 30fps
-function typewriter_add_anim(_type, _name, _func, _sleeptime = 0)
+function typewriter_add_anim(_type, _name, _func)
 {
 	var _animtype = "";
 	switch (_type) {
@@ -18,5 +17,5 @@ function typewriter_add_anim(_type, _name, _func, _sleeptime = 0)
 		default:
 			throw "unknown animtype"
 	}
-	obj_typewriter_manager.anim_list[$ _animtype][$ _name] = [_func, _sleeptime];
+	obj_typewriter_manager.anim_list[$ _animtype][$ _name] = _func;
 }
