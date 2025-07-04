@@ -114,6 +114,7 @@ function EasingBuilder(_method) : Easing() constructor{
 	
 	//TODO: pauseは廃止予定
 	///global.pauseを無視するかどうか
+	///doesn't work!! 機能しません！！
 	///@return {Struct.EasingBuilder}
 	///@deprecated
 	static set_ignore = function(_enable){

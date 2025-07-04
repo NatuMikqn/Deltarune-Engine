@@ -8,7 +8,8 @@ function TyperCustomFont() constructor
 	
 	spacing = {
 		char : [],
-		line : []
+		line : [],
+		space : []
 	};
 	
 	globalmode = false;
@@ -112,6 +113,13 @@ function TCFontData(_self) : TyperCustomFont() constructor
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
 	static get_sp_line = function (_lang = lang_get()) {
+		return spacing.line[_lang];
+	}
+	
+	///空白文字用の字間を返します
+	///@arg {Real} lang default : lang_get()
+	///@return {Real}
+	static get_sp_space = function (_lang = lang_get()) {
 		return spacing.line[_lang];
 	}
 	

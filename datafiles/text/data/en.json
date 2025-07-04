@@ -4,5 +4,5 @@
     "l10n.test.2" : "<mtt true><speed 18>HELLOW ABCD EFF<color red>FF<pause>[l10n.test.3]",
     "l10n.test.3" : "FF GGAK<mtt false><color #46d652><speed 3>1234",
     "setting.lang" : "English",
-    "battle.test.dialog.encounter" : "* It is known.<newline><sleep 60><anim create test><anim step circle 4 4 2 -2>That is test message. <sleep 30><anim step><anim twstep shake 69 100><anim create>testtestSHAKESHAKESHAKE<anim twstep><newline>sleep"
+    "battle.test.dialog.encounter" : "* It is known.<newline><sleep 60><anim step circle 4 4 8 -8>That is test message. <sleep 30><anim step><anim twstep shake 69 100>testtestSHAKESHAKESHAKE<anim twstep><newline><anim create test>abcdefghijklmn"
 }

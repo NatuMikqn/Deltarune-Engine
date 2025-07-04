@@ -78,7 +78,7 @@ function typewriter_custom_anim()
 			}
 		})
 		
-		typewriter_add_animstep("circle", function (_chardata, _once, _xlen = 2, _ylen = 2, _xspd = 2, _yspd = 2){
+		typewriter_add_animstep("circle", function (_chardata, _once, _xlen = 2, _ylen = 2, _xspd = 8, _yspd = 8){
 			with(_chardata){
 				if (_once){
 					//カスタムオフセット値の登録

@@ -84,6 +84,7 @@ function TextData() constructor{
 		
 		do {
 			pos++
+			if (string_length(text) < pos) throw "Missing closing \"" + string(_cmdchars[1]) + "\""
 			_char = string_char_at(text, pos);
 			if (_nest == 0 && (_char == " " || _char == _cmdchars[1])){
 				//float check

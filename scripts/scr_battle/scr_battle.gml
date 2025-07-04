@@ -145,7 +145,7 @@ function battle_show_dialog(_skipped){
 	with (obj_battle){
 		if (!typewriter_exists("DialogText")){
 			new TypeWriterBuilder(30, 376, "<scale 2><interact false><skippable false>[battle.test.dialog.encounter]") 
-				.set_gui(true)
+				.set_surface(battle_get_surface())
 				.set_tag("DialogText")
 				.build();
 		}

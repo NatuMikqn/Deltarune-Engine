@@ -3,6 +3,9 @@ enum ITEM{
     NOODLES
 }
 
+
+//TODO: Overhaul it
+
 function item_custom(){
 	var _db = item_get_database(),
 	    _i;

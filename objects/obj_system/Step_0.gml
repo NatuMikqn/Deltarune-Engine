@@ -21,7 +21,7 @@ if (keyboard_check_pressed(vk_f4))
 
 if (keyboard_check_pressed(vk_f5) && is_test())
 {
-	new TypeWriterBuilder(20, 20, "[l10n.test.0]").set_gui(true).build();
+	new TypeWriterBuilder(20, 20, "[battle.test.dialog.encounter]").set_gui(true).build();
 }
 
 if (keyboard_check_pressed(vk_f6) && is_test())

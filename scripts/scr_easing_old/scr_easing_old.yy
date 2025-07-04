@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_easing_old",
   "parent":{
-    "name":"util",
-    "path":"folders/Scripts/util.yy",
+    "name":"easing",
+    "path":"folders/Scripts/util/easing.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

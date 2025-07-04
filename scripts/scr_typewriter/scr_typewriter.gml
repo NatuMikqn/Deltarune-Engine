@@ -36,7 +36,7 @@ function TypeWriter() constructor{
 	tag = "";
 	//描画系
 	gui = false;
-	surface = -1;
+	surface = undefined;
 	//文字が生成されたタイミング
 	//TODO: スキップを考慮
 	chartimer = 0;
@@ -50,12 +50,24 @@ function TypeWriter() constructor{
 	}
 	
 	///描画対象となるsurfaceを設定する
-	///-1で指定しない
 	///@arg {Id.Surface} surface_id
 	///@return {Struct.TypeWriterBuilder}
 	static set_surface = function(_surface){
 		surface = _surface;
 		return self;
+	}
+	
+	///GUI描画は有効かどうか
+	///@arg {Bool} enable
+	///@return {Bool}
+	static is_gui = function(){
+		return gui;
+	}
+	
+	///指定されたターゲットSurfaceを返す
+	///@return {Id.Surface}
+	static get_surface = function(){
+		return surface;
 	}
 	
 	///初期フォントを指定
@@ -294,6 +306,11 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	///描画
 	static draw = function(){
 		var _pos, _scale, _offset, _color, _alpha;
+		var _surfacemode = !is_undefined(get_surface());
+		if (_surfacemode){
+			surface_set_target(get_surface())
+		}
+		
 		for (var i = 0; i < array_length(chars); i++) {
 			with(chars[i]){
 				draw_set_font(get_font())
@@ -313,6 +330,10 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 					_color[0], _color[1], _color[2], _color[3], _alpha
 				);
 			}
+		}
+		
+		if (_surfacemode){
+			surface_reset_target()
 		}
 	}
 }
