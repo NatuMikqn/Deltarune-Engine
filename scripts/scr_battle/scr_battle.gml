@@ -35,7 +35,7 @@ function battle_next_char(_icon){
 		with(obj_battle_ui) event_user(1)
 		if charturn >= array_length(team_get()){
 			battle_tension_clear_history()
-			typewriter_delete("DialogText")
+			instance_destroy(dialogtext)
 			battle_set_state(BATTLE_STATE.ENEMY_TALK)
 		}else{
 			battle_show_dialog(true);
@@ -135,6 +135,10 @@ function battle_get_surface(){
 	return -1;
 }
 
+function battle_get_surface_varname(){
+	return "srf_battle";
+}
+
 ///ターンダイアログを設定します
 ///@arg {string} dialog
 function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
@@ -143,9 +147,10 @@ function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 ///@arg {bool} skipped
 function battle_show_dialog(_skipped){
 	with (obj_battle){
-		if (!typewriter_exists("DialogText")){
-			new TypeWriterBuilder(30, 376, "<scale 2><interact false><skippable false>[battle.test.dialog.encounter]") 
-				.set_surface(battle_get_surface())
+		if (!instance_exists(dialogtext)){
+			dialogtext = new TypeWriterBuilder(30, 376, "<scale 2><interact false><skippable false>[battle.test.dialog.encounter]") 
+				.set_depth(DEPTH.UI - 1)
+				.set_surface(obj_battle, battle_get_surface_varname())
 				.set_tag("DialogText")
 				.build();
 		}

@@ -21,5 +21,6 @@ if (limit){
 	_pos.y = clamp(_pos.y, 0, room_height-_size.y)
 }
 camera_set_view_pos(camera, _pos.x, _pos.y);
+viewpos.set(_pos);
 camera_set_view_size(camera, _size.x * scale.x, _size.y * scale.y);
 camera_set_view_angle(camera, angle);

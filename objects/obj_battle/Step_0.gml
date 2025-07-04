@@ -70,7 +70,7 @@ if (state == BATTLE_STATE.MYTURN){
 }
 //敵メッセージ時
 if (state == BATTLE_STATE.ENEMY_TALK){
-	if (true || !instance_exists(obj_typewriter_manager)){
+	if (true || !instance_exists(obj_typewriter_object)){
 		battle_set_state(BATTLE_STATE.ENEMY_IN)
 	}
 }

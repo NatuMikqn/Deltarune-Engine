@@ -1,5 +1,5 @@
-
-global_init()
+window_enable_borderless_fullscreen(true);
+global_init();
 
 instance_create_depth(0, 0, 0, obj_camera)
 instance_create_depth(0, 0, 0, obj_typewriter_manager)

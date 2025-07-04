@@ -52,7 +52,7 @@ function typewriter_custom_cmd(_self, _data)
 				break;
 			
 			case "clear":
-				pos.set(startpos);
+				pos.zero();
 				chars = [];
 				break;
 			

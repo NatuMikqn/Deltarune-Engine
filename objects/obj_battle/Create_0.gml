@@ -1,8 +1,10 @@
-
 depth = DEPTH.BATTLE_BG
+
 instance_create_depth(0, 0, DEPTH.UI, obj_battle_ui)
 instance_create_depth(320, 180, DEPTH.BOARD, obj_battle_board)
 instance_create_depth(320, 200, DEPTH.SOULS, obj_battle_soul_red)
+
+dialogtext = noone;
 
 var _team = team_get(),
 	_obj, _pos, _inst
@@ -35,7 +37,7 @@ battle_enemy_ids = [];
 for (var i=0;i<team_get_count();i++){
 	_obj = _team[i].get_obj_battle()
 	_pos = _team[i].get_position_encounter()
-	_inst = instance_create_depth(_pos.x - obj_camera.x, _pos.y - obj_camera.y, DEPTH.BT_CHAR-i, _obj)
+	_inst = instance_create_depth(_pos.x - obj_camera.viewpos.x, _pos.y - obj_camera.viewpos.y, DEPTH.BT_CHAR-i, _obj)
 	_inst.char = i;
 	_inst.color = _team[i].get_color()
 	array_push(battle_char_ids, _inst);

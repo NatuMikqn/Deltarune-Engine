@@ -22,7 +22,7 @@
     {
         "parentname": "default",
         "lang": "zh",
-        "font": "./ttf/方正像素12.ttf",
+        "font": "./ttf/FZXS12.ttf",
         "size": 9,
         "range": {
             "first": 32,

@@ -12,3 +12,5 @@ camera = camera_create()
 
 target = noone;
 limit = true;
+
+viewpos = new Vector2();

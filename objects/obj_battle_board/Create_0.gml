@@ -6,6 +6,7 @@ data = {};
 original_list = [];
 list = [];
 
+
 board_create_rectangle("main", 320, 200, 75, 75, 75, 75, 0, 0)
 
 board_update();
@@ -24,6 +25,8 @@ timer = 0;
 width = 4;
 
 boardanim_speed = 30;
+
+srf_clipping = -1;
 
 ///@arg {Struct} data
 ///@arg {Real} alpha

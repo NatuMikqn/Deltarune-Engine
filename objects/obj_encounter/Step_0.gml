@@ -32,7 +32,7 @@ if (timer == 0){
 		var _i=instance_create_depth(0, 0, 0, obj_battle);
 		_i.music = _data.get_music();
 		battle_set_dialog(_data.get_dialog());
-		event_user(0)		//anim
+		event_user(0)		//charcter_anim
 		
 		timer = 20;
 		step++;

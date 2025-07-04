@@ -1,8 +1,8 @@
 ///@ignore
-function TypeWriter() constructor{
+function TypeWriter() constructor
+{
 	//文字変数
 	pos = new Vector2();
-	startpos = new Vector2();
 	depth = 0;
 	textdata = [];
 	font = "default";
@@ -36,10 +36,10 @@ function TypeWriter() constructor{
 	tag = "";
 	//描画系
 	gui = false;
-	surface = undefined;
-	//文字が生成されたタイミング
-	//TODO: スキップを考慮
-	chartimer = 0;
+	surface = {
+		inst : noone,
+		name : ""
+	};
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
@@ -50,10 +50,12 @@ function TypeWriter() constructor{
 	}
 	
 	///描画対象となるsurfaceを設定する
-	///@arg {Id.Surface} surface_id
+	///@arg {Id.Surface|Asset.GMObject} id
+	///@arg {String} variable_name
 	///@return {Struct.TypeWriterBuilder}
-	static set_surface = function(_surface){
-		surface = _surface;
+	static set_surface = function(_id, _name){
+		surface.inst = _id;
+		surface.name = _name;
 		return self;
 	}
 	
@@ -67,7 +69,11 @@ function TypeWriter() constructor{
 	///指定されたターゲットSurfaceを返す
 	///@return {Id.Surface}
 	static get_surface = function(){
-		return surface;
+		if (!instance_exists(surface.inst)) return -1;
+		if (!variable_instance_exists(surface.inst, surface.name)) return -1;
+		var _srf = variable_instance_get(surface.inst, surface.name);
+		if (!surface_exists(_srf)) return -1;
+		return _srf;
 	}
 	
 	///初期フォントを指定
@@ -107,28 +113,49 @@ function TypeWriter() constructor{
 ///@arg {Real} x
 ///@arg {Real} y
 ///@arg {String} text
-function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor{
-	pos.set(_x, _y);
-	startpos.set(_x, _y);
+function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
+{
+	obj_pos = new Vector2(_x, _y);
+	depth = 0;
+	
 	textdata = text_deserialize(_text);
+	
+	///@arg {Real} depth
+	///@return {Struct.TypeWriterBuilder}
+	static set_depth = function(_depth){
+		depth = _depth;
+		return self;
+	}
+	
+	///@arg {Real} x
+	///@arg {Real} y
+	///@return {Struct.TypeWriterBuilder}
+	static set_scale = function(x, y){
+		scale.set(x, y);
+		return self;
+	}
 	
 	///@arg {String} tag
 	///@return {Struct.TypeWriterBuilder}
+	///@deprecated
 	static set_tag = function(_tag){
 		tag = _tag;
 		return self;
 	}
 	
+	///@return {Id.Instance}
 	static build = function(){
 		var _data = new TypeWriterData(self);
-		array_push(obj_typewriter_manager.list, _data);
-		return _data;
+		var _inst = instance_create_depth(obj_pos.x, obj_pos.y, depth, obj_typewriter_object);
+		_inst.data = _data;
+		return _inst;
 	}
 }
 
 ///@ignore
 ///@arg {Struct.TypeWriterBuilder} type_writer_builder
-function TypeWriterData(_self) : TypeWriter() constructor{
+function TypeWriterData(_self) : TypeWriter() constructor
+{
 	
 	var _lists = variable_struct_get_names(self);
 	
@@ -151,6 +178,10 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	//メタトンのような文字送り
 	mtt_mode = false;
 	mtt_already_voice = false;
+	//文字が生成されたタイミング
+	chartimer = 0;
+	//スキップ時のタイマー考慮
+	latertimer = 0;
 	
 	///現在のテキストデータからl10nを実行
 	static l10n = function(){
@@ -180,6 +211,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	///スキップが開始できるならば、スキップをする
 	static start_skip = function(){
 		if (skippable && !paused) {
+			latertimer += sleep;
 			skipped = true;
 			sleep = 0;
 		}
@@ -197,6 +229,8 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		if (!skipped && (!mtt_mode || (mtt_mode && mtt_sleepcheck()))){
 			sleep += speed;
 			mtt_already_voice = false;
+		}else if (skipped){
+			latertimer += speed;
 		}
 	}
 	
@@ -205,6 +239,7 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		paused = true;
 		skipped = false;
 		mtt_already_voice = false;
+		latertimer = 0;
 	}
 	
 	///現在のテキストデータを取得
@@ -236,8 +271,8 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	
 	///改行を行う
 	static newline = function(){
-		//x位置を作成時のx位置に戻す
-		pos.x = startpos.x;
+		//x位置を0に戻す
+		pos.x = 0;
 		//y位置を"A"の縦幅 + 行間下げる
 		var _font = draw_get_font(),
 			_lang = globalmode ? 0 : lang;
@@ -258,7 +293,9 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 			_char = string_char_at(textdata[readstep].data, read),
 			_font = typewriter_font_get(font).get_font(_lang),
 			_data = new CharData(pos, _char, color, scale, alpha, _font);
-		
+		if (skipped){
+			_data.set_chartimer(-latertimer);
+		}
 		if (is_array(anim.charstep)){
 			_data.set_animfunc(anim.charstep[0]);
 			_data.set_animargs(anim_arg.charstep);
@@ -304,9 +341,11 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	}
 	
 	///描画
-	static draw = function(){
+	///@arg {Real} x
+	///@arg {Real} y
+	static draw = function(_x, _y){
 		var _pos, _scale, _offset, _color, _alpha;
-		var _surfacemode = !is_undefined(get_surface());
+		var _surfacemode = surface_exists(get_surface());
 		if (_surfacemode){
 			surface_set_target(get_surface())
 		}
@@ -320,11 +359,11 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 				_color = get_color();
 				_alpha = get_alpha();
 				
-				var _finalpos = _pos.copy().add(_offset),
+				var _finalpos = _pos.copy().add(_x, _y).add(_offset),
 					_offset_user = get_offset_user();
 				struct_foreach(_offset_user, method(_finalpos, function (_name, _value) {
-						add(_value)
-					}))
+					add(_value)
+				}))
 				
 				draw_text_transformed_color(_finalpos.x, _finalpos.y, get_char(), _scale.x, _scale.y, 0,
 					_color[0], _color[1], _color[2], _color[3], _alpha
@@ -344,7 +383,8 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 ///@arg {Struct.Vector2} scale
 ///@arg {Real} alpha
 ///@arg {Asset.GMFont} font
-function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() constructor{
+function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() constructor
+{
 	pos = _pos.copy();
 	char = _char;
 	color = _color;
@@ -411,7 +451,7 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	static get_offset_user = function(){ return offset_user; }
 	
 	static get_offset = function(){ return offset; }
-	static set_offset = function(_value){ offset = _value; }
+	static set_offset = function(_x, _y){ offset.set(_x, _y); }
 	
 	static get_alpha = function(){ return alpha; }
 	
@@ -419,6 +459,7 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	
 	static get_font = function(){ return font; }
 	
+	static set_chartimer = function(time){ chartimer = time; }
 	static add_chartimer = function(){ chartimer++; }
 	static get_chartimer = function(){ return chartimer; }
 	

@@ -1,7 +1,5 @@
 //TODO: DEPTH F**K
 
-list = [];
-
 font_list = {};
 anim_list = {
 	create : {},

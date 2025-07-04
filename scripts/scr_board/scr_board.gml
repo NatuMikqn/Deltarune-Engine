@@ -264,3 +264,11 @@ function board_delete_data(board_name){
 		struct_remove(data, board_name);
 	}
 }
+
+
+function battle_board_get_surface(){
+	if (instance_exists(obj_battle_board) && surface_exists(obj_battle_board.srf_clipping)){
+		return obj_battle_board.srf_clipping;
+	}
+	return -1;
+}

@@ -1,0 +1,1 @@
+if (surface_exists(srf_clipping)) surface_free(srf_clipping);
