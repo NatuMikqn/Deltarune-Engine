@@ -75,11 +75,8 @@ function TextData() constructor{
 	///@arg {String} text alltext
 	///@return {Array<Any>}
 	static get_data = function (pos, cmdchars, text) {
-		var _startpos = pos,
-			_cmd = [],
-			_str = "",
+		var _startpos = pos, _cmd = [], _str = "", _nest = 0,
 			_char = string_char_at(text, pos),
-			_nest = 0,
 			_cmdchars = [
 				string_char_at(cmdchars, 1),
 				string_char_at(cmdchars, 2)
@@ -89,6 +86,11 @@ function TextData() constructor{
 			pos++
 			_char = string_char_at(text, pos);
 			if (_nest == 0 && (_char == " " || _char == _cmdchars[1])){
+				//float check
+				if (string_is_real(_str))_str = real(string_real(_str));
+				//bool check
+				else if (string_is_bool(_str)) _str = bool(_str);
+				
 				array_push(_cmd, _str);
 				_str = "";
 			}else{

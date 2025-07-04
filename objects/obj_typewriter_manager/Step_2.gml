@@ -24,8 +24,9 @@ for (var i = 0; i < array_length(list); i++) {
 				if (_text.type == "cmd"){
 					typewriter_custom_cmd(self, _data);
 				}
-				
-				_text = next_step();
+				readstep++
+				if (is_end()) break;
+				_text = get_textdata();
 			}
 			
 			if (can_read()){

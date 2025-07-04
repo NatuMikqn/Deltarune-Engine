@@ -8,25 +8,37 @@ function typewriter_custom_anim()
 {
 	with(obj_typewriter_manager){
 		
+		/*
 		//function (charData, [anything], ...)
-		typewriter_add_anim(TCANIM.CREATE, "template", function (_chardata){
+		typewriter_add_animcreate("template", function (_chardata){
 			with(_chardata){
 				
+				//create function
 				//anything here...
 				
 			}
 		})
+		
 		
 		//function (charData, createTrigger, [anything], ...)
-		typewriter_add_anim(TCANIM.STEP, "template", function (_chardata, _once){
+		typewriter_add_animstep("template", function (_chardata, _once){
 			with(_chardata){
 				
+				//step function
+				//anything here...
+				
+			}
+		}, function (_chardata){
+			with(_chardata){
+				
+				//cleanup function
 				//anything here...
 				
 			}
 		})
+		*/
 		
-		typewriter_add_anim(TCANIM.CREATE, "test", function (_chardata){
+		typewriter_add_animcreate("test", function (_chardata){
 			with(_chardata){
 				
 				var _rand = [1 - irandom(1) * 2, 1 - irandom(1) * 2]
@@ -44,18 +56,43 @@ function typewriter_custom_anim()
 			
 		})
 		
-		typewriter_add_anim(TCANIM.STEP, "shiftshake", function (_chardata, _once, _chance, _power){
+		typewriter_add_animstep("shake", function (_chardata, _once, _power = 1, _chance = 1){
 			with(_chardata){
 				if (_once){
-					offset_user[0] = new Vector2();
+					//カスタムオフセット値の登録
+					offset_user.shake = new Vector2();
 				}
+				
 				if ((get_worldtimer() % 2) == 0){
-					if (chance(5)){
-						offset_user[0].set(irandom_range(-1, 1), irandom_range(-1, 1))
+					if (chance(_chance)){
+						offset_user.shake.set(irandom_range(-_power, _power), irandom_range(-_power, _power))
 					}else{
-						offset_user[0].set(0, 0)
+						offset_user.shake.set(0, 0)
 					}
 				}
+			}
+		}, function (_chardata){
+			with(_chardata){
+				//アニメーション終了時、カスタムオフセット値を0に戻す
+				if (struct_exists(offset_user, "shake")) offset_user.shake.zero();
+			}
+		})
+		
+		typewriter_add_animstep("circle", function (_chardata, _once, _xlen = 2, _ylen = 2, _xspd = 2, _yspd = 2){
+			with(_chardata){
+				if (_once){
+					//カスタムオフセット値の登録
+					offset_user.circle = new Vector2();
+				}
+				if ((get_worldtimer() % 2) == 0){
+					offset_user.circle.x = lengthdir_x(_xlen, get_chartimer() * _xspd);
+					offset_user.circle.y = lengthdir_y(_ylen, get_chartimer() * _yspd);
+				}
+			}
+		}, function (_chardata){
+			with(_chardata){
+				//アニメーション終了時、カスタムオフセット値を0に戻す
+				if (struct_exists(offset_user, "circle")) offset_user.circle.zero();
 			}
 		})
 		

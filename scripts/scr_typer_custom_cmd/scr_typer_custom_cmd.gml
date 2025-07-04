@@ -71,15 +71,34 @@ function typewriter_custom_cmd(_self, _data)
 				break;
 			
 			case "anim":
-				if (_data[1] == "create"){
-					anim.create = typewriter_anim_get(TCANIM.CREATE, _data[2]);
+				var _target = "";
+				var _type = "";
+				
+				if (_data[1] == "create"){ _target = "create"; _type = TCANIM.CREATE; }
+				else if (_data[1] == "step"){ _target = "charstep"; _type = TCANIM.STEP; }
+				else if (_data[1] == "twstep"){ _target = "typerstep"; _type = TCANIM.STEP; }
+				else break;
+				
+				if (array_length(_data) > 2){
+					anim[$ _target] = typewriter_anim_get(_type, _data[2]);
+					array_delete(_data, 0, 3);
+					anim_arg[$ _target] = _data;
+				}else{
+					//cleanupFunction
+					if (_target == "typerstep"){
+						var _func = anim[$ _target];
+						if (is_array(_func) && is_method(_func[1])){
+							array_foreach(chars, method({func : _func[1]}, function (_e) {
+								func(_e);
+							}))
+						}
+					}
+					anim[$ _target] = undefined;
+					anim_arg[$ _target] = [];
 				}
-				if (_data[1] == "step"){
-					anim.charstep = typewriter_anim_get(TCANIM.STEP, _data[2]);
-				}
-				if (_data[1] == "twstep"){
-					anim.step = typewriter_anim_get(TCANIM.STEP, _data[2]);
-				}
+				
+				break;
+			case "a":
 				
 				break;
 		}

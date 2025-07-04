@@ -15,8 +15,13 @@ function TypeWriter() constructor{
 	
 	anim = {
 		create: undefined,
-		step: undefined,
+		typerstep: undefined,
 		charstep: undefined
+	}
+	anim_arg = {
+		create: [],
+		typerstep: [],
+		charstep: []
 	}
 	
 	//声
@@ -32,6 +37,9 @@ function TypeWriter() constructor{
 	//描画系
 	gui = false;
 	surface = -1;
+	//文字が生成されたタイミング
+	//TODO: スキップを考慮
+	chartimer = 0;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
@@ -199,13 +207,6 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 		return (array_length(textdata) <= readstep);
 	}
 	
-	///ステップを進め、次のテキストデータを読み取る
-	///@return {Struct.TextData}
-	static next_step = function(){
-		readstep++
-		return get_textdata();
-	}
-	
 	///今の文字は空白であるかどうか
 	///@return {Bool}
 	///@pure
@@ -245,9 +246,16 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 			_char = string_char_at(textdata[readstep].data, read),
 			_font = typewriter_font_get(font).get_font(_lang),
 			_data = new CharData(pos, _char, color, scale, alpha, _font);
-		_data.set_stepanim(anim.charstep);
 		
-		if (is_method(anim.create)) anim.create(_data);
+		if (is_array(anim.charstep)){
+			_data.set_animfunc(anim.charstep[0]);
+			_data.set_animargs(anim_arg.charstep);
+		}
+		
+		//Create Function
+		if (is_array(anim.create)) {
+			_data.run_animcreate(anim.create[0], anim_arg.create)
+		}
 		
 		//x位置を_charの横幅 + 字間進める
 		var _w = typewriter_font_get(font).get_sp_char(_lang);
@@ -271,35 +279,40 @@ function TypeWriterData(_self) : TypeWriter() constructor{
 	
 	///ステップ
 	static step = function(){
-		var _chardata;
+		var _cd;
 		for (var i = 0; i < array_length(chars); i++) {
-			_chardata = chars[i];
-			if (is_method(anim.step)) anim.step(_chardata, _chardata.createtrigger());
-			_chardata.run_animstep();
+			_cd = chars[i];
+			//TyperStep Function
+			if (is_array(anim.typerstep)) _cd.run_twanimstep(anim.typerstep[0], anim_arg.typerstep);
+			//CharStep Function
+			_cd.run_animstep();
+			
+			_cd.add_chartimer()
 		}
 	}
 	
 	///描画
 	static draw = function(){
-		var _chardata, _pos, _scale, _offset, _color, _alpha;
+		var _pos, _scale, _offset, _color, _alpha;
 		for (var i = 0; i < array_length(chars); i++) {
-			_chardata = chars[i];
-			draw_set_font(_chardata.get_font())
-			_pos = _chardata.get_pos();
-			_scale = _chardata.get_scale();
-			_offset = _chardata.get_offset();
-			_color = _chardata.get_color();
-			_alpha = _chardata.get_alpha();
-			
-			var _finalpos = _pos.copy().add(_offset),
-				_offset_user = _chardata.get_offset_user();
-			for (var j = 0; j < array_length(_offset_user); j++) {
-				_finalpos.add(_offset_user[j])
+			with(chars[i]){
+				draw_set_font(get_font())
+				_pos = get_pos();
+				_scale = get_scale();
+				_offset = get_offset();
+				_color = get_color();
+				_alpha = get_alpha();
+				
+				var _finalpos = _pos.copy().add(_offset),
+					_offset_user = get_offset_user();
+				struct_foreach(_offset_user, method(_finalpos, function (_name, _value) {
+						add(_value)
+					}))
+				
+				draw_text_transformed_color(_finalpos.x, _finalpos.y, get_char(), _scale.x, _scale.y, 0,
+					_color[0], _color[1], _color[2], _color[3], _alpha
+				);
 			}
-			
-			draw_text_transformed_color(_finalpos.x, _finalpos.y, _chardata.get_char(), _scale.x, _scale.y, 0,
-				_color[0], _color[1], _color[2], _color[3], _alpha
-			);
 		}
 	}
 }
@@ -318,21 +331,52 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	alpha = _alpha;
 	font = _font;
 	offset = new Vector2();
-	offset_user = [];
+	offset_user = {};
 	create_trigger_once = {
 		char : true,
 		typer : true
 	};
-	stepanim = undefined;
+	anim = {
+		func : undefined,
+		args : []
+	}
+	chartimer = 0;
 	
-	static set_stepanim = function(func){ stepanim = func; }
+	///@arg {Function} func
+	static set_animfunc = function(func){
+		anim.func = func;
+		create_trigger_once.char = true;
+	}
+	///@arg {Array} args
+	static set_animargs = function(args){ anim.args = args; }
+	
+	///@arg {Function} func
+	///@arg {Array} args
+	static run_animcreate = function(func, args){
+		var _args = array_concat([self], args);
+		method_call(func, _args);
+	}
 	
 	static run_animstep = function(){
-		if (is_method(stepanim)){
-			stepanim(self, create_trigger_once.char);
-			if (create_trigger_once.char){
-				create_trigger_once.char = false;
-			}
+		if (!is_method(anim.func)) return;
+		run_sys_animstep(anim.func, anim.args, "char")
+	}
+	
+	///@arg {Function} func
+	///@arg {Array} args
+	static run_twanimstep = function(func, args){
+		run_sys_animstep(func, args, "typer")
+	}
+	
+	///@arg {Function} func
+	///@arg {Array} args
+	///@arg {String} oncename
+	///@ignore
+	static run_sys_animstep = function(func, args, oncename){
+		var _args = array_concat([self, create_trigger_once[$ oncename]], args);
+		method_call(func, _args);
+		if (create_trigger_once[$ oncename]){
+			create_trigger_once[$ oncename] = false;
 		}
 	}
 	
@@ -342,6 +386,7 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	
 	static get_scale = function(){ return scale; }
 	
+	///@return {Struct<Struct.Vector2>}
 	static get_offset_user = function(){ return offset_user; }
 	
 	static get_offset = function(){ return offset; }
@@ -353,13 +398,8 @@ function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() con
 	
 	static get_font = function(){ return font; }
 	
-	static createtrigger = function(){
-		if (create_trigger_once.typer){
-			create_trigger_once.typer = false;
-			return true;
-		}
-		return false;
-	}
+	static add_chartimer = function(){ chartimer++; }
+	static get_chartimer = function(){ return chartimer; }
 	
 	
 }

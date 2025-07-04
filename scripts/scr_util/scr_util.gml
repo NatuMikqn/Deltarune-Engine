@@ -1,6 +1,7 @@
 
 ///@arg {bool} enable
-function alphafix(_bool){
+function alphafix(_bool)
+{
 	if _bool	gpu_set_blendmode_ext_sepalpha(bm_src_alpha,bm_inv_src_alpha,bm_one,bm_one);
 	else		gpu_set_blendmode(bm_normal);
 }
@@ -8,7 +9,8 @@ function alphafix(_bool){
 ///@arg {real} x
 ///@arg {real} y
 ///@arg {real} string
-function draw_text_shadow(_x,_y,_string){
+function draw_text_shadow(_x,_y,_string)
+{
 	draw_text_transformed_shadow(_x,_y,_string,1,1,0)
 }
 
@@ -18,7 +20,8 @@ function draw_text_shadow(_x,_y,_string){
 ///@arg {real} xscale
 ///@arg {real} yscale
 ///@arg {real} angle
-function draw_text_transformed_shadow(_x,_y,_string,_xscale,_yscale,_angle){
+function draw_text_transformed_shadow(_x,_y,_string,_xscale,_yscale,_angle)
+{
 	var _color = draw_get_color()
 	draw_set_color(c_black)
 	draw_text_transformed(_x+_xscale,_y+_yscale,_string,_xscale,_yscale,_angle)
@@ -32,13 +35,13 @@ function draw_text_transformed_shadow(_x,_y,_string,_xscale,_yscale,_angle){
 ///@arg {real} xscale
 ///@arg {real} yscale
 ///@arg {real} angle
-function draw_text_transformed_outline(_x,_y,_string,_xscale,_yscale,_angle){
+function draw_text_transformed_outline(_x,_y,_string,_xscale,_yscale,_angle)
+{
 	var _color = draw_get_color()
 	draw_set_color(c_black)
 	for(var i=0;i<9;i++){
-		if i != 4{
-			draw_text_transformed(_x+((i%3)-1)*_xscale,_y+(floor(i/3)-1)*_yscale,_string,_xscale,_yscale,_angle)
-		}
+		if (i != 4) continue;
+		draw_text_transformed(_x+((i%3)-1)*_xscale,_y+(floor(i/3)-1)*_yscale,_string,_xscale,_yscale,_angle);
 	}
 	draw_set_color(_color)
 	draw_text_transformed(_x,_y,_string,_xscale,_yscale,_angle)
@@ -47,7 +50,8 @@ function draw_text_transformed_outline(_x,_y,_string,_xscale,_yscale,_angle){
 ///@arg {Asset.GMSprite} sprite
 ///@arg {real} subimg
 ///@return {real}
-function sprtex_get_width(_sprite,_subimg){
+function sprtex_get_width(_sprite,_subimg)
+{
 	var _uvs = sprite_get_uvs(_sprite, _subimg);
 	var _tex = sprite_get_texture(_sprite, _subimg);
 	var _tw = texture_get_texel_width(_tex);
@@ -58,7 +62,8 @@ function sprtex_get_width(_sprite,_subimg){
 ///@arg {Asset.GMSprite} sprite
 ///@arg {real} subimg
 ///@return {real}
-function sprtex_get_height(_sprite,_subimg){
+function sprtex_get_height(_sprite,_subimg)
+{
 	var _uvs = sprite_get_uvs(_sprite, _subimg);
 	var _tex = sprite_get_texture(_sprite, _subimg);
 	var _th = texture_get_texel_height(_tex);
@@ -70,7 +75,8 @@ function sprtex_get_height(_sprite,_subimg){
 /// [ 3, 4, 5 ]
 /// [ 6, 7, 8 ]
 ///@arg {real} align 入れるべき値はこの関数の説明を参照してください
-function draw_set_align(_a){
+function draw_set_align(_a)
+{
 	var _h = [fa_left, fa_center, fa_right]
 	var _v = [fa_top, fa_middle, fa_bottom]
 	draw_set_halign(_h[_a % 3])
@@ -84,7 +90,8 @@ function draw_set_align(_a){
 ///@arg {real} r1 ある範囲までのx~
 ///@arg {real} r2 ある範囲までの~x
 ///@pure
-function map_value(_value, _s1, _s2, _r1, _r2){
+function map_value(_value, _s1, _s2, _r1, _r2)
+{
 	var _a = (_value - _s1) / (_s2 - _s1);
 	return lerp(_r1, _r2, _a)
 }
@@ -92,7 +99,8 @@ function map_value(_value, _s1, _s2, _r1, _r2){
 ///@desc draw_set_colorとdraw_set_alphaを合わせたものです
 ///@arg {Constant.Color} color
 ///@arg {Real} alpha
-function draw_set_ca(_color = c_white,_alpha = 1){
+function draw_set_ca(_color = c_white,_alpha = 1)
+{
 	draw_set_color(_color)
 	draw_set_alpha(_alpha)
 }
@@ -101,7 +109,8 @@ function draw_set_ca(_color = c_white,_alpha = 1){
 ///@arg {array} array
 ///@return {bool}
 ///@pure
-function array_empty(_array){
+function array_empty(_array)
+{
 	return (array_length(_array) == 0)
 }
 
@@ -109,7 +118,8 @@ function array_empty(_array){
 ///@arg {real} percent
 ///@return {bool}
 ///@pure
-function chance(_p){
+function chance(_p)
+{
 	return (random(1) < (_p / 100))
 }
 
@@ -117,7 +127,8 @@ function chance(_p){
 ///@arg {real} value
 ///@return {bool}
 ///@pure
-function array_exists(_array, _value){
+function array_exists(_array, _value)
+{
 	return (array_length(_array) > _value) && (!is_undefined(_array[_value]))
 }
 
@@ -125,7 +136,8 @@ function array_exists(_array, _value){
 ///@arg {Asset.GMObject} object
 ///@return {bool}
 ///@pure
-function instance_parent_equals(_id, _object){
+function instance_parent_equals(_id, _object)
+{
 	if (_id.object_index == _object)						return true;
 	if (object_get_parent(_id.object_index) == _object)		return true;
 	
@@ -135,7 +147,8 @@ function instance_parent_equals(_id, _object){
 ///@arg {String} char
 ///@arg {String} search
 ///@return {Bool}
-function string_char_contains(char, search){
+function string_char_contains(char, search)
+{
 	var _char;
 	for (var i = 1; i <= string_length(search); i++) {
 		_char = string_char_at(search, i);
@@ -151,14 +164,16 @@ function string_char_contains(char, search){
 ///@arg {Real} b まで
 ///@return {Bool} 含まれているかどうか
 ///@pure
-function in_range(_x, _a, _b){
+function in_range(_x, _a, _b)
+{
 	return (_a <= _x) && (_x <= _b);
 }
 
 ///画面サイズを設定します
 ///@arg {Real} width
 ///@arg {Real} height
-function screen_size(_w, _h){
+function screen_size(_w, _h)
+{
 	window_set_size(_w, _h)
 	surface_resize(application_surface, _w, _h)
 	window_center()
@@ -167,8 +182,8 @@ function screen_size(_w, _h){
 ///JSONを読み込み、ネストされた配列構造体を返します
 ///@arg {String} path
 ///@return {Any}
-function json_load(_path){
-	
+function json_load(_path)
+{
 	var _file = file_text_open_read(_path)
 	var _json = "";
 		while (!file_text_eof(_file)){
@@ -180,4 +195,51 @@ function json_load(_path){
 	file_text_close(_file);
 	
 	return _return;
+}
+
+///文字列に特定の文字が含まれているかどうか
+///@arg {String} string
+///@arg {String} chars
+///@return {Bool}
+function string_contains(str, chars)
+{
+	var _char = "";
+	for (var i = 0; i < string_length(str); i++) {
+		_char = string_char_at(str, i + 1)
+		for (var j = 0; j < string_length(chars); j++) {
+			if (_char == string_char_at(chars, j + 1)) return true;
+		}
+	}
+	return false;
+}
+
+///文字列からReal以外の文字を削除します
+///@arg {String} str
+///@return {String}
+function string_real(str)
+{
+	var _newstr = "";
+	var _char = "";
+	for (var i = 0; i < string_length(str); i++) {
+		_char = string_char_at(str, i + 1)
+		if (string_contains(_char, "0123456789-.")) _newstr += _char;
+	}
+	return _newstr;
+}
+
+///文字列はreal値になりえるかどうか
+///@arg {String} str
+///@return {Bool}
+function string_is_real(str)
+{
+	return (string_real(str) == str);
+}
+
+///文字列はbool値になりえるかどうか
+///@arg {String} str
+///@return {Bool}
+function string_is_bool(str)
+{
+	var _str = string_lower(str)
+	return (str == "true" || str == "false" || str == "1" || str == "0");
 }
