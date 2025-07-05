@@ -274,16 +274,14 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		//x位置を0に戻す
 		pos.x = 0;
 		//y位置を"A"の縦幅 + 行間下げる
-		var _font = draw_get_font(),
+		var _font = typewriter_font_get(font),
 			_lang = globalmode ? 0 : lang;
 		
-		var _h = typewriter_font_get(font).get_sp_line(_lang);
-		draw_set_font(typewriter_font_get(font).get_font(_lang));
+		var _h = _font.get_sp_line(_lang);
+		draw_set_font(_font.get_font(_lang));
 		_h += string_height("A") * scale.y;
 		
 		pos.y += _h;
-		
-		draw_set_font(_font)
 	}
 	
 	///文字データを追加
@@ -291,8 +289,8 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		read++;
 		var _lang = globalmode ? 0 : lang,
 			_char = string_char_at(textdata[readstep].data, read),
-			_font = typewriter_font_get(font).get_font(_lang),
-			_data = new CharData(pos, _char, color, scale, alpha, _font);
+			_font = typewriter_font_get(font),
+			_data = new CharData(pos, _char, color, scale, alpha, _font.get_font(_lang));
 		if (skipped){
 			_data.set_chartimer(-latertimer);
 		}
@@ -307,9 +305,16 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		}
 		
 		//x位置を_charの横幅 + 字間進める
-		var _w = typewriter_font_get(font).get_sp_char(_lang);
-		draw_set_font(_font);
-		_w += string_width(_char) * scale.x;
+		var _w = scale.x;
+		if (array_contains(_font.get_space(_lang), _char)){
+			_w *= _font.get_sp_space(_lang);
+		}else{
+			draw_set_font(_font.get_font(_lang));
+			_w *= string_width(_char);
+		}
+		_w += _font.get_sp_char(_lang);
+		
+		
 		
 		pos.x += _w;
 		

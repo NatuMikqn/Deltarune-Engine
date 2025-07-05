@@ -8,8 +8,12 @@ function TyperCustomFont() constructor
 	
 	spacing = {
 		char : [],
-		line : [],
-		space : []
+		line : []
+	};
+	width = {
+		char : [],
+		space : [],
+		asterisk: []
 	};
 	
 	globalmode = false;
@@ -41,6 +45,7 @@ function TCFontBuilder(_tag, _font) : TyperCustomFont() constructor
 		if (!globalmode) lang = _lang;
 		return self;
 	}
+	
 	///字間設定
 	///@arg {Real} spacing
 	///@return {Struct.TCFontBuilder}
@@ -55,11 +60,25 @@ function TCFontBuilder(_tag, _font) : TyperCustomFont() constructor
 		spacing.line[lang] = _s;
 		return self;
 	}
-	///スペース文字の字間設定
+	///基本文字の文字幅設定
 	///@arg {Real} spacing
 	///@return {Struct.TCFontBuilder}
-	static set_sp_space = function (_s){
-		spacing.space[lang] = _s;
+	static set_w_char = function (_s){
+		width.char[lang] = _s;
+		return self;
+	}
+	///スペース文字の文字幅設定
+	///@arg {Real} spacing
+	///@return {Struct.TCFontBuilder}
+	static set_w_space = function (_s){
+		width.space[lang] = _s;
+		return self;
+	}
+	///アスタリスク文字の文字幅設定
+	///@arg {Real} spacing
+	///@return {Struct.TCFontBuilder}
+	static set_w_asterisk = function (_s){
+		width.asterisk[lang] = _s;
 		return self;
 	}
 	
@@ -70,7 +89,6 @@ function TCFontBuilder(_tag, _font) : TyperCustomFont() constructor
 		asterisk[lang] = _al;
 		return self;
 	}
-	
 	///空白文字の設定
 	///@arg {Array<String>} space_list
 	///@return {Struct.TCFontBuilder}
@@ -98,48 +116,44 @@ function TCFontData(_self) : TyperCustomFont() constructor
 	
 	///フォントを返します
 	///@return {Asset.GMFont}
-	static get_font = function (_lang = lang_get()) {
-		return l10n_get_font(font, _lang);
-	}
+	static get_font = function (_lang = lang_get()) { return l10n_get_font(font, _lang); }
 	
 	///字間を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_sp_char = function (_lang = lang_get()) {
-		return spacing.char[_lang];
-	}
-	
+	static get_sp_char = function (_lang = lang_get()) { return spacing.char[_lang]; }
 	///行間を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_sp_line = function (_lang = lang_get()) {
-		return spacing.line[_lang];
-	}
-	
-	///空白文字用の字間を返します
+	static get_sp_line = function (_lang = lang_get()) { return spacing.line[_lang]; }
+	///文字幅を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_sp_space = function (_lang = lang_get()) {
-		return spacing.line[_lang];
-	}
+	static get_w_char = function (_lang = lang_get()) { return width.char[_lang]; }
+	///空白文字用の文字幅を返します
+	///@arg {Real} lang default : lang_get()
+	///@return {Real}
+	static get_w_space = function (_lang = lang_get()) { return width.space[_lang]; }
+	///空白文字用の文字幅を返します
+	///@arg {Real} lang default : lang_get()
+	///@return {Real}
+	static get_w_asterisk = function (_lang = lang_get()) { return width.space[_lang]; }
 	
 	///アスタリスク文字のリストを返します
 	///@return {Array<String>}
-	static set_asterisk = function (_lang = lang_get()){
+	static get_asterisk = function (_lang = lang_get()){
 		if (_lang < array_length(asterisk)) return (asterisk[_lang] ?? asterisk[0]);
 		return asterisk[0];
 	}
 	
 	///空白文字のリストを返します
 	///@return {Array<String>}
-	static set_space = function (_lang = lang_get()){
+	static get_space = function (_lang = lang_get()){
 		if (_lang < array_length(space)) return (space[_lang] ?? space[0]);
 		return space[0];
 	}
 
 	///グローバグフォントかどうか
 	///@return {Bool}
-	static get_globalmode = function (){
-		return globalmode;
-	}
+	static get_globalmode = function (){ return globalmode; }
 }
