@@ -1,10 +1,6 @@
 window_enable_borderless_fullscreen(true);
 global_init();
 
-instance_create_depth(0, 0, 0, obj_camera)
-instance_create_depth(0, 0, 0, obj_typewriter_manager)
-instance_create_depth(0, 0, 0, obj_fps_viewer)
-
 easing_init()
 
 localization_init()
@@ -25,5 +21,9 @@ encounter_group()
 global.hpfont = font_add_sprite_ext(spr_font_small, "0123456789-+", false, 1)
 global.dmgfont = font_add_sprite_ext(spr_font_big, "0123456789-+%/", true, 0)
 
+instance_create_depth(0, 0, 0, obj_show_state);
+instance_create_depth(0, 0, 0, obj_camera);
+instance_create_depth(0, 0, 0, obj_typewriter_manager);
+instance_create_depth(0, 0, 0, obj_fps_viewer);
 
 room_goto(rm_area_test)

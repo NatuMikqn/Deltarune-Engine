@@ -20,6 +20,6 @@ if (keyboard_check_pressed(vk_space)){
 		}
 		board_update();
 	}))
-	.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, 30, 1)
+	.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, 1, 30)
 	.build();
 }

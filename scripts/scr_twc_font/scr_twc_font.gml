@@ -118,26 +118,49 @@ function TCFontData(_self) : TyperCustomFont() constructor
 	///@return {Asset.GMFont}
 	static get_font = function (_lang = lang_get()) { return l10n_get_font(font, _lang); }
 	
+	///return spacing or width
+	///@arg {String} varname
+	///@arg {String} name
+	///@arg {Real} lang default : lang_get()
+	///@return {Any}
+	///@ignore
+	static get_spw_data = function (_var, _name, _lang) {
+		var _v = variable_struct_get(self, _var);
+		if (array_length(_v[$_name]) > _lang){
+			return _v[$_name][_lang];
+		}return undefined;
+	}
+	
 	///字間を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_sp_char = function (_lang = lang_get()) { return spacing.char[_lang]; }
+	static get_sp_char = function (_lang = lang_get()) {
+		return get_spw_data("spacing", "char", _lang);
+	}
 	///行間を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_sp_line = function (_lang = lang_get()) { return spacing.line[_lang]; }
+	static get_sp_line = function (_lang = lang_get()) {
+		return get_spw_data("spacing", "line", _lang);
+	}
 	///文字幅を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_w_char = function (_lang = lang_get()) { return width.char[_lang]; }
+	static get_w_char = function (_lang = lang_get()) {
+		return get_spw_data("width", "char", _lang);
+	}
 	///空白文字用の文字幅を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_w_space = function (_lang = lang_get()) { return width.space[_lang]; }
+	static get_w_space = function (_lang = lang_get()) {
+		return get_spw_data("width", "space", _lang);
+	}
 	///空白文字用の文字幅を返します
 	///@arg {Real} lang default : lang_get()
 	///@return {Real}
-	static get_w_asterisk = function (_lang = lang_get()) { return width.space[_lang]; }
+	static get_w_asterisk = function (_lang = lang_get()) {
+		return get_spw_data("width", "asterisk", _lang);
+	}
 	
 	///アスタリスク文字のリストを返します
 	///@return {Array<String>}

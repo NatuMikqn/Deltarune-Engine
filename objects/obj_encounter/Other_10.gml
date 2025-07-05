@@ -12,7 +12,7 @@ with(obj_battle_team){
 				id.x = x + (_pos.x - x) * _v
 				id.y = y + (_pos.y - y) * _v
 			}))
-			.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 20, 1)
+			.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 1, 20)
 			.build();
 	
 	new EasingBuilder(method(_val, function(_v){
@@ -20,6 +20,6 @@ with(obj_battle_team){
 					afterimage_create(id.x, id.y, id.depth + 1, id.sprite[id.sprite_anim], id.subimg, 2, 2).surface = battle_get_surface();
 				}
 			}))
-			.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 20, 1)
+			.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 1, 20)
 			.build();
 }

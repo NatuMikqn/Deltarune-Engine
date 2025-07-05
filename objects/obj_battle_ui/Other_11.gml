@@ -7,7 +7,7 @@ if (charturn_prev >= 0 && charturn_prev < array_length(team_get())){
 			}))
 			.set_target(true)
 			.start(charturn_anim[charturn_prev])
-			.add_step(EASING_TWEEN.QUART, EASING_EASE.OUT, 10, 0)
+			.add_step(EASING_TWEEN.QUART, EASING_EASE.OUT, 0, 10)
 			.set_tag("battle_ui_charturn_prev_change")
 			.build();
 	
@@ -22,7 +22,7 @@ if (_charturn >= 0 && _charturn < team_get_count()){
 			}))
 			.set_target(true)
 			.start(charturn_anim[_charturn])
-			.add_step(EASING_TWEEN.QUART, EASING_EASE.OUT, 10, 1)
+			.add_step(EASING_TWEEN.QUART, EASING_EASE.OUT, 1, 10)
 			.set_tag("battle_ui_charturn_change")
 			.build();
 	

@@ -151,6 +151,7 @@ function battle_show_dialog(_skipped){
 			dialogtext = new TypeWriterBuilder(30, 376, "<scale 2><interact false><skippable false>[battle.test.dialog.encounter]") 
 				.set_depth(DEPTH.UI - 1)
 				.set_surface(obj_battle, battle_get_surface_varname())
+				.enable_dialog(true)
 				.build();
 		}
 	}

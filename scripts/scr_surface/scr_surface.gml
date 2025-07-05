@@ -8,13 +8,16 @@ function surface_create_auto(){
 }
 
 ///@desc surfaceの初期化
-///@arg {String} surface
-function surface_check(_name){
+///@arg {String} surfacename
+///@arg {Real} x
+///@arg {Real} y
+function surface_check(_name, _w = surface_get_app_width(), _h = surface_get_app_height()){
+	//既に存在していればなにもしない
 	if (!variable_instance_exists(id, _name)) return;
 	var _srf = variable_instance_get(id, _name)
 	if (surface_exists(_srf)) return;
 	
-	var _surface = surface_create_auto();
+	var _surface = surface_create(_w, _h);
 	variable_instance_set(id, _name, _surface)
 }
 

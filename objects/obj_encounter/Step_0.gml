@@ -42,7 +42,7 @@ if (timer == 0){
 		new EasingBuilder(function (_v) {
 					//obj_battle.background_alpha = _v;
 				})
-				.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 20, 1)
+				.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 1, 20)
 				.build();
 		
 		audio_play_sound(snd_impact, 0, 0, 0.7)

@@ -14,7 +14,7 @@ function battle_tension_add(_add, _history = false){
 					}))
 					.set_target(true)
 					.start(tension)
-					.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 4, _m)
+					.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, _m, 4)
 					.set_tag("battle_ui_tension_anim")
 					.build();
 			
@@ -23,7 +23,7 @@ function battle_tension_add(_add, _history = false){
 					}))
 					.set_target(true)
 					.start(tension)
-					.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, 30, _m)
+					.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, _m, 30)
 					.set_tag("battle_ui_tension_anim")
 					.build();
 			
@@ -50,7 +50,7 @@ function battle_tension_sub(_sub, _history = true){
 					}))
 					.set_target(true)
 					.start(tension)
-					.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 4, _m)
+					.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, _m, 4)
 					.set_tag("battle_ui_tension_anim")
 					.build();
 			
@@ -60,7 +60,7 @@ function battle_tension_sub(_sub, _history = true){
 					}))
 					.set_target(true)
 					.start(tension)
-					.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, 30, _m)
+					.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, _m, 30)
 					.set_tag("battle_ui_tension_anim")
 					.build();
 			

@@ -52,6 +52,7 @@ function EasingBuilder(_method) : Easing() constructor{
 	func = _method;
 	
 	///TODO: startとset_valueの関係を見直す
+	///@return {Struct.EasingBuilder}
 	static start = function(_val){
 		value = _val;
 		return self;
@@ -60,17 +61,17 @@ function EasingBuilder(_method) : Easing() constructor{
 	///easingを追加します
 	///@arg {real} tween
 	///@arg {real} ease
-	///@arg {real} duration
 	///@arg {real} change
+	///@arg {real} duration
 	///@return {Struct.EasingBuilder}
-	static add_step = function(_tween, _ease, _duration, _change){
+	static add_step = function(_tween, _ease, _change, _duration){
 		array_push(stacks, [
 			"easing",
 			{
 				tween : _tween,
 				ease : _ease,
-				duration : _duration,
-				change : _change
+				change : _change,
+				duration : _duration
 			}
 		])
 		return self;
@@ -132,7 +133,11 @@ function EasingBuilder(_method) : Easing() constructor{
 	
 	///自動でイージングを実行します
 	static build = function(){
-		easing_run(new EasingData(self));
+		var _data = new EasingData(self);
+		if _data.get_next_type() != "sleep"{
+			_data.func_call(value);
+		}
+		array_push(global.easing_data, _data);
 	}
 }
 
@@ -165,15 +170,21 @@ function EasingData(_eb) : Easing() constructor{
 	
 }
 
-///イージングシーケンスを実行します
-///通常は`.build()`を利用してください
-///@arg {Struct.EasingData} data
-function easing_run(_data){
-	//最初から休止系でなければ、早速funcを実行
-	if _data.get_next_type() != "sleep"{
-		_data.func_call(value);
-	}
-	array_push(global.easing_data, _data);
+///簡易版Easing
+///@arg {Id.Instance} id
+///@arg {String} varname
+///@arg {Real} tween
+///@arg {Real} ease
+///@arg {Real} start
+///@arg {Real} change
+///@arg {Real} duration
+///@arg {Real} delay
+///@arg {String} tag
+function easing_run(id, varname, tween, ease, start, change, duration, delay = 0, tag = ""){
+	var _eb = new EasingBuilder(method({id, varname}, function (_v){
+			variable_instance_set(id, varname, _v)
+		}))
+	_eb.start(start).add_sleep(delay).add_step(tween, ease, change, duration).set_tag(tag).build()
 }
 
 function easing_step(){

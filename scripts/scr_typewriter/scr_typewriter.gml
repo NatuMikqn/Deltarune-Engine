@@ -12,6 +12,7 @@ function TypeWriter() constructor
 	offset = new Vector2();
 	lang = lang_get();
 	globalmode = false;
+	dialogmode = false;
 	
 	anim = {
 		create: undefined,
@@ -135,6 +136,13 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 		return self;
 	}
 	
+	///@arg {Bool} enable
+	///@return {Struct.TypeWriterBuilder}
+	static enable_dialog = function(enable){
+		dialogmode = enable;
+		return self;
+	}
+	
 	///@arg {String} tag
 	///@return {Struct.TypeWriterBuilder}
 	///@deprecated
@@ -182,6 +190,8 @@ function TypeWriterData(_self) : TypeWriter() constructor
 	chartimer = 0;
 	//スキップ時のタイマー考慮
 	latertimer = 0;
+	//前回改行されているかどうか
+	prevnl = false;
 	
 	///現在のテキストデータからl10nを実行
 	static l10n = function(){
@@ -282,15 +292,25 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		_h += string_height("A") * scale.y;
 		
 		pos.y += _h;
+		
+		prevnl = true;
 	}
 	
 	///文字データを追加
 	static add_chars = function(){
 		read++;
+		
 		var _lang = globalmode ? 0 : lang,
 			_char = string_char_at(textdata[readstep].data, read),
-			_font = typewriter_font_get(font),
-			_data = new CharData(pos, _char, color, scale, alpha, _font.get_font(_lang));
+			_font = typewriter_font_get(font)
+		
+		if (prevnl && dialogmode){
+			if (!array_contains(_font.get_asterisk(_lang), _char)){
+				pos.x += (_font.get_w_asterisk(_lang) + _font.get_w_space(_lang) + _font.get_sp_char(_lang)) * scale.x;
+			}
+		}
+		
+		var _data = new CharData(pos, _char, color, scale, alpha, _font.get_font(_lang));
 		if (skipped){
 			_data.set_chartimer(-latertimer);
 		}
@@ -307,18 +327,19 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		//x位置を_charの横幅 + 字間進める
 		var _w = scale.x;
 		if (array_contains(_font.get_space(_lang), _char)){
-			_w *= _font.get_sp_space(_lang);
+			_w *= _font.get_w_space(_lang);
+		}else if (array_contains(_font.get_asterisk(_lang), _char)){
+			_w *= _font.get_w_asterisk(_lang);
 		}else{
-			draw_set_font(_font.get_font(_lang));
-			_w *= string_width(_char);
+			if (is_undefined(_font.get_w_char(_lang))) draw_set_font(_font.get_font(_lang));
+			_w *= _font.get_w_char(_lang) ?? string_width(_char);
 		}
 		_w += _font.get_sp_char(_lang);
-		
-		
 		
 		pos.x += _w;
 		
 		array_push(chars, _data);
+		prevnl = false;
 		
 		if (!skipped && !mtt_already_voice && _char != " "){
 			audio_play_sound(voice, 0, 0);
