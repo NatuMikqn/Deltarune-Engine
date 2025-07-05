@@ -359,6 +359,7 @@ function TypeWriterData(_self) : TypeWriter() constructor
 				_color = get_color();
 				_alpha = get_alpha();
 				
+				
 				var _finalpos = _pos.copy().add(_x, _y).add(_offset),
 					_offset_user = get_offset_user();
 				struct_foreach(_offset_user, method(_finalpos, function (_name, _value) {
@@ -368,6 +369,7 @@ function TypeWriterData(_self) : TypeWriter() constructor
 				draw_text_transformed_color(_finalpos.x, _finalpos.y, get_char(), _scale.x, _scale.y, 0,
 					_color[0], _color[1], _color[2], _color[3], _alpha
 				);
+				
 			}
 		}
 		

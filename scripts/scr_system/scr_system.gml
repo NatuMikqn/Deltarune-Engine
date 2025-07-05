@@ -15,6 +15,7 @@ function screen_set_size(_w, _h)
 	window_set_size(_w, _h)
 }
 
+
 ///開始からの経過フレームを返します
 ///@return {Real}
 function get_worldtimer()

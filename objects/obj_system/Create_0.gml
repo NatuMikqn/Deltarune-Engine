@@ -6,3 +6,4 @@ fullscreen = [
 	new Vector2(-1),
 ]
 fullscreen_select = 0;
+frameskip = 0;

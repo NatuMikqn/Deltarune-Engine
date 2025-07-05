@@ -10,7 +10,6 @@ function ItemDB() constructor{
 }
 
 function ItemData() constructor{
-	
 	name = "";
 	name_short = "";
 	name_battle = "";

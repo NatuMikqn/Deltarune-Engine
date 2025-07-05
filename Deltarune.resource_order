@@ -98,6 +98,7 @@
     {"name":"scr_battle_tension","order":1,"path":"scripts/scr_battle_tension/scr_battle_tension.yy",},
     {"name":"scr_bgm","order":11,"path":"scripts/scr_bgm/scr_bgm.yy",},
     {"name":"scr_board_soul_hitbox","order":1,"path":"scripts/scr_board_soul_hitbox/scr_board_soul_hitbox.yy",},
+    {"name":"scr_camera","order":15,"path":"scripts/scr_camera/scr_camera.yy",},
     {"name":"scr_color_converter","order":14,"path":"scripts/scr_color_converter/scr_color_converter.yy",},
     {"name":"scr_depth","order":1,"path":"scripts/scr_depth/scr_depth.yy",},
     {"name":"scr_dialog","order":7,"path":"scripts/scr_dialog/scr_dialog.yy",},

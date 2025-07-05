@@ -1,4 +1,3 @@
-//TODO: DEPTH F**K
 
 font_list = {};
 anim_list = {
