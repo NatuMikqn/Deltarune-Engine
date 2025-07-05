@@ -14,5 +14,4 @@ function camera_get_viewpos_y()
 	if (instance_exists(obj_camera)){
 		return obj_camera.viewpos.y;
 	}
-	test_edit
 }
