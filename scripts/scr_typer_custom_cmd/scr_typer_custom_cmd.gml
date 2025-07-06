@@ -41,6 +41,10 @@ function typewriter_custom_cmd(_self, _data)
 				speed = real(_data[1]);
 				break;
 			
+			case "skipped":
+				start_skip();
+				break;
+			
 			case "sleep":
 				if (!skipped){
 					sleep = real(_data[1]);

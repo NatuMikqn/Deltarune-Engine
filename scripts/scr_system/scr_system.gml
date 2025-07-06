@@ -15,10 +15,19 @@ function screen_set_size(_w, _h)
 	window_set_size(_w, _h)
 }
 
-
 ///開始からの経過フレームを返します
 ///@return {Real}
 function get_worldtimer()
 {
 	return obj_system.timer;
+}
+
+///Builderの変数群から基盤のみ存在する変数をDataへ移行する
+function send_builder_to_data(_builder)
+{
+	var _lists = variable_struct_get_names(self);
+	
+	array_foreach(_lists, method(_builder, function(_e){
+		other[$_e] = self[$_e];
+	}))
 }

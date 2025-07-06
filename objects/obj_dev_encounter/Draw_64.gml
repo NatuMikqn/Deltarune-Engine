@@ -15,7 +15,7 @@ if (!instance_exists(obj_battle)){
 		_info.group = _data.get_enemy()
 		
 		array_foreach(_info.group, function (_e, _i){
-				var _info = $"{_i}: {object_get_name(_e.object)}, x:{_e.x}, y:{_e.y}, depth:{_e.depth}";
+				var _info = $"{_i}: {object_get_name(_e.data.object)}, hp: {_e.data.get_hp()}";
 				draw_text(0, (_i+2) * 16, _info)
 			});
 		

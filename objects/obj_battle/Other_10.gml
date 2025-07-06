@@ -2,8 +2,11 @@
 //キャラクターのボタン選択をリセットします
 
 charturn = 0;
-select_list = array_create_ext(team_get_count(), function(){return [0]});
-select_step = 0;
+select_button = array_create(5, 0);
+buttonmode = true;
+
+//ボタンを戻す
+battle_set_buttonlist(0);
 
 //キャラクターのアイコンを通常に戻す
 obj_battle_ui.charturn_icon_img = array_create(team_get_count(), 0);

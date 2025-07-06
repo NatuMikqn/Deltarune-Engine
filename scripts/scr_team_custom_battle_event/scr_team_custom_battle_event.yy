@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_team_custom_battle_event",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_team_custom_battle_event",
+  "parent":{
+    "name":"team",
+    "path":"folders/Scripts/system/team.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

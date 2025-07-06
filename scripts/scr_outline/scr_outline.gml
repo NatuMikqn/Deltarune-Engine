@@ -5,8 +5,9 @@
 ///@arg {Real|Constant.Color} rgb 色
 ///@arg {Real} alpha 透明度
 ///@arg {Real} sampleCount (max(xradius, yradius) * 8) アウトラインがギザギザする場合に大きくしてみてください
+///@arg {Real} stepCount 段階数 半径を大きくしたときに無様な見た目になるのを防ぎます
 ///@arg {Bool} sizefixed サイズを固定にするか
-function surface_set_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sc = max(_rx, _ry) * 8, _sizefixed = false){
+function surface_set_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sample = max(_rx, _ry) * 8, step = 1, _sizefixed = false){
 	
 	var _tex, _texel, _return, _rgba
 	
@@ -16,7 +17,8 @@ function surface_set_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sc = 
 			texel : shader_get_uniform(shd_outline, "textureTexel"),
 			radius : shader_get_uniform(shd_outline, "radius"),
 			color : shader_get_uniform(shd_outline, "color"),
-			sc : shader_get_uniform(shd_outline, "sampleCount"),
+			sample : shader_get_uniform(shd_outline, "sampleCount"),
+			step : shader_get_uniform(shd_outline, "stepCount"),
 		}
 	
 	var _source_size = new Vector2(
@@ -55,7 +57,8 @@ function surface_set_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sc = 
 	shader_set_uniform_f(blur_uniform.texel, _texel[0], _texel[1]);
 	shader_set_uniform_f(blur_uniform.radius, _rx, _ry);
 	shader_set_uniform_f_array(blur_uniform.color, _rgba);
-	shader_set_uniform_f(blur_uniform.sc, sc);
+	shader_set_uniform_f(blur_uniform.sample, sample);
+	shader_set_uniform_f(blur_uniform.step, step);
 	
 	//元surfaceのサイズ調整
 	surface_resize(_surface, _source_size.x, _source_size.y)
@@ -76,10 +79,11 @@ function surface_set_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sc = 
 ///@arg {Real|Constant.Color} rgb 色
 ///@arg {Real} alpha 透明度
 ///@arg {Real} sampleCount アウトラインがギザギザする場合に大きくしてみてください
+///@arg {Real} stepCount 段階数 半径を大きくしたときに無様な見た目になるのを防ぎます
 ///@arg {Bool} sizefixed サイズを固定にするか
-function surface_get_outline(_surface, _rx, _ry, rgb = c_white, alpha = 1, sc = max(_rx, _ry) * 8, _sizefixed = false){
+function surface_get_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sample = max(_rx, _ry) * 8, step = 1, _sizefixed = false){
 	var _srf = surface_create(surface_get_width(_surface), surface_get_height(_surface))
 	surface_copy(_srf, 0, 0, _surface)
-	surface_set_outline(_surface, _rx, _ry, rgb, alpha, sc, _sizefixed)
+	surface_set_outline(_srf, _rx, _ry, rgb, alpha, sample, step, _sizefixed)
 	return _srf;
 }

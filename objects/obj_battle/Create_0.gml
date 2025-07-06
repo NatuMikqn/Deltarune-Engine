@@ -1,18 +1,16 @@
-depth = DEPTH.BATTLE_BG
-
 instance_create_depth(0, 0, DEPTH.UI, obj_battle_ui)
+instance_create_depth(0, 0, DEPTH.BATTLE_BG, obj_battle_background)
 instance_create_depth(320, 180, DEPTH.BOARD, obj_battle_board)
 instance_create_depth(320, 200, DEPTH.SOULS, obj_battle_soul_red)
-
-dialogtext = noone;
 
 var _team = team_get(),
 	_obj, _pos, _inst
 
-
 charturn = 0;
-select_list = [];
-select_step = 0;
+select_button = [];
+buttonmode = true;
+buttonlist = [];
+next_func = -1;
 
 event_user(0)
 
@@ -21,8 +19,6 @@ enemy_list = [];
 music = -1;
 
 srf_battle = -1;
-background_alpha = 0;
-enemyturn_black = 0;
 
 state = BATTLE_STATE.START_ANIM;
 next_state = -1;
@@ -42,12 +38,17 @@ for (var i=0;i<team_get_count();i++){
 	_inst.color = _team[i].get_color()
 	array_push(battle_char_ids, _inst);
 }
-var _enemygroup = get_enemydata().enemygroup;
+var _enemygroup = get_enemydata().enemygroup,
+	_data;
 _pos = new Vector2();
 for (var i = 0; i < array_length(_enemygroup); i++) {
-	_obj = _enemygroup[i].object;
-	_pos.set(_enemygroup[i].x, _enemygroup[i].y)
-	_inst = instance_create_depth(_pos.x, _pos.y, _enemygroup[i].depth, _obj)
+	
+	_obj = _enemygroup[i].data.object;
+	_pos.set(_enemygroup[i].pos.x, _enemygroup[i].pos.y);
+	
+	_inst = instance_create_depth(_pos.x, _pos.y, -200, _obj);
+	_inst.data = _enemygroup[i].data;
+	
 	array_push(battle_enemy_ids, _inst);
 }
 

@@ -13,7 +13,7 @@ if (charturn_prev >= 0 && charturn_prev < array_length(team_get())){
 	
 }
 
-var _charturn = obj_battle.charturn
+var _charturn = battle_get_charturn();
 
 if (_charturn >= 0 && _charturn < team_get_count()){
 	

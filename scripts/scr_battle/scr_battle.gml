@@ -19,26 +19,24 @@ enum BATTLE_ANIM_LOOP{
 	LOOP,
 	NONE
 }
-enum BUTTON{
-	FIGHT = 0,
-	ACT = 1,
-	ITEM = 2,
-	SPARE = 3,
-	DEFEND = 4
-}
 
-///@arg {real} icon
-function battle_next_char(_icon){
+///次のキャラクターにボタン操作を移します
+///次のキャラクターがいなければ敵のターンに入ります
+///@arg {real} icon icon
+///@arg {real} ct change tension
+function battle_next_char(_icon, _ct = 0){
 	with (obj_battle){
+		battle_tension_add(_ct, true)
 		obj_battle_ui.charturn_icon_img[charturn] = _icon
 		charturn++
 		with(obj_battle_ui) event_user(1)
-		if charturn >= array_length(team_get()){
+		if (charturn >= array_length(team_get())){
 			battle_tension_clear_history()
-			instance_destroy(dialogtext)
+			typewriter_delete("BattleDialogBoxMessage");
 			battle_set_state(BATTLE_STATE.ENEMY_TALK)
 		}else{
-			battle_show_dialog(true);
+			battle_set_buttonlist(charturn);
+			battle_set_dialog_message(DIALOG_UI.MESSAGE);
 		}
 	}
 }
@@ -46,6 +44,7 @@ function battle_prev_char(){
 	with (obj_battle){
 		if charturn > 0{
 			charturn--
+			battle_set_buttonlist(charturn);
 			battle_team_set_anim(battle_char_ids[charturn], BATTLE_TEAM_ANIM.IDLE, BATTLE_ANIM_LOOP.LOOP, 10)
 			battle_tension_prev()
 			obj_battle_ui.charturn_icon_img[charturn] = 0
@@ -61,53 +60,6 @@ function battle_set_nextstate(_state, _real){
 	obj_battle.next_state_timer = _real;
 }
 
-///@arg {real} state
-function battle_set_state(_state){
-	with (obj_battle){
-		state = _state
-		//ここでそれぞれの行動(変更時のみ)をここに入力
-		switch _state{
-			case BATTLE_STATE.MYTURN:
-				if (team_get_count() == 0){
-					battle_set_state(BATTLE_STATE.ENEMY_TALK)
-				}else{
-					battle_show_dialog(false);
-					event_user(0)
-					with(obj_battle_ui){
-						event_user(2)
-						event_user(1)
-					}
-				}
-				
-				break;
-			
-			case BATTLE_STATE.ENEMY_TALK:
-				
-				break;
-			
-			case BATTLE_STATE.ENEMY_IN:
-				with(obj_battle_enemy) event_user(1);
-				with(obj_battle_turn) event_user(1);
-				if (instance_exists(obj_battle_turn)){
-					with(obj_battle_board) event_user(0);
-				}else{
-					battle_set_state(BATTLE_STATE.MYTURN)
-				}
-				break;
-			
-			case BATTLE_STATE.ENEMY:
-				with(obj_battle_turn) event_user(2);
-				break;
-			
-			case BATTLE_STATE.ENEMY_END:
-				with(obj_battle_turn) event_user(3);
-				with(obj_battle_board) event_user(1);
-				break;
-		}
-		
-	}
-
-}
 ///@return {real}
 ///@pure
 function battle_get_state(){ return obj_battle.state; }
@@ -147,11 +99,16 @@ function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 ///@arg {bool} skipped
 function battle_show_dialog(_skipped){
 	with (obj_battle){
-		if (!instance_exists(dialogtext)){
-			dialogtext = new TypeWriterBuilder(30, 376, "<scale 2><interact false><skippable false>[battle.test.dialog.encounter]") 
+		if (!typewriter_exists("BattleDialogBoxMessage")){
+			var _text = ""
+			if (_skipped) _text += "<skipped true>"
+			_text += $"<scale 2>{dialog}"
+			new TypeWriterBuilder(30, 376, _text)
 				.set_depth(DEPTH.UI - 1)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_dialog(true)
+				.set_interaction(false)
+				.set_tag("BattleDialogBoxMessage")
 				.build();
 		}
 	}
@@ -181,4 +138,18 @@ function battle_turn_end(){
 		hitbox = false;
 		movable = false;
 	}
+}
+
+///@arg {Real} char
+///@return {Real}
+function battle_get_buttonselect(_char){
+	return obj_battle.select_button[_char];
+}
+///@return {Real}
+function battle_get_charturn(){
+	return obj_battle.charturn;
+}
+///@arg {Bool} enable
+function battle_show_enemyhp(_enable){
+	obj_battle_ui.show_enemyhp = _enable;
 }

@@ -108,11 +108,7 @@ function TCFontBuilder(_tag, _font) : TyperCustomFont() constructor
 ///@arg {Struct.TCFontBuilder} builder
 function TCFontData(_self) : TyperCustomFont() constructor
 {
-	var _lists = variable_struct_get_names(self);
-	
-	array_foreach(_lists, method(_self, function(_e){
-		other[$_e] = self[$_e];
-	}))
+	send_builder_to_data(_self);
 	
 	///フォントを返します
 	///@return {Asset.GMFont}

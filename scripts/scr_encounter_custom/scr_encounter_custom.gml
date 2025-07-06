@@ -1,10 +1,11 @@
-function encounter_group(){
+///@ignore
+function encounter_group_custom(){
 	new EnemyGroupBuilder()
 		.set_id(0)
-		.add_enemy(new EnemyData(480, 120, obj_battle_enemy_test))
-		.add_enemy(new EnemyData(480, 240, obj_battle_enemy_test))
-		.set_music(mus_battle)
-		.set_dialog("test.dialog.encounter")
+		.add_enemy(480, 120, "testEnemy")
+		.add_enemy(480, 240, "testEnemy")
+		.set_music(-1)
+		.set_dialog("[battle.test.dialog.encounter]")
 		.build();
 	
 }

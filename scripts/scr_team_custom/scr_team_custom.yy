@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_team_custom",
   "parent":{
-    "name":"system",
-    "path":"folders/Scripts/system.yy",
+    "name":"team",
+    "path":"folders/Scripts/system/team.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

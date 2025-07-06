@@ -49,16 +49,22 @@ function draw_charbox_custom(_x, _y, _iconsprite, _img, _namesprite, _color, _hp
 	//HP残量によってHPテキストの色を変える
 	var _c = c_white;
 	if (_hp <= 0) _c = c_red;
-	else if (_max / _hp <= 0.25) _c = c_yellow;
+	else if (_hp / _max <= 0.25) _c = c_yellow;
 	draw_set_color(_c);
 	
-	draw_text_transformed(_x+53, _y, _hp, 2, 2, 0);
-	draw_sprite_ext(spr_charbox_slash, 1, _x+54, _y, 1, 1, 0, c_white, 1);
-	draw_text_transformed(_x+98, _y, _max, 2, 2, 0);
+	var _shiftx = 53
+	
+	if (_max > 999){
+		_shiftx = 82 - string_width(_max) * 2
+	}
+	
+	draw_text_transformed(_x + _shiftx, _y, _hp, 2, 2, 0);
+	draw_sprite_ext(spr_charbox_slash, 1, _x + _shiftx + 1, _y, 1, 1, 0, c_white, 1);
+	draw_text_transformed(_x + 98, _y, _max, 2, 2, 0);
 	draw_set_color(c_white);
 	
 	//HPBar
-	draw_sprite_ext(spr_pixel, 0, _x+21, _y+13, 76, 9, 0, c_maroon, 1);
-	draw_sprite_ext(spr_pixel, 0, _x+21, _y+13, 76 * max(0, _hp / _max), 9, 0, _color, 1);
+	draw_sprite_ext(spr_pixel, 0, _x + 21, _y + 13, 76, 9, 0, c_maroon, 1);
+	draw_sprite_ext(spr_pixel, 0, _x + 21, _y + 13, 76 * max(0, _hp / _max), 9, 0, _color, 1);
 	
 }

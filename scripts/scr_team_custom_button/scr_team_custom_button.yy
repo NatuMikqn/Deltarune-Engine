@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_team_custom_button",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_team_custom_button",
+  "parent":{
+    "name":"team",
+    "path":"folders/Scripts/system/team.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,6 +1,6 @@
 /// @description ShowMove
 
-var _charturn = obj_battle.charturn;
+var _charturn = battle_get_charturn();
 new EasingBuilder(method({ id, show_target, ct : max(1, _charturn)}, function(_v){
 			id.show_target = show_target + ((ct - 1) - show_target) * _v;
 		}))

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_encounter_enemydata",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_encounter_enemydata",
+  "parent":{
+    "name":"encounter",
+    "path":"folders/Scripts/encounter.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -7,6 +7,7 @@ uniform vec2 textureTexel;
 uniform vec2 radius;
 uniform vec4 color;
 uniform float sampleCount;
+uniform float stepCount;
 
 const float PI = 3.1415926535;
 
@@ -17,14 +18,16 @@ void main()
 	float sum = 0.0;
 	float alpha = 0.0;
 	
-	for(float i = 0.0; i < sampleCount; i++){
-		float rad = 360.0 / sampleCount * i * PI / 180.0;
-		vec2 nl = vec2(cos(rad), sin(rad));
-		nl /= max(abs(nl.x), abs(nl.y));
-		vec2 offset = nl * radius * textureTexel;
-		
-		vec4 temp = texture2D(gm_BaseTexture, v_vTexcoord + offset);
-		alpha = max(alpha, temp.a);
+	for(float i = 1.0; i <= stepCount; i++){
+		for(float j = 0.0; j < sampleCount; j++){
+			float rad = 360.0 / sampleCount * j * PI / 180.0;
+			vec2 nl = vec2(cos(rad), sin(rad));
+			nl /= max(abs(nl.x), abs(nl.y));
+			vec2 offset = nl * radius * textureTexel * (i / stepCount);
+			
+			vec4 temp = texture2D(gm_BaseTexture, v_vTexcoord + offset);
+			alpha = max(alpha, temp.a);
+		}
 	}
 	
 	float finalalpha = min(color.a + texc.a, 1.0);

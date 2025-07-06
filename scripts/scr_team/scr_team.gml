@@ -10,7 +10,6 @@ enum TEAMCHAR_FLAG{
 	COLOR,
 	AREA_OBJ,
 	BATTLE_OBJ,
-	TECHABLE,
 	
 	ENCOUNTER_X,
 	ENCOUNTER_Y,
@@ -22,12 +21,14 @@ function team_init()
 {
 	global.char_data = {};
 	global.team_list = [];
+	global.team_buttons = {};
+	global.team_buttongroup = {};
 }
 
 ///@ignore
 function CharacterInfo() constructor
 {
-	id = "";
+	tag = "";
 	hp = 100;
 	maxhp = 100;
 	color = c_orange;
@@ -35,7 +36,7 @@ function CharacterInfo() constructor
 		arena : obj_char_player,
 		battle : obj_battle_team_kris
 	}
-	techable = true;
+	buttonlist = [];
 	
 	pos = {
 		encount : new Vector2(),
@@ -47,10 +48,10 @@ function CharacterInfo() constructor
 	}
 }
 
-///@arg {String} id
-function CharacterInfoBuilder(_id) : CharacterInfo() constructor
+///@arg {String} tag
+function CharacterInfoBuilder(_tag) : CharacterInfo() constructor
 {
-	id = _id;
+	tag = _tag;
 	
 	///@arg {Real} hp
 	static set_hp = function(_val){
@@ -73,9 +74,9 @@ function CharacterInfoBuilder(_id) : CharacterInfo() constructor
 		object.battle = _val;
 		return self;
 	}
-	///@arg {Bool} techable
-	static set_techable = function(_val){
-		techable = _val;
+	///@arg {Array<Struct.ButtonInfo>} button_list array copy
+	static apply_button = function(_val){
+		buttonlist = variable_clone(_val);
 		return self;
 	}
 	///@arg {Asset.GMSprite|String} iconsprite
@@ -88,7 +89,7 @@ function CharacterInfoBuilder(_id) : CharacterInfo() constructor
 	
 	static build = function(){
 		var _data = new CharacterInfoData(self);
-		global.char_data[$id] = _data;
+		global.char_data[$ tag] = _data;
 	}
 }
 
@@ -96,18 +97,16 @@ function CharacterInfoBuilder(_id) : CharacterInfo() constructor
 ///@arg {Struct.CharacterInfoBuilder} teaminfo
 function CharacterInfoData(_self) : CharacterInfo() constructor
 {
-	var _lists = variable_struct_get_names(self);
+	send_builder_to_data(_self);
 	
-	array_foreach(_lists, method(_self, function(_e){
-		other[$_e] = self[$_e];
-	}))
-	
+	static equals_tag = function(_tag){ return tag == _tag; }
 	static get_hp = function(){ return hp; }
 	static get_maxhp = function(){ return maxhp; }
 	static get_color = function(){ return color; }
 	static get_obj_arena = function(){ return object.arena; }
 	static get_obj_battle = function(){ return object.battle; }
-	static is_techable = function(){ return techable; }
+	///@return {Array<Struct.ButtonInfo>}
+	static get_buttonlist = function(){ return buttonlist; }
 	static get_charbox_iconsprite = function()
 	{
 		var _spr = charbox_info.icon;
@@ -158,6 +157,24 @@ function team_clear()
 	global.team_list = [];
 }
 
+///チームを退出させる
+///何番目のキャラクターかを指定することもできます
+///@arg {String} tag
+///@arg {Real} order
+function team_leave(_tag, _order = 0)
+{
+	var _team = team_get(),
+		_temp_pos = 0;
+	for (var i = 0; i < array_length(_team); i++) {
+		if (_team[i].equals_tag(_tag)){
+			_temp_pos = i;
+			if (_order <= 0) break;
+			_order--;
+		}
+	}
+	array_delete(_team, _temp_pos, 1);
+}
+
 ///@arg {String} character
 ///@arg {any} default
 ///@return {any}
@@ -175,4 +192,41 @@ function team_get_data(_char, _flag, _def = undefined)
 	}else{
 		return _def;
 	}
+}
+
+///@arg {Real} type
+///@arg {String|Asset.GMSprite} sprite
+///@arg {Function} func
+function ButtonInfo(_type, _spr, _func) constructor
+{
+	type = _type;
+	sprite = _spr;
+	func = _func;
+	
+	///@return {Real} type
+	static get_type = function(){ return type; };
+	///@return {Asset.GMSprite} sprite
+	static get_sprite = function(){ return l10n_get_sprite(sprite); };
+	
+	static run_func = function(){ func(); };
+}
+
+///@arg {String} name
+///@arg {Struct.ButtonInfo} data
+function team_button_register(_name, _data)
+{
+	global.team_buttons[$ _name] = _data;
+}
+
+///@arg {String} name
+///@arg {Array<String>} data
+function team_buttongroup_register(_name, _data)
+{
+	global.team_buttongroup[$ _name] = _data;
+}
+
+///@arg {String} name
+function team_get_button(_name)
+{
+	return global.team_buttons[$ _name];
 }

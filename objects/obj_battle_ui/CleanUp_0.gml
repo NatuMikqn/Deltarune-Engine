@@ -1,0 +1,1 @@
+if (surface_exists(srf_tp_outline)) surface_free(srf_tp_outline);

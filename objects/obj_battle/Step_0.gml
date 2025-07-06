@@ -1,3 +1,4 @@
+//次のstatus実行用
 if (next_state_timer >= 0){
 	next_state_timer--
 	if (next_state_timer == 0){
@@ -5,67 +6,53 @@ if (next_state_timer >= 0){
 	}
 }
 
-if mouse_wheel_up(){
+if (mouse_wheel_up()){
 	dbg_screen_alpha+=0.05
 	if dbg_screen_alpha > 1{
 		dbg_screen_alpha = 1
 	}
 }
-if mouse_wheel_down(){
+if (mouse_wheel_down()){
 	dbg_screen_alpha-=0.05
 	if dbg_screen_alpha < 0{
 		dbg_screen_alpha = 0
 	}
 }
-if keyboard_check(vk_control) && keyboard_check_pressed(ord("S")){
+if (keyboard_check(vk_control) && keyboard_check_pressed(ord("S"))){
 	dbg_screen_img++
 	if (dbg_screen_img >= sprite_get_number(spr_screen_debug)) dbg_screen_img = 0
 }
 //自ターン処理
 if (state == BATTLE_STATE.MYTURN){
-	//行動選択
-	if input_check_pressed(INPUT.LEFT){
-		select_list[charturn][select_step]--
-		if (select_list[charturn][select_step] < 0) select_list[charturn][0] = 4
-		audio_play_sound(snd_select, 0, 0)
-	}
-	if input_check_pressed(INPUT.RIGHT){
-		select_list[charturn][select_step]++
-		if (select_list[charturn][select_step] > 4) select_list[charturn][0] = 0
-		audio_play_sound(snd_select, 0, 0)
-	}
-	if input_check_pressed(INPUT.CONFIRM){
-		var _sl = select_list[charturn]
-		switch(select_step){
-			case 0:
-				audio_play_sound(snd_confirm, 0, 0)
-				if (_sl[0] == BUTTON.FIGHT){
-					battle_tension_add_history(0)
-					battle_next_char(1)
-				}else
-				if (_sl[0] == BUTTON.ACT){
-					battle_tension_add_history(0)
-					battle_next_char(2)
-				}else
-				if (_sl[0] == BUTTON.ITEM){
-					battle_tension_add_history(0)
-					battle_next_char(3)
-				}else
-				if (_sl[0] == BUTTON.SPARE){
-					battle_tension_add_history(0)
-					battle_next_char(10)
-				}else
-				if (_sl[0] == BUTTON.DEFEND){
-					battle_tension_add(16, true)
-					battle_team_set_anim(battle_char_ids[charturn], BATTLE_TEAM_ANIM.DEFEND, BATTLE_ANIM_LOOP.ONLY)
-					battle_next_char(4)
-				}
+	//ボタン行動選択
+	if (buttonmode){
+		var _left = input_check_pressed(INPUT.LEFT),
+			_right = input_check_pressed(INPUT.RIGHT);
+		if (_left || _right){
+			select_button[charturn] += _right - _left;
+			
+			var _len = array_length(battle_get_buttonlist())
+			if (select_button[charturn] < 0) select_button[charturn] = _len - 1;
+			else if (select_button[charturn] > (_len - 1)) select_button[charturn] = 0;
+			
+			audio_play_sound(snd_select, 0, 0)
 		}
-	}else
-	//キャンセルキーで前のキャラクターに戻る
-	if input_check_pressed(INPUT.CANCEL){
-		battle_prev_char()
+		if (input_check_pressed(INPUT.CONFIRM)){
+			audio_play_sound(snd_confirm, 0, 0)
+			buttonmode = false;
+			battle_dialog_custom(_type);
+		}else
+		//キャンセルキーで前のキャラクターに戻る
+		if (input_check_pressed(INPUT.CANCEL)){
+			battle_prev_char()
+			
+		}
+	}else{ //ボタン選択以外の場合
 		
+		//ボタン操作に戻る
+		if (input_check_pressed(INPUT.CANCEL)){
+			battle_set_dialog_message(DIALOG_UI.MESSAGE);
+		}
 	}
 }
 //敵メッセージ時

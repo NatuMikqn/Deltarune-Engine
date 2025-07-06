@@ -4,8 +4,10 @@ global.bgm_list = []
 ///@arg {Asset.GMSound} bgm
 ///@arg {bool} loop
 function bgm_play(_id, _bgm, _loop = true){
-	var _audio = audio_play_sound(_bgm, 10, _loop)
-	array_push(global.bgm_list, _audio)
+	if (audio_exists(_bgm)){
+		var _audio = audio_play_sound(_bgm, 10, _loop)
+		array_push(global.bgm_list, _audio)
+	}
 }
 
 ///@arg {real} id

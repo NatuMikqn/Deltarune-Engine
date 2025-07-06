@@ -1,4 +1,5 @@
-enum EASING_TWEEN{
+enum EASING_TWEEN
+{
 	LINEAR = 0,
 	SINE = 1,
 	QUAD = 2,
@@ -12,7 +13,8 @@ enum EASING_TWEEN{
 	BOUNCE = 10
 }
 
-enum EASING_EASE{
+enum EASING_EASE
+{
 	IN = 0,
 	OUT = 1,
 	INOUT = 2
@@ -20,13 +22,15 @@ enum EASING_EASE{
 
 ///初期化
 ///@ignore
-function easing_init(){
+function easing_init()
+{
 	global.easing_data = [];
 }
 
 ///内部用
 ///@ignore
-function Easing() constructor{
+function Easing() constructor
+{
 	func = undefined;
 	easing = undefined;
 	stacks = [];
@@ -47,8 +51,8 @@ function Easing() constructor{
 
 ///イージングシーケンスを作成します
 ///@arg {Function} method
-function EasingBuilder(_method) : Easing() constructor{
-	
+function EasingBuilder(_method) : Easing() constructor
+{
 	func = _method;
 	
 	///TODO: startとset_valueの関係を見直す
@@ -143,13 +147,9 @@ function EasingBuilder(_method) : Easing() constructor{
 
 ///内部用
 ///@ignore
-function EasingData(_eb) : Easing() constructor{
-	
-	var _lists = variable_struct_get_names(self);
-	
-	array_foreach(_lists, method(_eb, function(_e){
-		other[$_e] = self[$_e];
-	}))
+function EasingData(_eb) : Easing() constructor
+{
+	send_builder_to_data(_eb);
 	
 	///@pure
 	static get_next_type = function(){
@@ -180,14 +180,16 @@ function EasingData(_eb) : Easing() constructor{
 ///@arg {Real} duration
 ///@arg {Real} delay
 ///@arg {String} tag
-function easing_run(id, varname, tween, ease, start, change, duration, delay = 0, tag = ""){
+function easing_run(id, varname, tween, ease, start, change, duration, delay = 0, tag = "")
+{
 	var _eb = new EasingBuilder(method({id, varname}, function (_v){
 			variable_instance_set(id, varname, _v)
 		}))
 	_eb.start(start).add_sleep(delay).add_step(tween, ease, change, duration).set_tag(tag).build()
 }
 
-function easing_step(){
+function easing_step()
+{
 	var _list = global.easing_data,
 		_data, _es, _array, _val, _delete
 	
@@ -264,7 +266,8 @@ function easing_step(){
 ///指定したタグのイージングシーケンスが存在するかどうか
 ///@arg {string} tag `set_tag()`で設定したタグ
 ///@return {bool}
-function easing_exists(_tag){
+function easing_exists(_tag)
+{
 	var _m = method({tag : _tag}, function(_val){ return (_val.tag == tag) })
 	if array_any(global.easing_data, _m){
 		return true;
@@ -276,7 +279,8 @@ function easing_exists(_tag){
 ///指定したタグのイージングシーケンスをスキップします
 ///`easing_destroy()`とは違い、破棄時に最終的の位置まで移動させます
 ///@arg {string} tag
-function easing_skip(_tag){
+function easing_skip(_tag)
+{
 	var _list = global.easing_data;
 	for(var i=0;i<array_length(_list);i++){
 		if (_list[i].tag == _tag){
@@ -297,7 +301,8 @@ function easing_skip(_tag){
 ///使用しない場合、または部屋移動で利用されなくなる場合は、これを実行してください。
 ///`easing_skip()`とは違い、イージングの進捗は完全に停止されます
 ///@arg {string} tag `set_tag()`で設定したタグ
-function easing_destroy(_tag){
+function easing_destroy(_tag)
+{
 	var _list = global.easing_data,
 		_index_list = []
 	
@@ -317,7 +322,8 @@ function easing_destroy(_tag){
 }
 
 ///イージングシーケンスを全部削除します
-function easing_clear(){
+function easing_clear()
+{
 	global.easing_data = []
 }
 
@@ -325,7 +331,8 @@ function easing_clear(){
 ///@arg {real} ease EASING_EASE.?
 ///@arg {real} timer range in 0 to 1
 ///@return {real}
-function easing_get_value(_tween,_ease,_t){
+function easing_get_value(_tween,_ease,_t)
+{
 	switch(_tween){
 		case 0: //Linear
 			return _t;

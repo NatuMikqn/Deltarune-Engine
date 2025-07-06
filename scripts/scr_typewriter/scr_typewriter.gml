@@ -31,6 +31,8 @@ function TypeWriter() constructor
 	speed = 3;
 	//文字送りタイマー
 	sleep = 0;
+	//決定キーの有効化
+	interaction = true;
 	//スキップ可能か
 	skippable = true;
 	//識別用タグ
@@ -86,14 +88,6 @@ function TypeWriter() constructor
 		return self;
 	}
 	
-	///スキップ可能にするかどうか
-	///@arg {Bool} skippable default : true
-	///@return {Struct.TypeWriterBuilder}
-	static set_skippable = function(_skippable){
-		skippable = _skippable;
-		return self;
-	}
-	
 	///初期ボイスを指定
 	///@arg {Asset.GMSound} voice default : snd_text
 	///@return {Struct.TypeWriterBuilder}
@@ -143,11 +137,27 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 		return self;
 	}
 	
+	///タグを付けます
 	///@arg {String} tag
 	///@return {Struct.TypeWriterBuilder}
-	///@deprecated
 	static set_tag = function(_tag){
 		tag = _tag;
+		return self;
+	}
+	
+	///スキップ可能にするかどうか
+	///@arg {Bool} skippable default : true
+	///@return {Struct.TypeWriterBuilder}
+	static set_skippable = function(_enable){
+		skippable = _enable;
+		return self;
+	}
+	
+	///実行キーを可能にするかどうか
+	///@arg {Bool} interaction default : true
+	///@return {Struct.TypeWriterBuilder}
+	static set_interaction = function(_enable){
+		interaction = _enable;
 		return self;
 	}
 	
@@ -164,12 +174,7 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 ///@arg {Struct.TypeWriterBuilder} type_writer_builder
 function TypeWriterData(_self) : TypeWriter() constructor
 {
-	
-	var _lists = variable_struct_get_names(self);
-	
-	array_foreach(_lists, method(_self, function(_e){
-		other[$_e] = self[$_e];
-	}))
+	send_builder_to_data(_self);
 	
 	//文字読み取り位置
 	read = 0;
@@ -177,8 +182,6 @@ function TypeWriterData(_self) : TypeWriter() constructor
 	readstep = 0;
 	//文字データリスト
 	chars = [];
-	//決定キーの有効化
-	interaction = true;
 	//スキップ中か
 	skipped = false;
 	//文字送り停止中かどうか

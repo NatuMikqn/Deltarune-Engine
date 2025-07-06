@@ -1,7 +1,6 @@
 
 ///指定したタグが付いているtypewriterを削除します
 ///@arg {String} tag
-///@deprecated
 function typewriter_delete(_tag) {
 	with (obj_typewriter_object){
 		if (data.tag_equals(_tag)){
@@ -13,7 +12,6 @@ function typewriter_delete(_tag) {
 ///指定したタグが付いているtypewriterが存在するかどうか
 ///@arg {String} tag
 ///@return {Bool}
-///@deprecated
 function typewriter_exists(_tag) {
 	with (obj_typewriter_object){
 		if (data.tag_equals(_tag)){
