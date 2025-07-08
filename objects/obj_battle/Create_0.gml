@@ -8,7 +8,7 @@ var _team = team_get(),
 
 charturn = 0;
 select_button = [];
-buttonmode = true;
+selectmode = -1;
 buttonlist = [];
 next_func = -1;
 

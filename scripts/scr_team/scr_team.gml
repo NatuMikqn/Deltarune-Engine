@@ -196,19 +196,15 @@ function team_get_data(_char, _flag, _def = undefined)
 
 ///@arg {Real} type
 ///@arg {String|Asset.GMSprite} sprite
-///@arg {Function} func
-function ButtonInfo(_type, _spr, _func) constructor
+function ButtonInfo(_type, _spr) constructor
 {
 	type = _type;
 	sprite = _spr;
-	func = _func;
 	
 	///@return {Real} type
 	static get_type = function(){ return type; };
 	///@return {Asset.GMSprite} sprite
 	static get_sprite = function(){ return l10n_get_sprite(sprite); };
-	
-	static run_func = function(){ func(); };
 }
 
 ///@arg {String} name

@@ -51,7 +51,7 @@ if (state == BATTLE_STATE.MYTURN){
 		
 		//ボタン操作に戻る
 		if (input_check_pressed(INPUT.CANCEL)){
-			battle_set_dialog_message(DIALOG_UI.MESSAGE);
+			battle_dialog_button();
 		}
 	}
 }

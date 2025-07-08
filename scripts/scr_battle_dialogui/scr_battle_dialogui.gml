@@ -1,21 +1,16 @@
 enum DIALOG_UI
 {
-	MESSAGE,
-	SELECTENEMY,
-	LIST
-}
-enum LIST_TYPE
-{
+	BUTTON,
 	MESSAGE,
 	SELECTENEMY,
 	LIST
 }
 
 ///ダイアログを表示
-function battle_dialog_message()
+function battle_dialog_button()
 {
 	with (obj_battle){
-		typewriter_delete("BattleDialogBoxSelect")
+		typewriter_delete("BattleDialogBoxSelect");
 		buttonmode = true;
 		battle_show_enemyhp(false);
 		battle_show_dialog(false);

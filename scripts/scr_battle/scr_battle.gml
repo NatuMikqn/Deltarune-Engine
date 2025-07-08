@@ -36,7 +36,7 @@ function battle_next_char(_icon, _ct = 0){
 			battle_set_state(BATTLE_STATE.ENEMY_TALK)
 		}else{
 			battle_set_buttonlist(charturn);
-			battle_set_dialog_message(DIALOG_UI.MESSAGE);
+			battle_dialog_button();
 		}
 	}
 }
