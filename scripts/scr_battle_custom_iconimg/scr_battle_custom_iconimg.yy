@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_battle_custom_iconimg",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_battle_custom_iconimg",
+  "parent":{
+    "name":"custom",
+    "path":"folders/Scripts/battle/custom.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -21,6 +21,13 @@ function typewriter_exists(_tag) {
 	return false;
 }
 
+///TypewriterのCreateID取得
+///@return {Real}
+function typewriter_get_cid() {
+	obj_typewriter_manager.createid++;
+	return (obj_typewriter_manager.createid);
+}
+
 ///typewriter用のフォントを取得します
 ///@arg {String} tag
 ///@return {Struct.TCFontData}
@@ -52,4 +59,10 @@ function typewriter_anim_get(_type, _name) {
 		}else throw "Name \"" + string(_name) + "\" doesn't exists"
 	}
 	throw "obj_typewriter_manager doesn't exists"
+}
+
+///現在選択中のIDを返します
+///@return {Real}
+function typewriter_get_choice() {
+	return -1;
 }

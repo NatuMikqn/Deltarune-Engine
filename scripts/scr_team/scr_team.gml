@@ -74,9 +74,9 @@ function CharacterInfoBuilder(_tag) : CharacterInfo() constructor
 		object.battle = _val;
 		return self;
 	}
-	///@arg {Array<Struct.ButtonInfo>} button_list array copy
+	///@arg {String} button_list array copy
 	static apply_button = function(_val){
-		buttonlist = variable_clone(_val);
+		buttonlist = team_get_buttongroup(_val);
 		return self;
 	}
 	///@arg {Asset.GMSprite|String} iconsprite
@@ -218,11 +218,23 @@ function team_button_register(_name, _data)
 ///@arg {Array<String>} data
 function team_buttongroup_register(_name, _data)
 {
-	global.team_buttongroup[$ _name] = _data;
+	var _result = [];
+	for (var i = 0; i < array_length(_data); i++) {
+		array_push(_result, team_get_button(_data[i]));
+	}
+	global.team_buttongroup[$ _name] = _result;
 }
 
 ///@arg {String} name
+///@return {Struct.ButtonInfo}
 function team_get_button(_name)
 {
 	return global.team_buttons[$ _name];
+}
+
+///@arg {String} name
+///@return {Array<Struct.ButtonInfo>}
+function team_get_buttongroup(_name)
+{
+	return global.team_buttongroup[$ _name];
 }

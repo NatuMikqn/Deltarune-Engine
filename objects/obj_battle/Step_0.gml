@@ -25,7 +25,7 @@ if (keyboard_check(vk_control) && keyboard_check_pressed(ord("S"))){
 //自ターン処理
 if (state == BATTLE_STATE.MYTURN){
 	//ボタン行動選択
-	if (buttonmode){
+	if (selectmode = DIALOG_UI.BUTTON){
 		var _left = input_check_pressed(INPUT.LEFT),
 			_right = input_check_pressed(INPUT.RIGHT);
 		if (_left || _right){
@@ -38,17 +38,18 @@ if (state == BATTLE_STATE.MYTURN){
 			audio_play_sound(snd_select, 0, 0)
 		}
 		if (input_check_pressed(INPUT.CONFIRM)){
-			audio_play_sound(snd_confirm, 0, 0)
-			buttonmode = false;
-			battle_dialog_custom(_type);
+			battle_custom_event(battle_get_buttonlist()[select_button[charturn]].get_type());
 		}else
 		//キャンセルキーで前のキャラクターに戻る
 		if (input_check_pressed(INPUT.CANCEL)){
-			battle_prev_char()
-			
+			battle_prev_char();
 		}
 	}else{ //ボタン選択以外の場合
-		
+		if (selectmode = DIALOG_UI.SELECTENEMY){
+			if (input_check_pressed(INPUT.CONFIRM)){
+				nextfunc();
+			}
+		}
 		//ボタン操作に戻る
 		if (input_check_pressed(INPUT.CANCEL)){
 			battle_dialog_button();

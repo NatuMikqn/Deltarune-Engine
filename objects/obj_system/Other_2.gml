@@ -16,6 +16,8 @@ encounter_init()
 instance_create_depth(0, 0, 0, obj_input_manager)
 input_custom()
 
+team_custom_button()
+team_custom_buttongroup()
 team_custom()
 
 global.hpfont = font_add_sprite_ext(spr_font_small, "0123456789-+", false, 1)

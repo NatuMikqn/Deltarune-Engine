@@ -10,39 +10,47 @@ enum DIALOG_UI
 function battle_dialog_button()
 {
 	with (obj_battle){
+		if (selectmode == DIALOG_UI.BUTTON) typewriter_delete("BattleDialogBoxMessage");
 		typewriter_delete("BattleDialogBoxSelect");
-		buttonmode = true;
-		battle_show_enemyhp(false);
+		selectmode = DIALOG_UI.BUTTON;
+		battle_enable_enemyhp(false);
 		battle_show_dialog(false);
 	}
 }
-///敵指定
-function battle_dialog_enemyselect(_func)
+///敵指定モード
+///@arg {Function} nextfunction
+function battle_dialog_enemyselect(_nextfunc)
+{
+	var _enemy;
+	with (obj_battle){
+		typewriter_delete("BattleDialogBoxMessage");
+		typewriter_delete("BattleDialogBoxSelect");
+		selectmode = DIALOG_UI.SELECTENEMY;
+		nextfunc = _nextfunc;
+		battle_enable_enemyhp(true);
+		
+		for (var i = 0; i < array_length(battle_enemy_ids); i++) {
+			_enemy = battle_enemy_ids[i].data;
+			new TypeWriterBuilder(80, 375 + i * 30, $"<font normal><choice 0 {i}><skipped true>{_enemy.get_name()}")
+				.set_font("normal")
+				.set_scale(2, 2)
+				.set_depth(DEPTH.UI - 1)
+				.set_surface(obj_battle, battle_get_surface_varname())
+				.set_interaction(false)
+				.set_tag("BattleDialogBoxSelect")
+				.build();
+				
+		}
+	}
+}
+///リスト表示
+function battle_dialog_list(_datalist)
 {
 	with (obj_battle){
 		typewriter_delete("BattleDialogBoxMessage");
 		typewriter_delete("BattleDialogBoxSelect");
-		buttonmode = false;
-		battle_show_enemyhp(true);
-	}
-}
-///敵指定
-function battle_dialog_list()
-{
-	with (obj_battle){
-		typewriter_delete("BattleDialogBoxMessage");
-		typewriter_delete("BattleDialogBoxSelect");
-		buttonmode = false;
-		battle_show_enemyhp(false);
-	}
-}
-
-///次UIの指定
-///@arg {Real} type DIALOG_UI.?
-function battle_set_dialog_next(_type)
-{
-	with (obj_battle){
-		dialognext = _type;
+		selectmode = DIALOG_UI.LIST;
+		battle_enable_enemyhp(false);
 	}
 }
 

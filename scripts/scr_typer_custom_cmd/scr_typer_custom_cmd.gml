@@ -102,8 +102,11 @@ function typewriter_custom_cmd(_self, _data)
 				}
 				
 				break;
-			case "a":
-				
+			case "choice":
+				var _choicedata = {
+					pos : [real(_data[1]), real(_data[2])],
+				}
+				obj_typewriter_manager.choice[$ string(_self.cid)] = _choicedata;
 				break;
 		}
 	}

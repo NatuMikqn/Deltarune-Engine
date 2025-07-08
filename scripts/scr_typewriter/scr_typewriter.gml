@@ -165,7 +165,12 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	static build = function(){
 		var _data = new TypeWriterData(self);
 		var _inst = instance_create_depth(obj_pos.x, obj_pos.y, depth, obj_typewriter_object);
+		
+		//instanceにTypeWriterDataの情報を
 		_inst.data = _data;
+		//TypeWriterDataにinstanceの情報を
+		_data.inst = _inst;
+		
 		return _inst;
 	}
 }
@@ -176,6 +181,9 @@ function TypeWriterData(_self) : TypeWriter() constructor
 {
 	send_builder_to_data(_self);
 	
+	//system
+	inst = noone;
+	cid = typewriter_get_cid();
 	//文字読み取り位置
 	read = 0;
 	//段階読み取り位置
@@ -195,6 +203,11 @@ function TypeWriterData(_self) : TypeWriter() constructor
 	latertimer = 0;
 	//前回改行されているかどうか
 	prevnl = false;
+	
+	///CreateID取得
+	static get_cid = function(){
+		return cid;
+	}
 	
 	///現在のテキストデータからl10nを実行
 	static l10n = function(){

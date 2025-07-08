@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_battle_dialog_custom",
+  "%Name":"scr_battle_list",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_battle_dialog_custom",
+  "name":"scr_battle_list",
   "parent":{
     "name":"battle",
     "path":"folders/Scripts/battle.yy",

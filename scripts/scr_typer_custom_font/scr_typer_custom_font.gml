@@ -10,6 +10,12 @@ function typewriter_custom_font()
 			.target_lang(LANG.ZH).set_sp_char(0).set_sp_line(0).set_w_space(infinity).set_w_asterisk(NaN)
 			.build()
 		
+		new TCFontBuilder("normal", "default")
+			.target_lang(LANG.EN).set_sp_char(0).set_sp_line(0)
+			.target_lang(LANG.JA).set_sp_char(0).set_sp_line(0)
+			.target_lang(LANG.ZH).set_sp_char(0).set_sp_line(0)
+			.build()
+		
 		new TCFontBuilder("msgothic", "special")
 			.set_global(true).set_sp_char(0).set_sp_line(0).set_w_space(0)
 			.build()

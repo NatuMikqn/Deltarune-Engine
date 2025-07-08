@@ -1,2 +1,3 @@
 
 data = {};
+mychoice = -1;

@@ -19,21 +19,29 @@ enum BATTLE_ANIM_LOOP{
 	LOOP,
 	NONE
 }
+enum BATTLE_CHAR_ACTION{
+	FIGHT,
+	ACT,
+	ITEM,
+	SPARE,
+	DEFEND
+}
 
 ///次のキャラクターにボタン操作を移します
 ///次のキャラクターがいなければ敵のターンに入ります
-///@arg {real} icon icon
-///@arg {real} ct change tension
-function battle_next_char(_icon, _ct = 0){
+///@arg {Real} type icon
+///@arg {Real} ct change tension
+function battle_next_char(_type, _ct = 0){
 	with (obj_battle){
-		battle_tension_add(_ct, true)
-		obj_battle_ui.charturn_icon_img[charturn] = _icon
+		battle_tension_add(_ct, true);
+		charaction[charturn] = _type;
+		obj_battle_ui.charturn_icon_img[charturn] = battle_get_charicon(_type);
 		charturn++
-		with(obj_battle_ui) event_user(1)
+		with(obj_battle_ui) event_user(1);
 		if (charturn >= array_length(team_get())){
-			battle_tension_clear_history()
+			battle_tension_clear_history();
 			typewriter_delete("BattleDialogBoxMessage");
-			battle_set_state(BATTLE_STATE.ENEMY_TALK)
+			battle_set_state(BATTLE_STATE.ENEMY_TALK);
 		}else{
 			battle_set_buttonlist(charturn);
 			battle_dialog_button();
@@ -51,6 +59,12 @@ function battle_prev_char(){
 			with(obj_battle_ui) event_user(1)
 		}
 	}
+}
+
+///ダイアログHP表示変更
+///@arg {Bool} enable
+function battle_enable_enemyhp(_enable){
+	obj_battle_ui.show_enemyhp = _enable;
 }
 
 ///@arg {real} state

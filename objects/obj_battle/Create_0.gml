@@ -8,9 +8,11 @@ var _team = team_get(),
 
 charturn = 0;
 select_button = [];
-selectmode = -1;
+selectmode = DIALOG_UI.BUTTON;
 buttonlist = [];
-next_func = -1;
+nextfunc = -1;
+
+charaction = [];
 
 event_user(0)
 

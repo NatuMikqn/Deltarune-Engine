@@ -56,6 +56,9 @@ function EnemyData(_builder) : Enemy() constructor
 			
 		}
 	}
+	
+	///@return {String}
+	static get_name = function () { return name; }
 	///@return {Real}
 	static get_hp = function () { return hp; }
 	///@return {Real}
