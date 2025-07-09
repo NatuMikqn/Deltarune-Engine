@@ -121,7 +121,7 @@ function battle_show_dialog(_skipped){
 				.set_depth(DEPTH.UI - 1)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_dialog(true)
-				.set_interaction(false)
+				.enable_interaction(false)
 				.set_tag("BattleDialogBoxMessage")
 				.build();
 		}

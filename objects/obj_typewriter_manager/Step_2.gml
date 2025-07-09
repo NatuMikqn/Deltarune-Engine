@@ -1,13 +1,28 @@
-if (input_check_pressed(INPUT.DOWN)){
-	var _names = struct_get_names(choice), _name, _data, _nexty, _next = choice[$ choicename].pos[1];
-	for (var i = 0; i < array_length(_names); i++) {
-		choicename = _names[i];
-		if (choicename != _name){
-			_data = choice[$_name];
-			_nexty = _data.inst.y;
-			if (_nexty > _next){
-				
-			}
+var _inputcheck = [
+	input_check_pressed(INPUT.UP),
+	input_check_pressed(INPUT.DOWN),
+	input_check_pressed(INPUT.LEFT),
+	input_check_pressed(INPUT.RIGHT),
+]
+
+if (instance_exists(choicedata)){
+	var _target = noone;
+	//上下キーのどっちかが押された場合
+	if (_inputcheck[0] || _inputcheck[1]){
+		_target = choice_search(true, _inputcheck[0], false);
+		//見つからなければ逆から探す
+		if (_target == noone){
+			_target = choice_search(true, _inputcheck[0], true);
 		}
+		if (_target != noone) choicedata = _target;
+	}
+	//左右キーのどちらかが押された場合
+	if (_inputcheck[2] || _inputcheck[3]){
+		_target = choice_search(false, _inputcheck[2], false);
+		//見つからなければ逆から探す
+		if (_target == noone){
+			_target = choice_search(false, _inputcheck[2], true);
+		}
+		if (_target != noone) choicedata = _target;
 	}
 }

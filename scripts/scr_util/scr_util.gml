@@ -169,6 +169,19 @@ function in_range(_x, _a, _b)
 	return (_a <= _x) && (_x <= _b);
 }
 
+///aからbまでの範囲にxが含まれるかどうか
+///同じ位置は含みません
+///含まれていれば、Trueを返します。
+///@arg {Real} x 数値
+///@arg {Real} a 超過
+///@arg {Real} b 未満
+///@return {Bool} 含まれているかどうか
+///@pure
+function in_range_neq(_x, _a, _b)
+{
+	return (_a < _x) && (_x < _b);
+}
+
 ///画面サイズを設定します
 ///@arg {Real} width
 ///@arg {Real} height

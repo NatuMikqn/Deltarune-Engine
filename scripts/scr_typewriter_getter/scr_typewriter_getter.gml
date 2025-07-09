@@ -66,3 +66,27 @@ function typewriter_anim_get(_type, _name) {
 function typewriter_get_choice() {
 	return -1;
 }
+
+///choice位置を一番上から左のものに変更
+///@return {Real}
+function typewriter_reset_choicetarget() {
+	
+	var _pos, _toplist = [], _next = infinity, _sel;
+	with (obj_typewriter_object){
+		_pos = data.choice;
+		if (_pos.y <= _next){
+			_next = _pos.y;
+			array_push(_toplist, id)
+		}
+		
+	}
+	_next = infinity;
+	for (var i = 0; i < array_length(_toplist); i++) {
+		_pos = _toplist[i].data.choice;
+		if (_pos.x < _next){
+			_next = _pos.x;
+			_sel = i;
+		}
+	}
+	obj_typewriter_manager.choicedata = _toplist[_sel];
+}

@@ -43,6 +43,8 @@ function TypeWriter() constructor
 		inst : noone,
 		name : ""
 	};
+	//choice用
+	choice = false;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
@@ -67,6 +69,19 @@ function TypeWriter() constructor
 	///@return {Bool}
 	static is_gui = function(){
 		return gui;
+	}
+	
+	///マネージャー側にchoiceデータは入っているかどうか
+	///いなければ自身を登録します
+	///@arg {Id.Instance} instance
+	///@return {Bool}
+	static check_choice = function(_inst){
+		if (choice) with(obj_typewriter_manager){
+			if (choicedata == noone){
+				choicedata = _inst;
+			}
+			break;
+		}
 	}
 	
 	///指定されたターゲットSurfaceを返す
@@ -148,7 +163,7 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	///スキップ可能にするかどうか
 	///@arg {Bool} skippable default : true
 	///@return {Struct.TypeWriterBuilder}
-	static set_skippable = function(_enable){
+	static enable_skippable = function(_enable){
 		skippable = _enable;
 		return self;
 	}
@@ -156,8 +171,15 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	///実行キーを可能にするかどうか
 	///@arg {Bool} interaction default : true
 	///@return {Struct.TypeWriterBuilder}
-	static set_interaction = function(_enable){
+	static enable_interaction = function(_enable){
 		interaction = _enable;
+		return self;
+	}
+	
+	///選択可能にする
+	///@return {Struct.TypeWriterBuilder}
+	static enable_choice = function(){
+		choice = true;
 		return self;
 	}
 	
@@ -170,6 +192,8 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 		_inst.data = _data;
 		//TypeWriterDataにinstanceの情報を
 		_data.inst = _inst;
+		
+		check_choice(_inst);
 		
 		return _inst;
 	}

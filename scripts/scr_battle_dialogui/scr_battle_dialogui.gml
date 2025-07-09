@@ -10,11 +10,11 @@ enum DIALOG_UI
 function battle_dialog_button()
 {
 	with (obj_battle){
-		if (selectmode == DIALOG_UI.BUTTON) typewriter_delete("BattleDialogBoxMessage");
+		if (selectmode != DIALOG_UI.BUTTON) typewriter_delete("BattleDialogBoxMessage");
 		typewriter_delete("BattleDialogBoxSelect");
 		selectmode = DIALOG_UI.BUTTON;
 		battle_enable_enemyhp(false);
-		battle_show_dialog(false);
+		battle_show_dialog(true);
 	}
 }
 ///敵指定モード
@@ -31,16 +31,46 @@ function battle_dialog_enemyselect(_nextfunc)
 		
 		for (var i = 0; i < array_length(battle_enemy_ids); i++) {
 			_enemy = battle_enemy_ids[i].data;
-			new TypeWriterBuilder(80, 375 + i * 30, $"<font normal><choice 0 {i}><skipped true>{_enemy.get_name()}")
+			new TypeWriterBuilder(80, 375 + i * 30, $"<font normal><skipped true>{_enemy.get_name()}")
 				.set_font("normal")
 				.set_scale(2, 2)
 				.set_depth(DEPTH.UI - 1)
 				.set_surface(obj_battle, battle_get_surface_varname())
-				.set_interaction(false)
+				.enable_interaction(false)
+				.enable_choice(true)
 				.set_tag("BattleDialogBoxSelect")
 				.build();
-				
 		}
+		
+		new TypeWriterBuilder(79, 10, "<font normal><skipped true>TESTMESSAGE")
+				.set_font("normal")
+				.set_scale(2, 2)
+				.set_depth(DEPTH.UI - 1)
+				.set_surface(obj_battle, battle_get_surface_varname())
+				.enable_interaction(false)
+				.enable_choice(true)
+				.set_tag("BattleDialogBoxSelect")
+				.build();
+		
+		new TypeWriterBuilder(80, 40, "<font normal><skipped true>TESTMESSAGE")
+				.set_font("normal")
+				.set_scale(2, 2)
+				.set_depth(DEPTH.UI - 1)
+				.set_surface(obj_battle, battle_get_surface_varname())
+				.enable_interaction(false)
+				.enable_choice(true)
+				.set_tag("BattleDialogBoxSelect")
+				.build();
+		
+		new TypeWriterBuilder(81, 90, "<font normal><skipped true>TESTMESSAGE")
+				.set_font("normal")
+				.set_scale(2, 2)
+				.set_depth(DEPTH.UI - 1)
+				.set_surface(obj_battle, battle_get_surface_varname())
+				.enable_interaction(false)
+				.enable_choice(true)
+				.set_tag("BattleDialogBoxSelect")
+				.build();
 	}
 }
 ///リスト表示
