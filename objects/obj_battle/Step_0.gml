@@ -50,6 +50,15 @@ if (state == BATTLE_STATE.MYTURN){
 				nextfunc();
 			}
 		}
+		else if (selectmode = DIALOG_UI.LIST){
+			if (typewriter_choice_changed()){
+				//TODO: 仮配置 typewriterにてfunctionとして移動時実行などできるようにしておく
+				battle_dialog_list_update(dialog_list[typewriter_choice_get_id()].get_desc());
+			}
+			if (input_check_pressed(INPUT.CONFIRM)){
+				nextfunc();
+			}
+		}
 		//ボタン操作に戻る
 		if (input_check_pressed(INPUT.CANCEL)){
 			battle_dialog_button();

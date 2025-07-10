@@ -5,8 +5,9 @@ function TypeWriter() constructor
 	pos = new Vector2();
 	depth = 0;
 	textdata = [];
-	font = "default";
+	font = typewriter_get_defaultfont();
 	color = array_create(4, c_white);
+	color_ext = false;
 	alpha = 1;
 	scale = new Vector2(1);
 	offset = new Vector2();
@@ -45,6 +46,7 @@ function TypeWriter() constructor
 	};
 	//choice用
 	choice = false;
+	choice_id = -1;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
@@ -130,6 +132,8 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	
 	textdata = text_deserialize(_text);
 	
+	
+	
 	///@arg {Real} depth
 	///@return {Struct.TypeWriterBuilder}
 	static set_depth = function(_depth){
@@ -177,14 +181,52 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	}
 	
 	///選択可能にする
+	///@arg {Real} id
 	///@return {Struct.TypeWriterBuilder}
-	static enable_choice = function(){
+	static enable_choice = function(_id = -1){
 		choice = true;
+		choice_id = _id;
 		return self;
 	}
 	
 	///@return {Id.Instance}
 	static build = function(){
+		/*
+		var _size = [], _temp = {
+			scale : scale.copy(),
+			font : font,
+			lang : lang,
+			lg : globalmode,
+		}
+		array_push(_size, new Vector2())
+		for (var i = 0; i < array_length(textdata); i++) {
+			with (textdata[i]){
+				if (type == "cmd"){
+					switch (data[0]) {
+						case "scale":
+							if (array_length(data) < 3){ _temp.scale.set(real(data[1])); }
+							else{ _temp.scale.set(real(data[1]), real(data[2])); }
+							break;
+						case "font":
+							_temp.font = _data[1];
+							_font.lg = typewriter_font_get(font).get_globalmode();
+							break;
+						case "nl":
+						case "newline":
+							_temp.font = _data[1];
+							_font.lg = typewriter_font_get(font).get_globalmode();
+							array_push(_size, new Vector2())
+							break;
+					}
+				}else if (type == "str"){
+					
+					draw_set_font(l10n_get_font(_temp.temp, _temp.lang))
+					_size = string_width(data * _temp.scale.x)
+				}
+				show_message(self);
+			}
+		}*/
+		
 		var _data = new TypeWriterData(self);
 		var _inst = instance_create_depth(obj_pos.x, obj_pos.y, depth, obj_typewriter_object);
 		
@@ -227,6 +269,8 @@ function TypeWriterData(_self) : TypeWriter() constructor
 	latertimer = 0;
 	//前回改行されているかどうか
 	prevnl = false;
+	//色用surface
+	srf_text = -1;
 	
 	///CreateID取得
 	static get_cid = function(){

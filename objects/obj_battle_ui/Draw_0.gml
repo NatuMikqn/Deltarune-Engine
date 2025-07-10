@@ -138,4 +138,5 @@ for(var i=0;i<24;i++){
 	//draw_charbox_custom(irandom(640), irandom(480), spr_charbox_icon_kris, 0, spr_charbox_name_kris, irandom(16777215), irandom(100), irandom_range(80,120))
 }
 draw_set_ca();
+draw_text(20, 460, typewriter_choice_get_id())
 surface_reset_target();

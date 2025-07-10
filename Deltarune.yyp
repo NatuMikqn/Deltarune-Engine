@@ -162,7 +162,6 @@
     {"id":{"name":"scr_board","path":"scripts/scr_board/scr_board.yy",},},
     {"id":{"name":"scr_camera","path":"scripts/scr_camera/scr_camera.yy",},},
     {"id":{"name":"scr_color_converter","path":"scripts/scr_color_converter/scr_color_converter.yy",},},
-    {"id":{"name":"scr_color_custom","path":"scripts/scr_color_custom/scr_color_custom.yy",},},
     {"id":{"name":"scr_depth","path":"scripts/scr_depth/scr_depth.yy",},},
     {"id":{"name":"scr_dialog","path":"scripts/scr_dialog/scr_dialog.yy",},},
     {"id":{"name":"scr_draw_charbox","path":"scripts/scr_draw_charbox/scr_draw_charbox.yy",},},

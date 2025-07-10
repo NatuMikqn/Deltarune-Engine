@@ -5,6 +5,7 @@ var _inputcheck = [
 	input_check_pressed(INPUT.RIGHT),
 ]
 
+choice_changed = false;
 if (instance_exists(choicedata)){
 	var _target = noone;
 	//上下キーのどっちかが押された場合
@@ -14,7 +15,11 @@ if (instance_exists(choicedata)){
 		if (_target == noone){
 			_target = choice_search(true, _inputcheck[0], true);
 		}
-		if (_target != noone) choicedata = _target;
+		if (_target != noone){
+			choicedata = _target;
+			audio_play_sound(snd_select, 0, 0);
+			choice_changed = true;
+		}
 	}
 	//左右キーのどちらかが押された場合
 	if (_inputcheck[2] || _inputcheck[3]){
@@ -23,6 +28,10 @@ if (instance_exists(choicedata)){
 		if (_target == noone){
 			_target = choice_search(false, _inputcheck[2], true);
 		}
-		if (_target != noone) choicedata = _target;
+		if (_target != noone){
+			choicedata = _target;
+			audio_play_sound(snd_select, 0, 0);
+			choice_changed = true;
+		}
 	}
 }

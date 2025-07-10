@@ -32,6 +32,7 @@ function typewriter_custom_cmd(_self, _data)
 				globalmode = typewriter_font_get(font).get_globalmode();
 				break;
 			
+			case "nl":
 			case "newline":
 				newline()
 				break;

@@ -13,6 +13,7 @@ buttonlist = [];
 nextfunc = -1;
 
 charaction = [];
+dialog_list = -1;
 
 event_user(0)
 

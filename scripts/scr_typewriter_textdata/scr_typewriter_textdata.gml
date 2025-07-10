@@ -1,15 +1,3 @@
-///@arg {real} x
-///@arg {real} y
-///@arg {string} text
-function typer_create(_x, _y, _text){
-	//var _typer = instance_create_depth(_x, _y, 0, obj_typer);
-	//_typer.text = _text;
-	//if (instance_exists(obj_battle)){
-	//	_typer.battle_surface = true;
-	//}
-	//return _typer;
-}
-
 ///@arg {String} type
 ///@arg {Any} data
 function get_textdata_format(type, data){
@@ -20,8 +8,7 @@ function get_textdata_format(type, data){
 ///@return {Array<Struct.TextData>}
 function text_deserialize(text){
 	var _char, _cmd, _text, _str = "",
-		_data = [],
-		_td = new TextData();
+		_data = [], _td = new TextData();
 	
 	for (var i = 1; i <= string_length(text); i++) {
 		_char = string_char_at(text, i)

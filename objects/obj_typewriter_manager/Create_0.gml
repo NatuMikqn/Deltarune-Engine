@@ -8,6 +8,10 @@ anim_list = {
 
 choice = {};
 choicedata = noone;
+choice_heartpos = new Vector2(-17, 18);
+choice_changed = false;
+
+default_font = "default";
 
 typewriter_custom_font();
 typewriter_custom_anim();
@@ -43,7 +47,7 @@ function choice_search(_vertical, _negamove, _reverse)
 			else _rangeif = in_range_neq(_dis, 0, _next);
 			
 			if (_rangeif && _dir <= _dirmax){
-				_next = _pos[$_tc];
+				_next = _dis;
 				_dirmax = _dir;
 				_target = id;
 			}

@@ -7,7 +7,7 @@
   },
   "bitDepth":1,
   "bitRate":128,
-  "compression":0,
+  "compression":1,
   "conversionMode":0,
   "duration":103.38463,
   "name":"mus_battle_ch3",
@@ -20,6 +20,6 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"mus_battle_ch3.ogg",
-  "type":0,
+  "type":1,
   "volume":1.0,
 }

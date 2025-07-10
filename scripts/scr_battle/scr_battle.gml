@@ -40,7 +40,7 @@ function battle_next_char(_type, _ct = 0){
 		with(obj_battle_ui) event_user(1);
 		if (charturn >= array_length(team_get())){
 			battle_tension_clear_history();
-			typewriter_delete("BattleDialogBoxMessage");
+			battle_dialog_cleanup();
 			battle_set_state(BATTLE_STATE.ENEMY_TALK);
 		}else{
 			battle_set_buttonlist(charturn);
