@@ -109,11 +109,12 @@ function typewriter_choice_get_id()
 	return "";
 }
 
-///choice変更時トリガー
-///@return {Bool}
-function typewriter_choice_changed()
+///choice変更時のFunction指定
+///空白の場合、無効にします
+///@arg {Function} func
+function typewriter_choice_changed(func = undefined)
 {
-	return obj_typewriter_manager.choice_changed;
+	obj_typewriter_manager.func_change = func;
 }
 
 ///choice位置を一番上から左のものに変更

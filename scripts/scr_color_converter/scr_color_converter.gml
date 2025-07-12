@@ -20,10 +20,11 @@ function color_converter(value){
 			case "dkgray":
 			case "dkgrey":
 				return array_create(4, c_dkgray);
+			case "cblue":
 			case "tired":
 				return array_create(4, #00b2ff);
 			case "mixst":
-				return [ #ffff40, #00b2ff, #00b2ff, #ffff40 ];
+				return [ c_yellow, #00b2ff, #00b2ff, c_yellow ];
 		}
 	}
 	if (is_string(value)){

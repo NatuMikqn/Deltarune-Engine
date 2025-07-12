@@ -1,4 +1,5 @@
 
+///@ignore
 function typewriter_custom_font()
 {
 	with(obj_typewriter_manager){

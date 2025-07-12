@@ -178,6 +178,7 @@
     {"name":"spr_battle_button_tech_ja","order":5,"path":"sprites/spr_battle_button_tech_ja/spr_battle_button_tech_ja.yy",},
     {"name":"spr_battle_button_tech_zh","order":5,"path":"sprites/spr_battle_button_tech_zh/spr_battle_button_tech_zh.yy",},
     {"name":"spr_battle_button_tech","order":5,"path":"sprites/spr_battle_button_tech/spr_battle_button_tech.yy",},
+    {"name":"spr_battle_dialog_arrow","order":25,"path":"sprites/spr_battle_dialog_arrow/spr_battle_dialog_arrow.yy",},
     {"name":"spr_battle_soul_blue","order":2,"path":"sprites/spr_battle_soul_blue/spr_battle_soul_blue.yy",},
     {"name":"spr_battle_soul_red","order":1,"path":"sprites/spr_battle_soul_red/spr_battle_soul_red.yy",},
     {"name":"spr_char_dwkris_battle_defend","order":3,"path":"sprites/spr_char_dwkris_battle_defend/spr_char_dwkris_battle_defend.yy",},

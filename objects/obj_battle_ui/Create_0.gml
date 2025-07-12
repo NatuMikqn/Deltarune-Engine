@@ -8,9 +8,6 @@ show_target = 0;
 tension_view = 0;
 tension_anim = [0, 0, 0]; //white, red, orange
 
-//敵のHP表示
-show_enemyhp = false;
-
 moveline = []
 timer = 0;
 

@@ -61,12 +61,6 @@ function battle_prev_char(){
 	}
 }
 
-///ダイアログHP表示変更
-///@arg {Bool} enable
-function battle_enable_enemyhp(_enable){
-	obj_battle_ui.show_enemyhp = _enable;
-}
-
 ///@arg {real} state
 ///@arg {real} timer
 function battle_set_nextstate(_state, _real){
@@ -162,8 +156,4 @@ function battle_get_buttonselect(_char){
 ///@return {Real}
 function battle_get_charturn(){
 	return obj_battle.charturn;
-}
-///@arg {Bool} enable
-function battle_show_enemyhp(_enable){
-	obj_battle_ui.show_enemyhp = _enable;
 }

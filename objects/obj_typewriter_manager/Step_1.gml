@@ -5,7 +5,6 @@ var _inputcheck = [
 	input_check_pressed(INPUT.RIGHT),
 ]
 
-choice_changed = false;
 if (instance_exists(choicedata)){
 	var _target = noone;
 	//上下キーのどっちかが押された場合
@@ -18,7 +17,6 @@ if (instance_exists(choicedata)){
 		if (_target != noone){
 			choicedata = _target;
 			audio_play_sound(snd_select, 0, 0);
-			choice_changed = true;
 		}
 	}
 	//左右キーのどちらかが押された場合
@@ -31,7 +29,11 @@ if (instance_exists(choicedata)){
 		if (_target != noone){
 			choicedata = _target;
 			audio_play_sound(snd_select, 0, 0);
-			choice_changed = true;
+		}
+	}
+	if (_target != noone){
+		if (is_method(func_change)){
+			func_change(choicedata.data.choice_id)
 		}
 	}
 }

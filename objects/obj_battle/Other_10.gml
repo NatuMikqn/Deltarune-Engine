@@ -3,7 +3,7 @@
 
 charturn = 0;
 select_button = array_create(5, 0);
-selectmode = DIALOG_UI.BUTTON;
+battle_set_selectmode(DIALOG_UI.BUTTON);
 
 //ボタンを戻す
 battle_set_buttonlist(0);

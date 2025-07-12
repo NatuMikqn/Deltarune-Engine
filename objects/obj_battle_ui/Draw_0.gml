@@ -14,24 +14,32 @@ if (battle_get_state() == BATTLE_STATE.MYTURN_ACTION){
 	draw_sprite_ext(spr_pixel, 0, 79, 441, 224, 2, 0, c_navy, 1);
 }
 
-if (show_enemyhp){
+if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 	draw_set_font(fnt_8bit)
 	draw_text_transformed(424, _anim_y + 39, "HP", 2, 1, 0)
 	draw_text_transformed(524, _anim_y + 39, "MERCY", 2, 1, 0)
-	var _enemy, _persent;
+	var _enemy, _persent, _mercy;
 	for (var i = 0; i < array_length(obj_battle.battle_enemy_ids); i++) {
 		_enemy = obj_battle.battle_enemy_ids[i].data;
 		//hp
-		_persent = max(0, _enemy.hp / _enemy.maxhp)
+		_persent = clamp(_enemy.get_hp() / _enemy.get_maxhp(), 0, 1)
 		draw_sprite_ext(spr_pixel, 0, 420, _anim_y + 55 + 30 * i, 81, 16, 0, c_maroon, 1)
 		draw_sprite_ext(spr_pixel, 0, 420, _anim_y + 55 + 30 * i, 81 * _persent, 16, 0, c_lime, 1)
 		draw_set_color(c_white)
 		draw_text_transformed(424, _anim_y + 55 + 30 * i, $"{ceil(_persent * 100)}%", 2, 1, 0)
 		//mercy
+		_mercy = _enemy.get_mercy();
 		draw_sprite_ext(spr_pixel, 0, 520, _anim_y + 55 + 30 * i, 81, 16, 0, #ff5020, 1)
+		draw_sprite_ext(spr_pixel, 0, 520, _anim_y + 55 + 30 * i, 81 * clamp(_mercy / 100, 0, 1), 16, 0, c_yellow, 1)
 		draw_set_color(c_maroon)
-		draw_text_transformed(524, _anim_y + 55 + 30 * i, $"{NaN}%", 2, 1, 0)
+		draw_text_transformed(524, _anim_y + 55 + 30 * i, $"{floor(_mercy)}%", 2, 1, 0)
 	}
+	draw_sprite(spr_battle_dialog_arrow, 0, 380, 450)
+}
+
+if (battle_get_selectmode() == DIALOG_UI.LIST){
+	
+	draw_sprite(spr_battle_dialog_arrow, 0, 470, 445)
 }
 
 var _list = team_get(),

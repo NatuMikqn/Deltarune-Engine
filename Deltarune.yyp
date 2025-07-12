@@ -250,6 +250,7 @@
     {"id":{"name":"spr_battle_button_tech_ja","path":"sprites/spr_battle_button_tech_ja/spr_battle_button_tech_ja.yy",},},
     {"id":{"name":"spr_battle_button_tech_zh","path":"sprites/spr_battle_button_tech_zh/spr_battle_button_tech_zh.yy",},},
     {"id":{"name":"spr_battle_button_tech","path":"sprites/spr_battle_button_tech/spr_battle_button_tech.yy",},},
+    {"id":{"name":"spr_battle_dialog_arrow","path":"sprites/spr_battle_dialog_arrow/spr_battle_dialog_arrow.yy",},},
     {"id":{"name":"spr_battle_soul_blue","path":"sprites/spr_battle_soul_blue/spr_battle_soul_blue.yy",},},
     {"id":{"name":"spr_battle_soul_red","path":"sprites/spr_battle_soul_red/spr_battle_soul_red.yy",},},
     {"id":{"name":"spr_battle_soul","path":"sprites/spr_battle_soul/spr_battle_soul.yy",},},

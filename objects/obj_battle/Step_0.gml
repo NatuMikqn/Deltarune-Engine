@@ -25,7 +25,7 @@ if (keyboard_check(vk_control) && keyboard_check_pressed(ord("S"))){
 //自ターン処理
 if (state == BATTLE_STATE.MYTURN){
 	//ボタン行動選択
-	if (selectmode = DIALOG_UI.BUTTON){
+	if (battle_get_selectmode() == DIALOG_UI.BUTTON){
 		var _left = input_check_pressed(INPUT.LEFT),
 			_right = input_check_pressed(INPUT.RIGHT);
 		if (_left || _right){
@@ -45,16 +45,12 @@ if (state == BATTLE_STATE.MYTURN){
 			battle_prev_char();
 		}
 	}else{ //ボタン選択以外の場合
-		if (selectmode = DIALOG_UI.SELECTENEMY){
+		if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 			if (input_check_pressed(INPUT.CONFIRM)){
 				nextfunc();
 			}
 		}
-		else if (selectmode = DIALOG_UI.LIST){
-			if (typewriter_choice_changed()){
-				//TODO: 仮配置 typewriterにてfunctionとして移動時実行などできるようにしておく
-				battle_dialog_list_update(dialog_list[typewriter_choice_get_id()].get_desc());
-			}
+		else if (battle_get_selectmode() == DIALOG_UI.LIST){
 			if (input_check_pressed(INPUT.CONFIRM)){
 				nextfunc();
 			}

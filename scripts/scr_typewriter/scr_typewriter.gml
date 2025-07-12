@@ -47,6 +47,8 @@ function TypeWriter() constructor
 	//choice用
 	choice = false;
 	choice_id = -1;
+	//インスタンス
+	instance = false;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
@@ -132,8 +134,6 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	
 	textdata = text_deserialize(_text);
 	
-	
-	
 	///@arg {Real} depth
 	///@return {Struct.TypeWriterBuilder}
 	static set_depth = function(_depth){
@@ -186,6 +186,14 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	static enable_choice = function(_id = -1){
 		choice = true;
 		choice_id = _id;
+		return self;
+	}
+	
+	///文字列をまとめて描画する
+	///@arg {Bool} instance default : false
+	///@return {Struct.TypeWriterBuilder}
+	static enable_instance = function(_enable){
+		instance = _enable;
 		return self;
 	}
 	
@@ -336,6 +344,12 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		latertimer = 0;
 	}
 	
+	///インスタンスモードかどうか
+	///@return {Struct.TextData}
+	static get_instance = function(){
+		return instance;
+	}
+	
 	///現在のテキストデータを取得
 	///@return {Struct.TextData}
 	static get_textdata = function(){
@@ -385,40 +399,57 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		read++;
 		
 		var _lang = globalmode ? 0 : lang,
-			_char = string_char_at(textdata[readstep].data, read),
+			_firstchar = string_char_at(textdata[readstep].data, read),
+			_char = "",
 			_font = typewriter_font_get(font)
 		
+		//インスタンスモードの場合、文字列すべてを一斉に読み込ませる
+		if (instance){
+			_char = textdata[readstep].data;
+		}else{
+			_char = _firstchar;
+		}
+		
+		//ダイアログモード時自動で空白を開ける
 		if (prevnl && dialogmode){
-			if (!array_contains(_font.get_asterisk(_lang), _char)){
+			if (!array_contains(_font.get_asterisk(_lang), _firstchar)){
 				pos.x += (_font.get_w_asterisk(_lang) + _font.get_w_space(_lang) + _font.get_sp_char(_lang)) * scale.x;
 			}
 		}
 		
+		//文字データ作成
 		var _data = new CharData(pos, _char, color, scale, alpha, _font.get_font(_lang));
+		//スキップ時文字タイマーを減らす
 		if (skipped){
 			_data.set_chartimer(-latertimer);
 		}
+		//文字列対象アニメ適応
 		if (is_array(anim.charstep)){
 			_data.set_animfunc(anim.charstep[0]);
 			_data.set_animargs(anim_arg.charstep);
 		}
 		
-		//Create Function
+		//作成時関数再生
 		if (is_array(anim.create)) {
 			_data.run_animcreate(anim.create[0], anim_arg.create)
 		}
 		
 		//x位置を_charの横幅 + 字間進める
 		var _w = scale.x;
+		var _len = string_length(_char);
 		if (array_contains(_font.get_space(_lang), _char)){
 			_w *= _font.get_w_space(_lang);
 		}else if (array_contains(_font.get_asterisk(_lang), _char)){
 			_w *= _font.get_w_asterisk(_lang);
 		}else{
-			if (is_undefined(_font.get_w_char(_lang))) draw_set_font(_font.get_font(_lang));
-			_w *= _font.get_w_char(_lang) ?? string_width(_char);
+			//w_charが未定義の場合、string_widthのためにdraw_set_font()を実行
+			if (is_undefined(_font.get_w_char(_lang))){
+				draw_set_font(_font.get_font(_lang));
+				_w *= string_width(_char);
+			}
+			else _w *= _font.get_w_char(_lang) * _len;
 		}
-		_w += _font.get_sp_char(_lang);
+		_w += _font.get_sp_char(_lang) * _len;
 		
 		pos.x += _w;
 		
@@ -430,7 +461,7 @@ function TypeWriterData(_self) : TypeWriter() constructor
 			mtt_already_voice = true;
 		}
 		
-		if (string_length(textdata[readstep].data) <= read){
+		if ((string_length(textdata[readstep].data) <= read) || (get_instance())){
 			readstep++;
 			read = 0;
 		}

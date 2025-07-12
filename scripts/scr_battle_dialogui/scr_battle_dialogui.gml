@@ -10,11 +10,11 @@ enum DIALOG_UI
 function battle_dialog_button()
 {
 	with (obj_battle){
-		if (selectmode != DIALOG_UI.BUTTON) typewriter_delete("BattleDialogBoxMessage");
+		if (battle_get_selectmode() != DIALOG_UI.BUTTON) typewriter_delete("BattleDialogBoxMessage");
 		typewriter_delete("BattleDialogBoxSelect");
 		typewriter_delete("DialogDescription");
-		selectmode = DIALOG_UI.BUTTON;
-		battle_enable_enemyhp(false);
+		typewriter_choice_changed();
+		battle_set_selectmode(DIALOG_UI.BUTTON);
 		battle_show_dialog(true);
 	}
 }
@@ -25,19 +25,19 @@ function battle_dialog_enemyselect(_nextfunc)
 	var _enemy;
 	with (obj_battle){
 		battle_dialog_cleanup();
-		selectmode = DIALOG_UI.SELECTENEMY;
+		battle_set_selectmode(DIALOG_UI.SELECTENEMY);
 		battle_set_nextfunc(_nextfunc);
-		battle_enable_enemyhp(true);
 		typewriter_choice_set_heartpos(-17, 18);
 		
 		for (var i = 0; i < array_length(battle_enemy_ids); i++) {
 			_enemy = battle_enemy_ids[i].data;
-			new TypeWriterBuilder(80, 375 + i * 30, $"<skipped true><color mixst>{_enemy.get_name()}")
+			new TypeWriterBuilder(80, 375 + i * 30, $"<skipped true>{_enemy.get_name()}")
 				.set_font("normal")
 				.set_scale(2, 2)
 				.set_depth(DEPTH.UI - 1)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_interaction(false)
+				.enable_instance(true)
 				.enable_choice(i)
 				.set_tag("BattleDialogBoxSelect")
 				.build();
@@ -52,7 +52,7 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 	var _data;
 	with (obj_battle){
 		battle_dialog_cleanup();
-		selectmode = DIALOG_UI.LIST;
+		battle_set_selectmode(DIALOG_UI.LIST);
 		typewriter_choice_set_heartpos(-12, 18);
 		
 		battle_dialog_list_update(_datalist[0].get_desc())
@@ -65,12 +65,16 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 				.set_depth(DEPTH.UI - 1)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_interaction(false)
+				.enable_instance(true)
 				.enable_choice(i)
 				.set_tag("BattleDialogBoxSelect")
 				.build();
 		}
 		obj_battle.dialog_list = _datalist;
 		battle_set_nextfunc(_nextfunc ?? function(){})
+		typewriter_choice_changed(function (_i) {
+			battle_dialog_list_update(obj_battle.dialog_list[_i].get_desc());
+		});
 	}
 }
 ///リスト説明アップデート
@@ -96,7 +100,7 @@ function battle_dialog_cleanup()
 		typewriter_delete("DialogDescription");
 		typewriter_delete("BattleDialogBoxMessage");
 		typewriter_delete("BattleDialogBoxSelect");
-		battle_enable_enemyhp(false);
+		typewriter_choice_changed();
 	}
 }
 
@@ -120,4 +124,14 @@ function battle_get_buttondata(_pos)
 function battle_set_nextfunc(_func)
 {
 	obj_battle.nextfunc = _func;
+}
+///@return {Real}
+function battle_get_selectmode()
+{
+	return obj_battle.selectmode;
+}
+///@arg {Real} mode DIALOG_UI.?
+function battle_set_selectmode(_mode)
+{
+	obj_battle.selectmode = _mode;
 }

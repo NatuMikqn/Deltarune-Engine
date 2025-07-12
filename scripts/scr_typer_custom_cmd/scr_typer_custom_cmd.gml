@@ -1,6 +1,7 @@
 
 ///@arg {Struct.TypeWriterData} self
 ///@arg {Array} data
+///@ignore
 function typewriter_custom_cmd(_self, _data)
 {
 	with(_self){
@@ -103,9 +104,13 @@ function typewriter_custom_cmd(_self, _data)
 				}
 				
 				break;
+			
 			case "choice":
 				choice = true;
 				check_choice(inst);
+			
+			case "instance":
+				enable_instance(bool(_data[1]));
 		}
 	}
 }

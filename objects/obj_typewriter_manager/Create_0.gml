@@ -9,7 +9,6 @@ anim_list = {
 choice = {};
 choicedata = noone;
 choice_heartpos = new Vector2(-17, 18);
-choice_changed = false;
 
 default_font = "default";
 
@@ -19,6 +18,8 @@ typewriter_custom_anim();
 createid = -1;
 
 choice_safedir = 0;
+
+func_change = undefined;
 
 ///@arg {Bool} is_vertical 捜索方向は垂直かどうか
 ///@arg {Bool} negamove 進行方向が負の値かどうか
