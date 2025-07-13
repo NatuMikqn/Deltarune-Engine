@@ -10,6 +10,19 @@ function typewriter_get(_tag)
 		}
 	}
 }
+///指定したタグが付いているtypewriterリストを取得します
+///@arg {String} tag
+///@return {Array<Id.Instance>}
+function typewriter_get_ext(_tag)
+{
+	var _list = [];
+	with (obj_typewriter_object){
+		if (data.tag_equals(_tag)){
+			array_push(_list, id);
+		}
+	}
+	return _list;
+}
 ///指定したタグが付いているtypewriterを削除します
 ///@arg {String} tag
 function typewriter_delete(_tag)

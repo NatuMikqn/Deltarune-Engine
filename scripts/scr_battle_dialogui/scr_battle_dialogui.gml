@@ -22,14 +22,15 @@ function battle_dialog_button()
 ///@arg {Function} nextfunction
 function battle_dialog_enemyselect(_nextfunc)
 {
-	var _enemy;
+	var _enemy, _len;
 	with (obj_battle){
 		battle_dialog_cleanup();
 		battle_set_selectmode(DIALOG_UI.SELECTENEMY);
 		battle_set_nextfunc(_nextfunc);
 		typewriter_choice_set_heartpos(-17, 18);
 		
-		for (var i = 0; i < array_length(battle_enemy_ids); i++) {
+		_len = array_length(battle_enemy_ids);
+		for (var i = 0; i < _len; i++) {
 			_enemy = battle_enemy_ids[i].data;
 			new TypeWriterBuilder(80, 375 + i * 30, $"<skipped true>{_enemy.get_name()}")
 				.set_font("normal")
@@ -40,8 +41,18 @@ function battle_dialog_enemyselect(_nextfunc)
 				.enable_instance(true)
 				.enable_choice(i)
 				.set_tag("BattleDialogBoxSelect")
+				.set_visible(i < 3)
 				.build();
 		}
+		typewriter_choice_changed(function (_i) {
+			var _list = typewriter_get_ext("BattleDialogBoxSelect");
+			
+			for (var i = 0; i < array_length(_list); i++) {
+				show_message(_list[i].data.choice_id)
+				show_message(_list[i].x)
+				show_message(_list[i].y)
+			}
+		});
 	}
 }
 ///リスト表示

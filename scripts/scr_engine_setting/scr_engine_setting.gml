@@ -5,6 +5,11 @@
 //PCの言語に合わせて自動で設定されます
 #macro AUTO_LANGUAGE true
 
+//Dialogのリストにて、下までカーソルを動かすと一番上に戻されます
+//逆も同じです
+//オフにすると、originalと同じになります
+#macro BETTER_DIALOGSELECT true
+
 //////////////////////////////////////////////
 // performance
 

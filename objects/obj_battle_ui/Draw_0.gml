@@ -14,13 +14,18 @@ if (battle_get_state() == BATTLE_STATE.MYTURN_ACTION){
 	draw_sprite_ext(spr_pixel, 0, 79, 441, 224, 2, 0, c_navy, 1);
 }
 
+//HP表示
 if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 	draw_set_font(fnt_8bit)
 	draw_text_transformed(424, _anim_y + 39, "HP", 2, 1, 0)
 	draw_text_transformed(524, _anim_y + 39, "MERCY", 2, 1, 0)
 	var _enemy, _persent, _mercy;
-	for (var i = 0; i < array_length(obj_battle.battle_enemy_ids); i++) {
-		_enemy = obj_battle.battle_enemy_ids[i].data;
+	//3つまで表示するように
+	var _len = array_length(obj_battle.battle_enemy_ids);
+	var _start = floor(typewriter_choice_get_id() / 3) * 3;
+	var _loopcount = min(_len - _start, 3);
+	for (var i = 0; i < _loopcount; i++) {
+		_enemy = obj_battle.battle_enemy_ids[_start + i].data;
 		//hp
 		_persent = clamp(_enemy.get_hp() / _enemy.get_maxhp(), 0, 1)
 		draw_sprite_ext(spr_pixel, 0, 420, _anim_y + 55 + 30 * i, 81, 16, 0, c_maroon, 1)
@@ -34,7 +39,7 @@ if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 		draw_set_color(c_maroon)
 		draw_text_transformed(524, _anim_y + 55 + 30 * i, $"{floor(_mercy)}%", 2, 1, 0)
 	}
-	draw_sprite(spr_battle_dialog_arrow, 0, 380, 450)
+	draw_sprite(spr_battle_dialog_arrow, 0, 614, 445)
 }
 
 if (battle_get_selectmode() == DIALOG_UI.LIST){

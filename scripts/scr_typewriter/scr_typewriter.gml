@@ -36,7 +36,8 @@ function TypeWriter() constructor
 	interaction = true;
 	//スキップ可能か
 	skippable = true;
-	//識別用タグ
+	//識別用
+	userdata = {};
 	tag = "";
 	//描画系
 	gui = false;
@@ -49,12 +50,25 @@ function TypeWriter() constructor
 	choice_id = -1;
 	//インスタンス
 	instance = false;
+	//可視化
+	visible = true;
+	//高度なグラデーション効果
+	//TODO: 完成させる
+	color_ex = false;
 	
 	///GUI描画を有効にするかどうか
 	///@arg {Bool} enable
 	///@return {Struct.TypeWriterBuilder}
 	static set_gui = function(_enable){
 		gui = _enable;
+		return self;
+	}
+	
+	///可視化の変更
+	///@arg {Bool} enable
+	///@return {Struct.TypeWriterBuilder}
+	static set_visible = function(_enable){
+		visible = _enable;
 		return self;
 	}
 	
@@ -161,6 +175,15 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	///@return {Struct.TypeWriterBuilder}
 	static set_tag = function(_tag){
 		tag = _tag;
+		return self;
+	}
+	
+	///ユーザーデータを設定します
+	///@arg {String} name
+	///@arg {Any} value
+	///@return {Struct.TypeWriterBuilder}
+	static set_userdata = function(_name, _value){
+		tag = _value;
 		return self;
 	}
 	
@@ -285,6 +308,11 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		return cid;
 	}
 	
+	///可視化かどうか
+	static is_visible = function(){
+		return visible;
+	}
+	
 	///現在のテキストデータからl10nを実行
 	static l10n = function(){
 		var _data = textdata[readstep].data
@@ -375,6 +403,15 @@ function TypeWriterData(_self) : TypeWriter() constructor
 	///@pure
 	static tag_equals = function(_tag){
 		return (tag == _tag);
+	}
+	
+	///ユーザーデータを取得します
+	///見つからない場合undefinedとなります
+	///@arg {String} name
+	///@return {Any}
+	static set_userdata = function(_name){
+		if (struct_exists(userdata, _name)) return userdata[$ _name]
+		return self;
 	}
 	
 	///改行を行う
@@ -485,37 +522,39 @@ function TypeWriterData(_self) : TypeWriter() constructor
 	///@arg {Real} x
 	///@arg {Real} y
 	static draw = function(_x, _y){
-		var _pos, _scale, _offset, _color, _alpha;
-		var _surfacemode = surface_exists(get_surface());
-		if (_surfacemode){
-			surface_set_target(get_surface())
-		}
-		
-		for (var i = 0; i < array_length(chars); i++) {
-			with(chars[i]){
-				draw_set_font(get_font())
-				_pos = get_pos();
-				_scale = get_scale();
-				_offset = get_offset();
-				_color = get_color();
-				_alpha = get_alpha();
-				
-				
-				var _finalpos = _pos.copy().add(_x, _y).add(_offset),
-					_offset_user = get_offset_user();
-				struct_foreach(_offset_user, method(_finalpos, function (_name, _value) {
-					add(_value)
-				}))
-				
-				draw_text_transformed_color(_finalpos.x, _finalpos.y, get_char(), _scale.x, _scale.y, 0,
-					_color[0], _color[1], _color[2], _color[3], _alpha
-				);
-				
+		if (visible){
+			var _pos, _scale, _offset, _color, _alpha;
+			var _surfacemode = surface_exists(get_surface());
+			if (_surfacemode){
+				surface_set_target(get_surface())
 			}
-		}
-		
-		if (_surfacemode){
-			surface_reset_target()
+			
+			for (var i = 0; i < array_length(chars); i++) {
+				with(chars[i]){
+					draw_set_font(get_font())
+					_pos = get_pos();
+					_scale = get_scale();
+					_offset = get_offset();
+					_color = get_color();
+					_alpha = get_alpha();
+					
+					
+					var _finalpos = _pos.copy().add(_x, _y).add(_offset),
+						_offset_user = get_offset_user();
+					struct_foreach(_offset_user, method(_finalpos, function (_name, _value) {
+						add(_value)
+					}))
+					
+					draw_text_transformed_color(_finalpos.x, _finalpos.y, get_char(), _scale.x, _scale.y, 0,
+						_color[0], _color[1], _color[2], _color[3], _alpha
+					);
+					
+				}
+			}
+			
+			if (_surfacemode){
+				surface_reset_target()
+			}
 		}
 	}
 }
@@ -526,7 +565,7 @@ function TypeWriterData(_self) : TypeWriter() constructor
 ///@arg {Struct.Vector2} scale
 ///@arg {Real} alpha
 ///@arg {Asset.GMFont} font
-function CharData(_pos, _char, _color, _scale, _alpha, _font) : TypeWriter() constructor
+function CharData(_pos, _char, _color, _scale, _alpha, _font) constructor
 {
 	pos = _pos.copy();
 	char = _char;

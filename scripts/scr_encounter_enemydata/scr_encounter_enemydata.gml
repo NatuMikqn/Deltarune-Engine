@@ -8,7 +8,7 @@ function Enemy() constructor
 	maxhp = 0;
 	atk = 0;
 	def = 0;
-	mercy = 0;
+	mercy = random_range(0, 100);
 	mercyenable = true;
 }
 

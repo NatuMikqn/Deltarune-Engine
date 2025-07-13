@@ -108,9 +108,15 @@ function typewriter_custom_cmd(_self, _data)
 			case "choice":
 				choice = true;
 				check_choice(inst);
+				break;
 			
 			case "instance":
 				enable_instance(bool(_data[1]));
+				break;
+			
+			case "colorex":
+				color_ex = bool(_data[1]);
+				break;
 		}
 	}
 }

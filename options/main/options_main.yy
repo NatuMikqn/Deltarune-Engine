@@ -18,7 +18,7 @@
   "option_sci_usesci":false,
   "option_spine_licence":false,
   "option_steam_app_id":"0",
-  "option_template_description":null,
+  "option_template_description":"Deltarune Engine by NatuMikqn\r\n\r\nDeltarune by TobyFox\r\n\r\nthis has no relation to TobyFox",
   "option_template_icon":"${options_dir}/main/template_icon.png",
   "option_template_image":"${options_dir}/main/template_image.png",
   "option_window_colour":255,
