@@ -9,6 +9,7 @@ function localization_init()
 		font : [],
 		sprite : [],
 	}
+	
 	font_add_enable_aa(false);
 	
 	l10n_custom_lang();
@@ -16,6 +17,9 @@ function localization_init()
 	l10n_load_text();
 	l10n_load_font();
 	l10n_load_sprite();
+	
+	if (AUTO_LANGUAGE) l10n_custom_autolang();
+	else lang_set(LANG.EN);
 }
 
 ///言語変更

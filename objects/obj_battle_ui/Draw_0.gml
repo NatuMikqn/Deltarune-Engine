@@ -39,12 +39,23 @@ if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 		draw_set_color(c_maroon)
 		draw_text_transformed(524, _anim_y + 55 + 30 * i, $"{floor(_mercy)}%", 2, 1, 0)
 	}
-	draw_sprite(spr_battle_dialog_arrow, 0, 614, 445)
+	if ((_len - _start) > 3){
+		draw_sprite(spr_battle_dialog_arrow, 0, 614, 445)
+	}
+	if ((_start) > 2){
+		draw_sprite_ext(spr_battle_dialog_arrow, 0, 614, 390, 1, -1, 0, c_white, 1)
+	}
 }
 
 if (battle_get_selectmode() == DIALOG_UI.LIST){
-	
-	draw_sprite(spr_battle_dialog_arrow, 0, 470, 445)
+	var _len = array_length(typewriter_get_ext("BattleDialogBoxSelect"));
+	var _start = floor(typewriter_choice_get_id() / 6) * 6;
+	if ((_len - _start) > 6){
+		draw_sprite(spr_battle_dialog_arrow, 0, 470, 445)
+	}
+	if ((_start) > 5){
+		draw_sprite_ext(spr_battle_dialog_arrow, 0, 470, 390, 1, -1, 0, c_white, 1)
+	}
 }
 
 var _list = team_get(),
@@ -129,7 +140,6 @@ draw_set_font(fnt_8bit);
 draw_set_align(0);
 draw_sprite_ext(spr_tension, 0, _x - 30, _y + 30, 1, 1, 0, c_white, 1);
 
-
 surface_set_target(srf_tp_outline);
 
 if (tension_view < 100){
@@ -147,9 +157,6 @@ var _outline = surface_get_outline(srf_tp_outline, 2, 2, , , 4)
 draw_surface(_outline, 0, _y + 70);
 surface_free(_outline);
 
-for(var i=0;i<24;i++){
-	//draw_charbox_custom(irandom(640), irandom(480), spr_charbox_icon_kris, 0, spr_charbox_name_kris, irandom(16777215), irandom(100), irandom_range(80,120))
-}
 draw_set_ca();
 draw_text(20, 460, typewriter_choice_get_id())
 surface_reset_target();

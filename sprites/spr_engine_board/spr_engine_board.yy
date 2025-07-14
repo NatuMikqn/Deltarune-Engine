@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"engine_icon",
-    "path":"folders/Sprites/engine_icon.yy",
+    "name":"engineicon",
+    "path":"folders/Sprites/engineicon.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

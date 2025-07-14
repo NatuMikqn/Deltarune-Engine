@@ -46,11 +46,14 @@ function battle_dialog_enemyselect(_nextfunc)
 		}
 		typewriter_choice_changed(function (_i) {
 			var _list = typewriter_get_ext("BattleDialogBoxSelect");
-			
-			for (var i = 0; i < array_length(_list); i++) {
-				show_message(_list[i].data.choice_id)
-				show_message(_list[i].x)
-				show_message(_list[i].y)
+			var _choice;
+			var _len = array_length(_list);
+			var _start = floor(_i / 3) * 3;
+			//var _loopcount = min(_len - _start, 3);
+			for (var i = 0; i < _len; i++) {
+				_choice = _list[i].data.choice_id;
+				_list[i].y = 375 + (_choice - _start) * 30;
+				_list[i].data.visible = (_start == (floor(_choice / 3) * 3));
 			}
 		});
 	}
@@ -79,12 +82,24 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 				.enable_instance(true)
 				.enable_choice(i)
 				.set_tag("BattleDialogBoxSelect")
+				.set_visible(i < 6)
 				.build();
 		}
 		obj_battle.dialog_list = _datalist;
 		battle_set_nextfunc(_nextfunc ?? function(){})
 		typewriter_choice_changed(function (_i) {
 			battle_dialog_list_update(obj_battle.dialog_list[_i].get_desc());
+			
+			var _list = typewriter_get_ext("BattleDialogBoxSelect");
+			var _choice;
+			var _len = array_length(_list);
+			var _start = floor(_i / 6) * 6;
+			//var _loopcount = min(_len - _start, 3);
+			for (var i = 0; i < _len; i++) {
+				_choice = _list[i].data.choice_id;
+				_list[i].y = 375 + floor((_choice - _start) / 2) * 30;
+				_list[i].data.visible = (_start == (floor(_choice / 6) * 6));
+			}
 		});
 	}
 }

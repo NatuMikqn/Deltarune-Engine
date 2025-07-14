@@ -1,14 +1,17 @@
 //////////////////////////////////////////////
 // system
 
-//言語の自動設定機能を有効にします
+//初期起動時、言語の自動設定機能を有効にします
 //PCの言語に合わせて自動で設定されます
-#macro AUTO_LANGUAGE true
+#macro AUTO_LANGUAGE false
 
 //Dialogのリストにて、下までカーソルを動かすと一番上に戻されます
 //逆も同じです
 //オフにすると、originalと同じになります
 #macro BETTER_DIALOGSELECT true
+
+//MESSAGE
+#macro MESSAGE "message"
 
 //////////////////////////////////////////////
 // performance

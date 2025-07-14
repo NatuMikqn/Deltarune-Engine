@@ -5,7 +5,6 @@ global_init();
 easing_init()
 
 localization_init()
-lang_set(LANG.EN)
 
 team_init()
 

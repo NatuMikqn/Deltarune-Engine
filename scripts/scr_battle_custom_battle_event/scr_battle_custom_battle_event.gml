@@ -29,6 +29,12 @@ function battle_custom_event(_type){
 			array_push(_list, new BattleDialogList("ITEM3", "DESC333"));
 			array_push(_list, new BattleDialogList("ITEM4", "DESC4444"));
 			array_push(_list, new BattleDialogList("ITEM5", "DESC55555"));
+			array_push(_list, new BattleDialogList("ITEM6", "DESC45555"));
+			array_push(_list, new BattleDialogList("ITEM7", "DESC33555"));
+			array_push(_list, new BattleDialogList("ITEM8", "DESC22255"));
+			array_push(_list, new BattleDialogList("ITEM9", "DESC11115"));
+			array_push(_list, new BattleDialogList("ITEMA", "DESC00000"));
+			array_push(_list, new BattleDialogList("ITEMB", ":D"));
 			battle_dialog_list(_list, function(){
 				audio_play_sound(snd_confirm, 0, 0);
 				battle_next_char(BATTLE_CHAR_ACTION.ITEM);

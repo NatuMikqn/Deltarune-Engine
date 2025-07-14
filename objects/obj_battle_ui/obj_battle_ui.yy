@@ -37,8 +37,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_engine_ui",
-    "path":"sprites/spr_engine_ui/spr_engine_ui.yy",
+    "name":"spr_engineicon_battle_ui",
+    "path":"sprites/spr_engineicon_battle_ui/spr_engineicon_battle_ui.yy",
   },
   "spriteMaskId":null,
   "visible":true,
