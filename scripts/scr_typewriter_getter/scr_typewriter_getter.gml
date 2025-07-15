@@ -112,14 +112,14 @@ function typewriter_choice_set_heartpos(_x, _y)
 	obj_typewriter_manager.choice_heartpos.set(_x, _y);
 }
 
-///現在選択しているchoiceの設定したタグ
-///@return {String}
+///現在選択しているchoiceの設定したID
+///@return {Real}
 function typewriter_choice_get_id()
 {
 	with (obj_typewriter_manager) if instance_exists(choicedata) {
 		return choicedata.data.choice_id; 
 	}
-	return "";
+	return undefined;
 }
 
 ///choice変更時のFunction指定

@@ -11,7 +11,7 @@
 #macro BETTER_DIALOGSELECT true
 
 //MESSAGE
-#macro MESSAGE "message"
+#macro MESSAGaaaaaaaaaaaaE "message"
 
 //////////////////////////////////////////////
 // performance

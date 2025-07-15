@@ -41,6 +41,7 @@ function battle_next_char(_type, _ct = 0){
 		if (charturn >= array_length(team_get())){
 			battle_tension_clear_history();
 			battle_dialog_cleanup();
+			battle_set_selectmode(DIALOG_UI.MESSAGE);
 			battle_set_state(BATTLE_STATE.ENEMY_TALK);
 		}else{
 			battle_set_buttonlist(charturn);

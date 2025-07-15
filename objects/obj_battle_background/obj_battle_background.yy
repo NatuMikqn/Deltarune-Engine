@@ -31,7 +31,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_engineicon_battle_bg",
+    "path":"sprites/spr_engineicon_battle_bg/spr_engineicon_battle_bg.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

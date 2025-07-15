@@ -1,6 +1,6 @@
 {
   "$GMSound":"",
-  "%Name":"mus_bigshot",
+  "%Name":"mus_defeat",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -9,8 +9,8 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":140.57146,
-  "name":"mus_bigshot",
+  "duration":50.390205,
+  "name":"mus_defeat",
   "parent":{
     "name":"battle",
     "path":"folders/Sounds/music/battle.yy",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"mus_bigshot.ogg",
+  "soundFile":"mus_defeat.mp3",
   "type":0,
   "volume":1.0,
 }
