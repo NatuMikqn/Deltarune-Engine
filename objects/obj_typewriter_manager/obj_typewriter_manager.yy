@@ -32,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_engineicon_typewriter_manager",
+    "path":"sprites/spr_engineicon_typewriter_manager/spr_engineicon_typewriter_manager.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

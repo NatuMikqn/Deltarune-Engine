@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"engineicon",
-    "path":"folders/Sprites/engineicon.yy",
+    "name":"battle",
+    "path":"folders/Sprites/engineicon/battle.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

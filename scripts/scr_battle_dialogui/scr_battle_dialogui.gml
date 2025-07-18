@@ -5,15 +5,20 @@ enum DIALOG_UI
 	SELECTENEMY,
 	LIST
 }
+enum FLAG_DCU //Flag Dialog CleanUp
+{
+	NOCLEAN_MES = 0x0001,
+	RESET_FL = 0x0010,
+}
 
 ///ダイアログを表示
 function battle_dialog_button()
 {
 	with (obj_battle){
-		if (battle_get_selectmode() != DIALOG_UI.BUTTON) typewriter_delete("BattleDialogBoxMessage");
-		typewriter_delete("BattleDialogBoxSelect");
-		typewriter_delete("DialogDescription");
-		typewriter_choice_changed();
+		var _flag = 0;
+		//UIがボタンの場合かつ、前がボタンであれば削除しない
+		if (battle_get_selectmode() != DIALOG_UI.BUTTON) _flag = FLAG_DCU.RESET_FL | FLAG_DCU.NOCLEAN_MES;
+		battle_dialog_cleanup(_flag);
 		battle_set_selectmode(DIALOG_UI.BUTTON);
 		battle_show_dialog(true);
 	}
@@ -22,16 +27,18 @@ function battle_dialog_button()
 ///@arg {Function} nextfunction
 function battle_dialog_enemyselect(_nextfunc)
 {
-	var _enemy, _len;
+	var _enemy, _len, _ids = battle_get_enemy_ids();
 	with (obj_battle){
 		battle_dialog_cleanup();
 		battle_set_selectmode(DIALOG_UI.SELECTENEMY);
 		battle_set_nextfunc(_nextfunc);
 		typewriter_choice_set_heartpos(-17, 18);
 		
-		_len = array_length(battle_enemy_ids);
+		obj_battle.enemy_flashtarget = _ids[0];
+		
+		_len = array_length(battle_get_enemy_ids());
 		for (var i = 0; i < _len; i++) {
-			_enemy = battle_enemy_ids[i].data;
+			_enemy = battle_get_enemy_ids()[i].data;
 			new TypeWriterBuilder(80, 375 + i * 30, $"<skipped true>{_enemy.get_name()}")
 				.set_font("normal")
 				.set_scale(2, 2)
@@ -44,7 +51,12 @@ function battle_dialog_enemyselect(_nextfunc)
 				.set_visible(i < 3)
 				.build();
 		}
-		typewriter_choice_changed(function (_i) {
+		typewriter_choice_changed(function (_i, _prev) {
+			//敵のホワイトフラッシュ再適応
+			var _ids = battle_get_enemy_ids();
+			obj_battle.enemy_flashtarget = _ids[_i];
+			
+			_ids[_prev].flashpower = 0;
 			var _list = typewriter_get_ext("BattleDialogBoxSelect");
 			var _choice;
 			var _len = array_length(_list);
@@ -120,12 +132,17 @@ function battle_dialog_list_update(_desc)
 	}
 }
 ///表示削除
-function battle_dialog_cleanup()
+///@arg {Real} Flag
+function battle_dialog_cleanup(flag = 0)
 {
 	with (obj_battle){
+		if ((flag & FLAG_DCU.RESET_FL) && (instance_exists(enemy_flashtarget))){
+			enemy_flashtarget.flashpower = 0;
+			enemy_flashtarget = noone;
+		}
 		typewriter_delete("DialogDescription");
-		typewriter_delete("BattleDialogBoxMessage");
 		typewriter_delete("BattleDialogBoxSelect");
+		if (~flag & FLAG_DCU.NOCLEAN_MES) typewriter_delete("BattleDialogBoxMessage");
 		typewriter_choice_changed();
 	}
 }

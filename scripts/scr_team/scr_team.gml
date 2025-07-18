@@ -1,22 +1,3 @@
-enum TEAMCHAR{
-	KRIS,
-	SUSIE,
-	RALSEI,
-	NOELLE
-}
-enum TEAMCHAR_FLAG{
-	HEALTH,
-	MAX_HEALTH,
-	COLOR,
-	AREA_OBJ,
-	BATTLE_OBJ,
-	
-	ENCOUNTER_X,
-	ENCOUNTER_Y,
-	BATTLE_X,
-	BATTLE_Y
-}
-
 function team_init()
 {
 	global.char_data = {};

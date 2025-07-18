@@ -1,4 +1,5 @@
-enum BATTLE_STATE{
+enum BATTLE_STATE
+{
 	START_ANIM,
 	MYTURN,
 	MYTURN_ACTION,
@@ -7,19 +8,22 @@ enum BATTLE_STATE{
 	ENEMY,
 	ENEMY_END,
 }
-enum BATTLE_TEAM_ANIM{
+enum BATTLE_TEAM_ANIM
+{
 	ENCOUNTER,
 	SETUP,
 	IDLE,
 	FIGHT,
 	DEFEND
 }
-enum BATTLE_ANIM_LOOP{
+enum BATTLE_ANIM_LOOP
+{
 	ONLY,
 	LOOP,
 	NONE
 }
-enum BATTLE_CHAR_ACTION{
+enum BATTLE_CHAR_ACTION
+{
 	FIGHT,
 	ACT,
 	ITEM,
@@ -31,7 +35,8 @@ enum BATTLE_CHAR_ACTION{
 ///次のキャラクターがいなければ敵のターンに入ります
 ///@arg {Real} type icon
 ///@arg {Real} ct change tension
-function battle_next_char(_type, _ct = 0){
+function battle_next_char(_type, _ct = 0)
+{
 	with (obj_battle){
 		battle_tension_add(_ct, true);
 		charaction[charturn] = _type;
@@ -49,7 +54,8 @@ function battle_next_char(_type, _ct = 0){
 		}
 	}
 }
-function battle_prev_char(){
+function battle_prev_char()
+{
 	with (obj_battle){
 		if charturn > 0{
 			charturn--
@@ -64,7 +70,8 @@ function battle_prev_char(){
 
 ///@arg {real} state
 ///@arg {real} timer
-function battle_set_nextstate(_state, _real){
+function battle_set_nextstate(_state, _real)
+{
 	obj_battle.next_state = _state;
 	obj_battle.next_state_timer = _real;
 }
@@ -77,7 +84,8 @@ function battle_get_state(){ return obj_battle.state; }
 ///@arg {real} anim
 ///@arg {real} loop
 ///@arg {real} animspd
-function battle_team_set_anim(_id, _anim, _loop, _spd = 4){
+function battle_team_set_anim(_id, _anim, _loop, _spd = 4)
+{
 	if instance_parent_equals(_id, obj_battle_team){
 		with (_id){
 			sprite_anim = _anim;
@@ -89,16 +97,15 @@ function battle_team_set_anim(_id, _anim, _loop, _spd = 4){
 	}
 }
 
-function battle_get_surface(){
+function battle_get_surface()
+{
 	if (instance_exists(obj_battle) && surface_exists(obj_battle.srf_battle)){
 		return obj_battle.srf_battle;
 	}
 	return -1;
 }
 
-function battle_get_surface_varname(){
-	return "srf_battle";
-}
+function battle_get_surface_varname(){ return "srf_battle"; }
 
 ///ターンダイアログを設定します
 ///@arg {string} dialog
@@ -106,7 +113,8 @@ function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 
 ///ターンダイアログを表示します
 ///@arg {bool} skipped
-function battle_show_dialog(_skipped){
+function battle_show_dialog(_skipped)
+{
 	with (obj_battle){
 		if (!typewriter_exists("BattleDialogBoxMessage")){
 			var _text = ""
@@ -125,21 +133,24 @@ function battle_show_dialog(_skipped){
 
 ///バトル中かどうか
 ///@return {bool}
-function in_battle(){
+function in_battle()
+{
 	return instance_exists(obj_battle)
 }
 
 ///ターンを開始します
 ///@arg {Asset.GMObject} turn 複製したターンオブジェクト
 ///@return {Id.Instance} 作成されたターンのインスタンスID
-function battle_turn_start(_trun){
+function battle_turn_start(_trun)
+{
 	return instance_create_depth(0, 0, 0, _trun);
 }
 
 ///ターンを終了します
 ///@arg {Asset.GMObject} turn 複製したターンオブジェクト
 ///@return {Id.Instance} 作成されたターンのインスタンスID
-function battle_turn_end(){
+function battle_turn_end()
+{
 	battle_set_state(BATTLE_STATE.ENEMY_END);
 	instance_destroy(obj_battle_turn);
 	with(obj_battle_soul){
@@ -151,10 +162,15 @@ function battle_turn_end(){
 
 ///@arg {Real} char
 ///@return {Real}
-function battle_get_buttonselect(_char){
-	return obj_battle.select_button[_char];
-}
+function battle_get_buttonselect(_char) { return obj_battle.select_button[_char]; }
+
 ///@return {Real}
-function battle_get_charturn(){
-	return obj_battle.charturn;
-}
+function battle_get_charturn() { return obj_battle.charturn; }
+
+///@return {Array<Id.Instance>}
+function battle_get_enemy_ids() { return obj_battle.battle_enemy_ids; }
+
+function battle_act_add(_tag, _label, _desc, _tpcost) { return; }
+function battle_act_remove(_tag) { return; }
+function battle_get_current_act() { return; }
+function battle_endmessage() { return; }

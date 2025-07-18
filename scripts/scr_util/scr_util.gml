@@ -159,6 +159,7 @@ function string_char_contains(char, search)
 
 ///aからbまでの範囲にxが含まれるかどうか
 ///含まれていれば、Trueを返します。
+/// (a <= x <= b)
 ///@arg {Real} x 数値
 ///@arg {Real} a から
 ///@arg {Real} b まで
@@ -172,6 +173,7 @@ function in_range(_x, _a, _b)
 ///aからbまでの範囲にxが含まれるかどうか
 ///同じ位置は含みません
 ///含まれていれば、Trueを返します。
+/// (a < x < b)
 ///@arg {Real} x 数値
 ///@arg {Real} a 超過
 ///@arg {Real} b 未満
@@ -185,7 +187,7 @@ function in_range_neq(_x, _a, _b)
 ///画面サイズを設定します
 ///@arg {Real} width
 ///@arg {Real} height
-function screen_size(_w, _h)
+function set_screen_size(_w, _h)
 {
 	window_set_size(_w, _h)
 	surface_resize(application_surface, _w, _h)
@@ -255,4 +257,17 @@ function string_is_bool(str)
 {
 	var _str = string_lower(str)
 	return (str == "true" || str == "false" || str == "1" || str == "0");
+}
+
+///色コードを3つのRGB要素を含む配列として返します
+/// [R, G, B]
+///@arg {Real|Constant.Color} color
+///@return {Array<Real>}
+function col2list(color)
+{
+	return [
+		(color & 0xff) / 255,
+		((color >> 8) & 0xff) / 255,
+		((color >> 16) & 0xff) / 255
+	];
 }

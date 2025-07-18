@@ -6,7 +6,7 @@ var _inputcheck = [
 ]
 
 if (instance_exists(choicedata)){
-	var _target = noone;
+	var _target = noone, _prev = choicedata.data.choice_id;
 	//上下キーのどっちかが押された場合
 	if (_inputcheck[0] || _inputcheck[1]){
 		_target = choice_search(true, _inputcheck[0], false);
@@ -33,7 +33,7 @@ if (instance_exists(choicedata)){
 	}
 	if (_target != noone){
 		if (is_method(func_change)){
-			func_change(choicedata.data.choice_id)
+			func_change(choicedata.data.choice_id, _prev)
 		}
 	}
 }

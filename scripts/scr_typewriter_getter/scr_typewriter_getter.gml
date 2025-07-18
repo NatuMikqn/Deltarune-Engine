@@ -96,14 +96,6 @@ function typewriter_get_defaultfont()
 	return obj_typewriter_manager.default_font;
 }
 
-
-///現在選択中のIDを返します
-///@return {Real}
-function typewriter_get_choice()
-{
-	return -1;
-}
-
 ///choice heartの位置調整
 ///@arg {Real} x
 ///@arg {Real} y

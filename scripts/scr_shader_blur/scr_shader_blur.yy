@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_shader_blur",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_shader_blur",
+  "parent":{
+    "name":"shader",
+    "path":"folders/Scripts/shader.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

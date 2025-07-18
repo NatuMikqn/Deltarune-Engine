@@ -10,8 +10,10 @@
 //オフにすると、originalと同じになります
 #macro BETTER_DIALOGSELECT true
 
-//MESSAGE
-#macro MESSAGaaaaaaaaaaaaE "message"
+//シード値の固定化
+//0未満の場合は完全ランダムとなります
+//符号なし32bit値
+#macro RANDOM_SEED -1
 
 //////////////////////////////////////////////
 // performance

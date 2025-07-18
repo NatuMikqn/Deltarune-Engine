@@ -11,6 +11,7 @@ select_button = [];
 selectmode = DIALOG_UI.BUTTON;
 buttonlist = [];
 nextfunc = -1;
+enemy_flashtarget = noone;
 
 charaction = [];
 dialog_list = -1;

@@ -45,6 +45,10 @@ if (state == BATTLE_STATE.MYTURN){
 			battle_prev_char();
 		}
 	}else{ //ボタン選択以外の場合
+		//フラッシュリセット -> 
+		//選択時フラッシュリセット -> 
+		if (instance_exists(enemy_flashtarget)) enemy_flashtarget.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
+		
 		if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 			if (input_check_pressed(INPUT.CONFIRM)){
 				nextfunc();
@@ -63,7 +67,7 @@ if (state == BATTLE_STATE.MYTURN){
 }
 //敵メッセージ時
 if (state == BATTLE_STATE.ENEMY_TALK){
-	if (true || !instance_exists(obj_typewriter_object)){
+	if (instance_exists(obj_typewriter_object)){
 		battle_set_state(BATTLE_STATE.ENEMY_IN)
 	}
 }

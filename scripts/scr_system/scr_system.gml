@@ -31,3 +31,10 @@ function send_builder_to_data(_builder)
 		other[$_e] = self[$_e];
 	}))
 }
+
+///デフォルトのスクリーンサイズのコピーvec2を取得
+///@return {Struct.Vector2}
+function get_default_screensize()
+{
+	return obj_screen.screen_size.copy();
+}

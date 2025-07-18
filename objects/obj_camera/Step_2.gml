@@ -8,7 +8,7 @@ if (shake.pos.y > 0){
 	_shake.y = shake.pos.y * (1 - irandom(1) * 2);
 }
 
-var _size = new Vector2(global.screen_size.x, global.screen_size.y);
+var _size = get_default_screensize();
 
 if (target != noone){
 	x = target.x - _size.x/2

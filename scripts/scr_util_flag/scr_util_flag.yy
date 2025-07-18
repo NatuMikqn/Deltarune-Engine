@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_outline",
+  "%Name":"scr_util_flag",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_outline",
+  "name":"scr_util_flag",
   "parent":{
-    "name":"shader",
-    "path":"folders/Scripts/shader.yy",
+    "name":"util",
+    "path":"folders/Scripts/util.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

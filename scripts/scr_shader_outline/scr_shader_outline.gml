@@ -43,16 +43,13 @@ function surface_set_outline(_surface, _rx, _ry, rgb = c_black, alpha = 1, sampl
 	//サイズ拡張されたpingに元のsurfaceを書き込む
 	surface_set_target(surface_ping);
 	draw_clear_alpha(c_black, 0);
-	draw_surface(_surface, _rx * !_sizefixed, _ry * !_sizefixed)
-	surface_reset_target()
+	draw_surface(_surface, _rx * !_sizefixed, _ry * !_sizefixed);
+	surface_reset_target();
 	
 	//shader設定1
-	_rgba = [
-		(rgb & 0xff) / 255,
-		((rgb >> 8) & 0xff) / 255,
-		((rgb >> 16) & 0xff) / 255,
-		alpha
-	]
+	_rgba = col2list(rgb);
+	array_push(_rgba, alpha);
+	
 	shader_set(shd_outline);
 	shader_set_uniform_f(blur_uniform.texel, _texel[0], _texel[1]);
 	shader_set_uniform_f(blur_uniform.radius, _rx, _ry);

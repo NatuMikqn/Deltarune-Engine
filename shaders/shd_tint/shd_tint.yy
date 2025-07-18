@@ -1,7 +1,7 @@
 {
   "$GMShader":"",
-  "%Name":"shd_test",
-  "name":"shd_test",
+  "%Name":"shd_tint",
+  "name":"shd_tint",
   "parent":{
     "name":"Shaders",
     "path":"folders/Shaders.yy",

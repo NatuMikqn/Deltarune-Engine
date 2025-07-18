@@ -33,7 +33,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_engineicon_typewriter_object",
+    "path":"sprites/spr_engineicon_typewriter_object/spr_engineicon_typewriter_object.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

@@ -118,6 +118,21 @@ function Vector2(_x = 0, _y = _x) constructor {
 		return self;
 	}
 	
+	///@desc 商を求めます
+	///@arg {Struct.Vector2,Real} x
+	///@arg {Real} y
+	///@return {Struct.Vector2}
+	static q = function(_x, _y = _x){
+		if is_struct(_x){
+			x = x div _x.x;
+			y = y div _x.y;
+		}else if is_real(_x){
+			x = x div _x;
+			y = y div _y;
+		}
+		return self;
+	}
+	
 	///@desc このvec2から値で余りを出します
 	///返り値はこのvec2です
 	///@arg {Struct.Vector2,Real} x
@@ -207,29 +222,37 @@ function Vector2(_x = 0, _y = _x) constructor {
 		return 0;
 	}
 	
+	///@desc XY値を大きい方の値に設定します
+	///@return {Real}
+	static max = function(){
+		var _max = max(x, y);
+		x = _max;
+		y = _max;
+	}
+	
+	///@desc XY値を小さい方の値に設定します
+	///@return {Real}
+	static min = function(){
+		var _min = min(x, y);
+		x = _min;
+		y = _min;
+	}
+	
 	///@desc 大きい方の値を返します
 	///@return {Real}
-	static get_max = function(){
-		return max(x, y);
-	}
+	static get_max = function(){ return max(x, y); }
 	
 	///@desc 小さい方の値を返します
 	///@return {Real}
-	static get_min = function(){
-		return min(x, y);
-	}
+	static get_min = function(){ return min(x, y); }
 	
 	///@desc 内積を求めます
 	///@arg {Struct.Vector2} vec2
 	///@return {Real}
-	static dot = function(vec2){
-		return x * vec2.x + y * vec2.y;
-	}
+	static dot = function(vec2){ return x * vec2.x + y * vec2.y; }
 	
 	///@desc 外積を求めます
 	///@arg {Struct.Vector2} vec2
 	///@return {Real}
-	static cross = function(vec2){
-		return x * vec2.y - y * vec2.x;
-	}
+	static cross = function(vec2){ return x * vec2.y - y * vec2.x; }
 }

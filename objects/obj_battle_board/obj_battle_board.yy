@@ -37,8 +37,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_engine_board",
-    "path":"sprites/spr_engine_board/spr_engine_board.yy",
+    "name":"spr_engineicon_board",
+    "path":"sprites/spr_engineicon_board/spr_engineicon_board.yy",
   },
   "spriteMaskId":null,
   "visible":true,
