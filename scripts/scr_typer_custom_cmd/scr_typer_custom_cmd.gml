@@ -117,6 +117,10 @@ function typewriter_custom_cmd(_self, _data)
 			case "colorex":
 				color_ex = bool(_data[1]);
 				break;
+			
+			case "teamcolor":
+				
+				break;
 		}
 	}
 }

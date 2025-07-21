@@ -474,14 +474,14 @@ function TypeWriterData(_self) : TypeWriter() constructor
 		//x位置を_charの横幅 + 字間進める
 		var _w = scale.x;
 		var _len = string_length(_char);
+		draw_set_font(_font.get_font(_lang));
 		if (array_contains(_font.get_space(_lang), _char)){
-			_w *= _font.get_w_space(_lang);
+			_w *= _font.get_w_space(_lang) ?? string_width(_char);
 		}else if (array_contains(_font.get_asterisk(_lang), _char)){
-			_w *= _font.get_w_asterisk(_lang);
+			_w *= _font.get_w_asterisk(_lang) ?? string_width(_char);
 		}else{
 			//w_charが未定義の場合、string_widthのためにdraw_set_font()を実行
 			if (is_undefined(_font.get_w_char(_lang))){
-				draw_set_font(_font.get_font(_lang));
 				_w *= string_width(_char);
 			}
 			else _w *= _font.get_w_char(_lang) * _len;

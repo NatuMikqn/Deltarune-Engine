@@ -30,6 +30,11 @@ enum BATTLE_CHAR_ACTION
 	SPARE,
 	DEFEND
 }
+enum BATTLE_AUTONEXT
+{
+	USER,
+	DIALOG_END
+}
 
 ///次のキャラクターにボタン操作を移します
 ///次のキャラクターがいなければ敵のターンに入ります
@@ -170,7 +175,71 @@ function battle_get_charturn() { return obj_battle.charturn; }
 ///@return {Array<Id.Instance>}
 function battle_get_enemy_ids() { return obj_battle.battle_enemy_ids; }
 
-function battle_act_add(_tag, _label, _desc, _tpcost) { return; }
-function battle_act_remove(_tag) { return; }
-function battle_get_current_act() { return; }
-function battle_endmessage() { return; }
+///@arg {String} tag
+///@arg {String} label
+///@arg {String} desc
+///@arg {Real} tpcost
+///@arg {Function} nextfunc
+function battle_act_add(_tag, _label, _desc, _tpcost, _nextfunc = undefined)
+{
+	with (obj_battle_action_manager) {
+		array_push(actlist, [_tag, new BattleDialogList(_label, _desc, _nextfunc)])
+	}
+}
+///@arg {String} tag
+///@arg {String} label
+///@arg {String} desc
+///@arg {Real} tpcost
+///@arg {Function} nextfunc
+function battle_act_replace(_tag, _label, _desc, _tpcost, _nextfunc = undefined)
+{
+	with (obj_battle_action_manager) {
+		var _pos = array_find_index(actlist, method({_tag}, function (_e) {
+			return (_e[0] == _tag);
+		}));
+		array_delete(actlist, _pos, 1);
+		array_insert(actlist, _pos, [_tag, new BattleDialogList(_label, _desc, _nextfunc)]);
+	}
+}
+///@arg {String} tag
+function battle_act_remove(_tag)
+{
+	with (obj_battle_action_manager) {
+		var _pos = array_find_index(actlist, method({_tag}, function (_e) {
+			return (_e[0] == _tag);
+		}));
+		array_delete(actlist, _pos, 1);
+	}
+}
+///@return {Array<Array<Any>>}
+function battle_act_get()
+{
+	return obj_battle_action_manager.actlist;
+}
+function battle_act_reset()
+{
+	obj_battle_action_manager.actlist = [];
+}
+function battle_get_current_act()
+{
+	
+}
+function battle_endmessage()
+{
+	
+}
+///@return {Any}
+function battle_get_current_char()
+{
+	return team_get()[battle_get_charturn()];
+}
+///@arg {Real} timing BATTLE_AUTONEXT.
+function battle_act_set_autonext(_timing)
+{
+	
+}
+///@return {Id.Instance}
+function battle_get_targetenemy()
+{
+	return obj_battle.enemy_target;
+}

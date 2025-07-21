@@ -307,7 +307,7 @@
     {"id":{"name":"spr_font_small","path":"sprites/spr_font_small/spr_font_small.yy",},},
     {"id":{"name":"spr_missing","path":"sprites/spr_missing/spr_missing.yy",},},
     {"id":{"name":"spr_pixel","path":"sprites/spr_pixel/spr_pixel.yy",},},
-    {"id":{"name":"spr_screen_debug","path":"sprites/spr_screen_debug/spr_screen_debug.yy",},},
+    {"id":{"name":"spr_screen_awase","path":"sprites/spr_screen_awase/spr_screen_awase.yy",},},
     {"id":{"name":"spr_tension","path":"sprites/spr_tension/spr_tension.yy",},},
     {"id":{"name":"spr_tensionbar","path":"sprites/spr_tensionbar/spr_tensionbar.yy",},},
     {"id":{"name":"spr_tensionfilling","path":"sprites/spr_tensionfilling/spr_tensionfilling.yy",},},

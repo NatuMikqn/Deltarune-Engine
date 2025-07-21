@@ -1,4 +1,9 @@
-
+enum ITEMTYPE{
+	HEAL,
+	WEAPON,
+	ARMOR,
+	ACTION
+}
 function ItemDB() constructor{
 	data = [];
 	static register = function(_id, _data){

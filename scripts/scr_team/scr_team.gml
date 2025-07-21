@@ -80,6 +80,7 @@ function CharacterInfoData(_self) : CharacterInfo() constructor
 {
 	send_builder_to_data(_self);
 	
+	static get_tag = function(){ return tag; }
 	static equals_tag = function(_tag){ return tag == _tag; }
 	static get_hp = function(){ return hp; }
 	static get_maxhp = function(){ return maxhp; }
@@ -218,4 +219,12 @@ function team_get_button(_name)
 function team_get_buttongroup(_name)
 {
 	return global.team_buttongroup[$ _name];
+}
+
+///@arg {String} targetchar 
+///@arg {Real} itemtype
+///@arg {Real} itemtag
+///@return {Bool}
+function char_is_equip(_char, _type, _tag){
+	return false;
 }

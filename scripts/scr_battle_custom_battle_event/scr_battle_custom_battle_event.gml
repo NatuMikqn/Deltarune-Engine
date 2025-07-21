@@ -12,9 +12,11 @@ function battle_custom_event(_type){
 			battle_dialog_enemyselect(function(){
 				audio_play_sound(snd_confirm, 0, 0);
 				var _list = [];
-				array_push(_list, new BattleDialogList("ACTLIST1", "DESC1"));
-				array_push(_list, new BattleDialogList("ACTLIST2", "<color red>DESC2"));
-				array_push(_list, new BattleDialogList("ACTLIST3", "<color yellow>DESC3"));
+				with (obj_battle_action_manager) { event_user(0) }
+				var _actlist = battle_act_get();
+				for (var i = 0; i < array_length(_actlist); i++) {
+					array_push(_list, _actlist[i][1]);
+				}
 				battle_dialog_list(_list, function(){
 					audio_play_sound(snd_confirm, 0, 0);
 					battle_next_char(BATTLE_CHAR_ACTION.ACT);

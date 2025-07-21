@@ -20,7 +20,7 @@ if (mouse_wheel_down()){
 }
 if (keyboard_check(vk_control) && keyboard_check_pressed(ord("S"))){
 	dbg_screen_img++
-	if (dbg_screen_img >= sprite_get_number(spr_screen_debug)) dbg_screen_img = 0
+	if (dbg_screen_img >= sprite_get_number(spr_screen_awase)) dbg_screen_img = 0
 }
 //自ターン処理
 if (state == BATTLE_STATE.MYTURN){
@@ -47,7 +47,7 @@ if (state == BATTLE_STATE.MYTURN){
 	}else{ //ボタン選択以外の場合
 		//フラッシュリセット -> 
 		//選択時フラッシュリセット -> 
-		if (instance_exists(enemy_flashtarget)) enemy_flashtarget.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
+		if (instance_exists(enemy_target)) enemy_target.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
 		
 		if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 			if (input_check_pressed(INPUT.CONFIRM)){

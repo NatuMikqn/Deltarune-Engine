@@ -1,5 +1,6 @@
 instance_create_depth(0, 0, DEPTH.UI, obj_battle_ui)
 instance_create_depth(0, 0, DEPTH.BATTLE_BG, obj_battle_background)
+instance_create_depth(0, 0, 0, obj_battle_action_manager)
 instance_create_depth(320, 180, DEPTH.BOARD, obj_battle_board)
 instance_create_depth(320, 200, DEPTH.SOULS, obj_battle_soul_red)
 
@@ -11,7 +12,7 @@ select_button = [];
 selectmode = DIALOG_UI.BUTTON;
 buttonlist = [];
 nextfunc = -1;
-enemy_flashtarget = noone;
+enemy_target = noone;
 
 charaction = [];
 dialog_list = -1;
@@ -34,6 +35,7 @@ tension_history = [];
 battle_char_ids = [];
 battle_enemy_ids = [];
 
+//チーム配置
 for (var i=0;i<team_get_count();i++){
 	_obj = _team[i].get_obj_battle()
 	_pos = _team[i].get_position_encounter()
@@ -42,6 +44,8 @@ for (var i=0;i<team_get_count();i++){
 	_inst.color = _team[i].get_color()
 	array_push(battle_char_ids, _inst);
 }
+
+//敵配置
 var _enemygroup = get_enemydata().enemygroup,
 	_data;
 _pos = new Vector2();

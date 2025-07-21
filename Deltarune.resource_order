@@ -221,7 +221,7 @@
     {"name":"spr_font_big_gold","order":2,"path":"sprites/spr_font_big_gold/spr_font_big_gold.yy",},
     {"name":"spr_font_big","order":1,"path":"sprites/spr_font_big/spr_font_big.yy",},
     {"name":"spr_missing","order":24,"path":"sprites/spr_missing/spr_missing.yy",},
-    {"name":"spr_screen_debug","order":1,"path":"sprites/spr_screen_debug/spr_screen_debug.yy",},
+    {"name":"spr_screen_awase","order":1,"path":"sprites/spr_screen_awase/spr_screen_awase.yy",},
     {"name":"spr_tensionbar","order":1,"path":"sprites/spr_tensionbar/spr_tensionbar.yy",},
     {"name":"spr_tensionfilling","order":2,"path":"sprites/spr_tensionfilling/spr_tensionfilling.yy",},
     {"name":"Sprite8","order":1,"path":"sprites/Sprite8/Sprite8.yy",},
