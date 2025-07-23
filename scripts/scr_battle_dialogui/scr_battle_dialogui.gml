@@ -81,6 +81,8 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 		battle_set_selectmode(DIALOG_UI.LIST);
 		typewriter_choice_set_heartpos(-12, 18);
 		
+		if (array_empty(_datalist)) { _datalist[0] = new BattleDialogList("<color gray>Unknown", "<color red>EMPTY ERROR!!", function () {}); }
+		
 		battle_dialog_list_update(_datalist[0].get_desc())
 		
 		for (var i = 0; i < array_length(_datalist); i++) {
@@ -98,7 +100,9 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 				.build();
 		}
 		obj_battle.dialog_list = _datalist;
-		battle_set_nextfunc(_nextfunc ?? function(){})
+		battle_set_nextfunc(_nextfunc ?? function(){
+			
+		})
 		typewriter_choice_changed(function (_i) {
 			battle_dialog_list_update(obj_battle.dialog_list[_i].get_desc());
 			

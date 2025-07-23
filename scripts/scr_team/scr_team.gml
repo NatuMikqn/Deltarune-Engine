@@ -12,9 +12,9 @@ function CharacterInfo() constructor
 	tag = "";
 	hp = 100;
 	maxhp = 100;
-	color = c_orange;
+	color = [c_orange, #FFC060];
 	object = {
-		arena : obj_char_player,
+		area : obj_char_player,
 		battle : obj_battle_team_kris
 	}
 	buttonlist = [];
@@ -40,14 +40,15 @@ function CharacterInfoBuilder(_tag) : CharacterInfo() constructor
 		maxhp = _val;
 		return self;
 	}
-	///@arg {Real|Constant.Color} color
-	static set_color = function(_val){
-		color = _val;
+	///@arg {Real|Constant.Color} color1
+	///@arg {Real|Constant.Color} color2
+	static set_color = function(_val1, _val2){
+		color = [_val1, _val2];
 		return self;
 	}
 	///@arg {Asset.GMObject} obj
-	static set_obj_arena = function(_val){
-		object.arena = _val;
+	static get_obj_area = function(_val){
+		object.area = _val;
 		return self;
 	}
 	///@arg {Asset.GMObject} obj
@@ -84,8 +85,10 @@ function CharacterInfoData(_self) : CharacterInfo() constructor
 	static equals_tag = function(_tag){ return tag == _tag; }
 	static get_hp = function(){ return hp; }
 	static get_maxhp = function(){ return maxhp; }
-	static get_color = function(){ return color; }
-	static get_obj_arena = function(){ return object.arena; }
+	static get_color_first = function(){ return color[0]; }
+	static get_color_second = function(){ return color[1]; }
+	static get_color_array = function(){ return color; }
+	static get_obj_area = function(){ return object.area; }
 	static get_obj_battle = function(){ return object.battle; }
 	///@return {Array<Struct.ButtonInfo>}
 	static get_buttonlist = function(){ return buttonlist; }
@@ -108,11 +111,11 @@ function CharacterInfoData(_self) : CharacterInfo() constructor
 	static get_position_battle = function(){ return pos.battle; }
 }
 
-///@arg {String} character_id
-function team_join(_char_id)
+///@arg {String} character_tag
+function team_join(_tag)
 {
-	if (struct_exists(global.char_data, _char_id))
-		array_push(global.team_list, variable_clone(global.char_data[$_char_id]));
+	if (struct_exists(global.char_data, _tag))
+		array_push(global.team_list, variable_clone(char_get_data(_tag)));
 	else
 		throw "Unknown TeamChar ID"
 }
@@ -123,6 +126,17 @@ function team_join(_char_id)
 function team_get()
 {
 	return global.team_list;
+}
+
+///キャラクターデータの取得
+///存在しない場合はundefinedが返されます
+///@arg {String} character_tag
+///@return {Struct.CharacterInfoData}
+///@pure
+function char_get_data(_tag)
+{
+	if (struct_exists(global.char_data, _tag)) return global.char_data[$_tag];
+	return undefined;
 }
 
 
@@ -155,25 +169,6 @@ function team_leave(_tag, _order = 0)
 		}
 	}
 	array_delete(_team, _temp_pos, 1);
-}
-
-///@arg {String} character
-///@arg {any} default
-///@return {any}
-function team_get_data(_char, _flag, _def = undefined)
-{
-	if struct_exists(global.char_data, _char){
-		
-		var _chardata = global.char_data[_char];
-		
-		if array_exists(_chardata, _flag){
-			return global.char_data[_char][_flag];
-		}else{
-			return _def;
-		}
-	}else{
-		return _def;
-	}
 }
 
 ///@arg {Real} type

@@ -1,7 +1,7 @@
-function player_damage(_value){
+function player_damage(_target, _value){
 	var _inst = instance_create_depth(obj_char_player.x, obj_char_player.y, -999, obj_damage_message);
 	_inst.text = _value;
-	_inst.color = c_aqua;
+	_inst.color = team_get()[_target].get_color_second();
 	_inst.target_surface = battle_get_surface();
-	global.team_list[0].hp -= _value;
+	team_get()[_target].hp -= _value;
 }

@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_ow_state",
+  "%Name":"scr_area_state",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_ow_state",
+  "name":"scr_area_state",
   "parent":{
     "name":"system",
     "path":"folders/Scripts/system.yy",

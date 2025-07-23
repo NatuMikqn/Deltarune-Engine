@@ -10,7 +10,7 @@ localization_init()
 
 team_init()
 
-overworld_init()
+area_init()
 
 encounter_init()
 

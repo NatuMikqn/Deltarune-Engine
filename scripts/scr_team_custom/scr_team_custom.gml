@@ -6,8 +6,8 @@ function team_custom()
 	
 	new CharacterInfoBuilder("kris")
 		.set_hp(90)
-		.set_color(c_aqua)
-		.set_obj_arena(obj_char_player)
+		.set_color(c_aqua, c_fuchsia)
+		.get_obj_area(obj_char_player)
 		.set_obj_battle(obj_battle_team_kris)
 		.apply_button("defaultKris")
 		.set_charbox_info(spr_charbox_icon_kris, "charbox.name.kris")
@@ -15,8 +15,8 @@ function team_custom()
 	
 	new CharacterInfoBuilder("susie")
 		.set_hp(110)
-		.set_color(c_fuchsia)
-		.set_obj_arena(obj_char_player)
+		.set_color(c_fuchsia, c_fuchsia)
+		.get_obj_area(obj_char_player)
 		.set_obj_battle(obj_battle_team_susie)
 		.apply_button("defaultMons")
 		.set_charbox_info(spr_charbox_icon_susie, "charbox.name.susie")
@@ -24,8 +24,8 @@ function team_custom()
 	
 	new CharacterInfoBuilder("ralsei")
 		.set_hp(70)
-		.set_color(c_lime)
-		.set_obj_arena(obj_char_player)
+		.set_color(c_lime, c_fuchsia)
+		.get_obj_area(obj_char_player)
 		.set_obj_battle(obj_battle_team_ralsei)
 		.apply_button("defaultMons")
 		.set_charbox_info(spr_charbox_icon_ralsei, "charbox.name.ralsei")
@@ -33,8 +33,8 @@ function team_custom()
 	
 	new CharacterInfoBuilder("noelle")
 		.set_hp(90)
-		.set_color(c_yellow)
-		.set_obj_arena(obj_char_player)
+		.set_color(c_yellow, c_fuchsia)
+		.get_obj_area(obj_char_player)
 		.set_obj_battle(obj_battle_team_noelle)
 		.apply_button("defaultMons")
 		.set_charbox_info(spr_charbox_icon_noelle, "charbox.name.noelle")
@@ -42,9 +42,11 @@ function team_custom()
 	
 	////////////////////////////////////////////
 	//join
-	
-	team_join("kris")
-	team_join("susie")
-	team_join("ralsei")
+	repeat (5) {
+		team_join(choose("kris", "susie", "ralsei", "noelle"));
+	}
+	//team_join("kris")
+	//team_join("susie")
+	//team_join("ralsei")
 	//team_join("noelle")
 }

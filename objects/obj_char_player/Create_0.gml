@@ -1,6 +1,6 @@
 event_inherited()
 
-overworld_set_state(OW_STATE.FIELD)
+area_set_state(AREA_STATE.AREA)
 
 move_speed = {
 	left	:	3,
@@ -17,7 +17,8 @@ spr_index = {
 dash_power = 1.5;
 img_speed = 6;
 
-dir = 90;
+facingdir = AREA_FACINGDIR.DOWN;
+facinglock = false;
 
 move_dir = 0; //0: none - 1: lr - 2: ud
 

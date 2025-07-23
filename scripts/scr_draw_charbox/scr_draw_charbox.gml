@@ -9,7 +9,7 @@ function draw_charbox(_x, _y, _char, _img)
 		_namesprite,
 		_color
 	
-	_color = _char.get_color();
+	_color = _char.get_color_first();
 	
 	_iconsprite = _char.get_charbox_iconsprite();
 	_namesprite = _char.get_charbox_namesprite();

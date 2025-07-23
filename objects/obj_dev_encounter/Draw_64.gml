@@ -20,7 +20,7 @@ if (!instance_exists(obj_battle)){
 			});
 		
 		draw_set_color(c_yellow)
-		if (overworld_state_equals(OW_STATE.FIELD)){
+		if (area_state_equals(AREA_STATE.AREA)){
 			draw_text(0, (array_length(_info.group)+3) * 16, "Press F3 to start battle")
 		}
 	}else{

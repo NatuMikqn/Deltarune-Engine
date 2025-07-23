@@ -1,4 +1,4 @@
-if (overworld_state_equals(OW_STATE.FIELD)){
+if (area_state_equals(AREA_STATE.AREA)){
 	var _shift = 1 + keyboard_check(vk_shift) * 4
 	if (keyboard_check_pressed(vk_pagedown)){
 		encounter_set_id(encounter_get_id()+_shift)

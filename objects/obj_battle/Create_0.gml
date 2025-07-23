@@ -41,7 +41,7 @@ for (var i=0;i<team_get_count();i++){
 	_pos = _team[i].get_position_encounter()
 	_inst = instance_create_depth(_pos.x - camera_get_viewpos_x(), _pos.y - camera_get_viewpos_y(), DEPTH.BT_CHAR-i, _obj)
 	_inst.char = i;
-	_inst.color = _team[i].get_color()
+	_inst.color = _team[i].get_color_first()
 	array_push(battle_char_ids, _inst);
 }
 

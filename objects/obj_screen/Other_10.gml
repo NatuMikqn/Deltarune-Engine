@@ -9,13 +9,22 @@ if (_s.x < 0){
 		var _dpsize = new Vector2(
 				display_get_width(),
 				display_get_height()
-			),
-			_dpq = _dpsize.copy().q(_defsize),
-			_min = _dpq.get_min()
-		
-		_dpsize.sub(_defsize.mul(_min)).divide(2);
-		display_set_gui_maximize(_min, _min, _dpsize.x, _dpsize.y);
-		
+			);
+		if (_dpsize.get_min() > 0){
+			var _dpq = _dpsize.copy().q(_defsize),
+				_min = _dpq.get_min(),
+				_max = _dpq.get_max();
+			
+			//ブラーsurfaceのサイズ情報をbackblur変数に代入
+			backblur_size = _max / _min;
+			
+			//ブラーsurfaceの位置情報をbackblur変数に代入
+			backblur_pos = _defsize.copy().mul(-1).divide(_min * 2);
+			
+			//位置調整
+			_dpsize.sub(_defsize.mul(_min)).divide(2);
+			display_set_gui_maximize(_min, _min, _dpsize.x, _dpsize.y);
+		}
 	}else{
 		display_set_gui_size(_defsize.x, _defsize.y);
 	}

@@ -40,10 +40,10 @@ if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
 		draw_text_transformed(524, _anim_y + 55 + 30 * i, $"{floor(_mercy)}%", 2, 1, 0)
 	}
 	if ((_len - _start) > 3){
-		draw_sprite(spr_battle_dialog_arrow, 0, 614, 445)
+		draw_sprite(spr_battle_dialog_arrow, 0, 614, 445 + dsin(timer * 6) * 2)
 	}
 	if ((_start) > 2){
-		draw_sprite_ext(spr_battle_dialog_arrow, 0, 614, 390, 1, -1, 0, c_white, 1)
+		draw_sprite_ext(spr_battle_dialog_arrow, 0, 614, 395 - dsin(timer * 6) * 2, 1, -1, 0, c_white, 1)
 	}
 }
 
@@ -51,10 +51,10 @@ if (battle_get_selectmode() == DIALOG_UI.LIST){
 	var _len = array_length(typewriter_get_ext("BattleDialogBoxSelect"));
 	var _start = floor(typewriter_choice_get_id() / 6) * 6;
 	if ((_len - _start) > 6){
-		draw_sprite(spr_battle_dialog_arrow, 0, 470, 445)
+		draw_sprite(spr_battle_dialog_arrow, 0, 470, 445 + dsin(timer * 6) * 2)
 	}
 	if ((_start) > 5){
-		draw_sprite_ext(spr_battle_dialog_arrow, 0, 470, 390, 1, -1, 0, c_white, 1)
+		draw_sprite_ext(spr_battle_dialog_arrow, 0, 470, 395 - dsin(timer * 6) * 2, 1, -1, 0, c_white, 1)
 	}
 }
 
@@ -77,7 +77,7 @@ for(var i=0;i<_count;i++){
 	draw_sprite_ext(spr_pixel, 0, _x - 105, _y - 7, 209, (2 + button_height) * _ctanim, 0, c_black, 1);
 	if (_charturn == i){
 		_y = _anim_y - 23;
-		_color = _list[i].get_color();
+		_color = _list[i].get_color_first();
 		
 		//UIライン
 		for(var j=0;j<array_length(moveline);j++){

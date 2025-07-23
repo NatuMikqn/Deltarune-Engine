@@ -15,7 +15,6 @@ spr_index = {
 	down	:	spr_char_dwkris_walk_down
 }
 img_speed = 0;
-img_reset = true;
 
 img = 0;
 hsp = 0;

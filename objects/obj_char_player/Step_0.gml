@@ -16,54 +16,50 @@ if (movable){
 			d : _input.d * move_speed.down,
 		},
 		_dash = input_check(INPUT.CANCEL) * (dash_power - 1) + 1;
-
-
-	var _if_input = (_input.l != _input.r),
-		_if_index = !(sprite_index == spr_index.left && sprite_index == spr_index.right)
-	if (_if_input && _if_index){
-		if (_input.r){
-			sprite_index = spr_index.right
-			dir = 0
-		}else if (_input.l){
-			sprite_index = spr_index.left
-			dir = 180
+	
+	//向いている向きとそれに対応するキーが離された 又は 対のキーが押されたら方向固定を解除する
+	if (facinglock){
+		img += img_speed / 60;
+		var _if = (((facingdir == AREA_FACINGDIR.LEFT && !_input.l) || (facingdir == AREA_FACINGDIR.RIGHT && !_input.r)) ||
+				((facingdir == AREA_FACINGDIR.LEFT || facingdir == AREA_FACINGDIR.RIGHT) && (_input.l && _input.r))) ||
+				(((facingdir == AREA_FACINGDIR.DOWN && !_input.d) || (facingdir == AREA_FACINGDIR.UP && !_input.u)) ||
+				((facingdir == AREA_FACINGDIR.DOWN || facingdir == AREA_FACINGDIR.UP) && (_input.d && _input.u)))
+		if (_if){
+			facinglock = false;
+			img = 0;
 		}
-	}else{
-		_if_input = (_input.u != _input.d)
-		_if_index = !(sprite_index == spr_index.up && sprite_index == spr_index.down)
-		if (_if_input && _if_index){
+	}
+	
+	if (!facinglock){
+		if (_input.l != _input.r){
+			if (_input.l){
+				sprite_index = spr_index.left;
+				facingdir = AREA_FACINGDIR.LEFT;
+				facinglock = true;
+			}else if (_input.r){
+				sprite_index = spr_index.right;
+				facingdir = AREA_FACINGDIR.RIGHT;
+				facinglock = true;
+			}
+		}else if (_input.d != _input.u){
 			if (_input.d){
-				sprite_index = spr_index.down
-				dir = 90
+				sprite_index = spr_index.down;
+				facingdir = AREA_FACINGDIR.DOWN;
+				facinglock = true;
 			}else if (_input.u){
-				sprite_index = spr_index.up
-				dir = 270
+				sprite_index = spr_index.up;
+				facingdir = AREA_FACINGDIR.UP;
+				facinglock = true;
 			}
 		}
-	}
-	_if_input =	(	input_check_pressed(INPUT.LEFT) || 
-					input_check_pressed(INPUT.RIGHT) || 
-					input_check_pressed(INPUT.UP) || 
-					input_check_pressed(INPUT.DOWN)
-				)
-	if (_if_input && img_reset){
-		img = 1
-		img_reset = false;
-	}
-	_if_input = (_input.l != _input.r || _input.u != _input.d)
-	if (_if_input){
-		img += img_speed / 60 * _dash;
-		if (img > image_number){
-			img -= image_number
+		if (facinglock){
+			img = 0;
 		}
-	}else{
-		img = 0;
-		img_reset = true;
 	}
-
+	
 	hsp = (_spd.r - _spd.l) * _dash
 	vsp = (_spd.d - _spd.u) * _dash
-
+	
 	event_inherited()
 	
 	with(obj_char){
@@ -74,5 +70,4 @@ if (movable){
 	}
 }else{
 	img = 0;
-	img_reset = true;
 }

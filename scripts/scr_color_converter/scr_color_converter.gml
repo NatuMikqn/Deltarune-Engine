@@ -17,6 +17,9 @@ function color_converter(value){
 				return array_create(4, c_white);
 			case "black":
 				return array_create(4, c_black);
+			case "gray":
+			case "grey":
+				return array_create(4, c_gray);
 			case "dkgray":
 			case "dkgrey":
 				return array_create(4, c_dkgray);

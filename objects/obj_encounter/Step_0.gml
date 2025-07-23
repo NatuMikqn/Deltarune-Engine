@@ -9,20 +9,19 @@ if (timer == 0){
 	else if (step == 1){
 		audio_play_sound(snd_tensionhorn, 0, 0, 1, 0, 1.1)
 		
-		timer = 25
+		timer = 24;
 		step++;
 	}
 	else if (step == 2){
-		
 		//チームの配置位置を指定
 		var _team = team_get(),
 			_obj
 		//エンカウント開始位置を記憶
 		for (var i=0;i<array_length(_team);i++){
-			_obj = _team[i].get_obj_arena()
+			_obj = _team[i].get_obj_area()
 			_team[i].set_position_encounter(_obj.x, _obj.y)
 		}
-	 
+		
 		obj_char_player.visible = false; 
 		
 		if enemy_target != noone enemy_target.visible = false;
@@ -32,13 +31,19 @@ if (timer == 0){
 		var _i=instance_create_depth(0, 0, 0, obj_battle);
 		_i.music = _data.get_music();
 		battle_set_dialog(_data.get_dialog());
+		
+		timer = 1;
+		step++;
+	}
+	else if (step == 3){
+		
 		event_user(0)		//charcter_anim
 		
 		timer = 20;
 		step++;
 	}
 	//background fadein
-	else if (step == 3){
+	else if (step == 4){
 		new EasingBuilder(function (_v) {
 					obj_battle_background.background_alpha = _v;
 				})
@@ -54,7 +59,7 @@ if (timer == 0){
 		step++;
 	}
 	//startbattle
-	else if (step == 4){
+	else if (step == 5){
 		
 		with(obj_battle_ui) event_user(0)
 		with(obj_battle_team) battle_team_set_anim(id, BATTLE_TEAM_ANIM.IDLE, BATTLE_ANIM_LOOP.LOOP, 10)
