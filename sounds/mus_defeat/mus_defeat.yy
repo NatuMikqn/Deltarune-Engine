@@ -6,10 +6,10 @@
     "path":"audiogroups/audiogroup_default",
   },
   "bitDepth":1,
-  "bitRate":128,
-  "compression":0,
+  "bitRate":192,
+  "compression":1,
   "conversionMode":0,
-  "duration":50.347847,
+  "duration":1.7763265,
   "name":"mus_defeat",
   "parent":{
     "name":"battle",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"mus_defeat.ogg",
-  "type":0,
+  "soundFile":"mus_defeat.mp3",
+  "type":1,
   "volume":1.0,
 }

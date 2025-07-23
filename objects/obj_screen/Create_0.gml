@@ -15,6 +15,7 @@ dotbydot = false;
 frameskip = 0;
 
 application_surface_draw_enable(false);
+event_user(0);
 
 backblur_pos = new Vector2();
 backblur_size = 1;

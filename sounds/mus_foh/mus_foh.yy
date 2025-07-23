@@ -9,7 +9,7 @@
   "bitRate":192,
   "compression":1,
   "conversionMode":0,
-  "duration":161.28,
+  "duration":1.7763265,
   "name":"mus_foh",
   "parent":{
     "name":"area",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"mus_foh.ogg",
+  "soundFile":"mus_foh.mp3",
   "type":1,
   "volume":1.0,
 }

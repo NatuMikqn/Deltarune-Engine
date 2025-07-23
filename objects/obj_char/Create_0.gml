@@ -17,6 +17,7 @@ spr_index = {
 img_speed = 0;
 
 img = 0;
+imgplay = false;
 hsp = 0;
 vsp = 0;
 

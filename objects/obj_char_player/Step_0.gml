@@ -26,7 +26,7 @@ if (movable){
 				((facingdir == AREA_FACINGDIR.DOWN || facingdir == AREA_FACINGDIR.UP) && (_input.d && _input.u)))
 		if (_if){
 			facinglock = false;
-			img = 0;
+			imgplay = false;
 		}
 	}
 	
@@ -53,7 +53,7 @@ if (movable){
 			}
 		}
 		if (facinglock){
-			img = 0;
+			imgplay = true;
 		}
 	}
 	
