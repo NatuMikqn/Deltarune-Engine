@@ -1,9 +1,11 @@
 ///@arg {String} type
 ///@arg {Any} data
+///@ignore
 function get_textdata_format(type, data){
 	return { type : type, data : data }
 }
 
+///文字列をtypewriter用のデータに変換します
 ///@arg {String} text
 ///@return {Array<Struct.TextData>}
 function text_deserialize(text){

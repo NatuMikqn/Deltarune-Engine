@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_typewriter_getter",
+  "%Name":"scr_typewriter_func",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_typewriter_getter",
+  "name":"scr_typewriter_func",
   "parent":{
     "name":"typewriter",
     "path":"folders/Scripts/typewriter.yy",

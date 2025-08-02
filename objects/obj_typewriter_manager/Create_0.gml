@@ -10,6 +10,8 @@ choice = {};
 choicedata = noone;
 choice_heartpos = new Vector2(-17, 18);
 
+reverse = new Vector2(true);
+
 default_font = "default";
 
 typewriter_custom_font();

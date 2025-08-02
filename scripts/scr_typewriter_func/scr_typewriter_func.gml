@@ -122,6 +122,22 @@ function typewriter_choice_changed(func = undefined)
 	obj_typewriter_manager.func_change = func;
 }
 
+///choiceが端についたときに最初に戻るかどうか
+///垂直用
+///@arg {Bool}
+function typewriter_choice_enable_reverse_h(_enable)
+{
+	obj_typewriter_manager.reverse.x = _enable;
+}
+
+///choiceが端についたときに最初に戻るかどうか
+///水平用
+///@arg {Bool}
+function typewriter_choice_enable_reverse_v(_enable)
+{
+	obj_typewriter_manager.reverse.y = _enable;
+}
+
 ///choice位置を一番上から左のものに変更
 ///@return {Real}
 function typewriter_choice_resettarget()

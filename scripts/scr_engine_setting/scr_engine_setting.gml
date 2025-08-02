@@ -8,7 +8,7 @@
 //Dialogのリストにて、下までカーソルを動かすと一番上に戻されます
 //逆も同じです
 //オフにすると、originalと同じになります
-#macro BETTER_DIALOGSELECT true
+#macro BATTLE_DIALOG_ENABLE_REVERSE false
 
 //シード値の固定化
 //0未満の場合は完全ランダムとなります

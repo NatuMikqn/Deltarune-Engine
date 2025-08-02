@@ -78,6 +78,7 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 	var _data;
 	with (obj_battle){
 		battle_dialog_cleanup();
+		typewriter_choice_enable_reverse_v(BATTLE_DIALOG_ENABLE_REVERSE);
 		battle_set_selectmode(DIALOG_UI.LIST);
 		typewriter_choice_set_heartpos(-12, 18);
 		
@@ -148,6 +149,7 @@ function battle_dialog_cleanup(flag = 0)
 		typewriter_delete("BattleDialogBoxSelect");
 		if (~flag & FLAG_DCU.NOCLEAN_MES) typewriter_delete("BattleDialogBoxMessage");
 		typewriter_choice_changed();
+		typewriter_choice_enable_reverse_v(true);
 	}
 }
 
