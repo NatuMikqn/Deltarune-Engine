@@ -42,15 +42,15 @@ function typewriter_custom_anim()
 			with(_chardata){
 				
 				var _rand = [1 - irandom(1) * 2, 1 - irandom(1) * 2]
-				var _eb = new EasingBuilder(method({char: _chardata, _rand}, function (_v) {
+				var _eb = new EasingBuilder(12, method({char: _chardata, _rand}, function (_v) {
 					char.set_offset(_v * _rand[0], _v * _rand[1]);
 				}))
-				_eb.start(12).add_step(3, 1, 0, 60).set_target(true).build();
+				_eb.add_step(3, 1, 0, 60).set_target(true).build();
 				
-				_eb = new EasingBuilder(method(_chardata, function (_v) {
+				_eb = new EasingBuilder(0.5, method(_chardata, function (_v) {
 					alpha = _v;
 				}))
-				_eb.start(0.5).add_step(0, 1, 1, 20).set_target(true).build();
+				_eb.add_step(0, 1, 1, 20).set_target(true).build();
 				
 			}
 			

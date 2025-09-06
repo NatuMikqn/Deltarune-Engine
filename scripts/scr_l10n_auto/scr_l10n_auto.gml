@@ -12,5 +12,7 @@ function l10n_custom_autolang(){
 		case "zh":
 			lang_set(LANG.ZH);
 			break;
+		default:
+			lang_set(LANG.EN);
 	}
 }

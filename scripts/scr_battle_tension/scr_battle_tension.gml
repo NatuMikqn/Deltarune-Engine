@@ -8,21 +8,19 @@ function battle_tension_add(_add, _history = false){
 			var _m = min(100, tension + _add)
 			easing_destroy("battle_ui_tension_anim")
 			
-			new EasingBuilder(method(obj_battle_ui, function(_v){
+			new EasingBuilder(tension, method(obj_battle_ui, function(_v){
 						tension_anim[0] = _v;
 						tension_view = _v;
 					}))
 					.set_target(true)
-					.start(tension)
 					.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, _m, 4)
 					.set_tag("battle_ui_tension_anim")
 					.build();
 			
-			new EasingBuilder(method(obj_battle_ui, function(_v){
+			new EasingBuilder(tension, method(obj_battle_ui, function(_v){
 						tension_anim[2] = _v;
 					}))
 					.set_target(true)
-					.start(tension)
 					.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, _m, 30)
 					.set_tag("battle_ui_tension_anim")
 					.build();
@@ -44,22 +42,20 @@ function battle_tension_sub(_sub, _history = true){
 			var _m = max(0, tension - _sub)
 			easing_destroy("battle_ui_tension_anim")
 			
-			new EasingBuilder(method(obj_battle_ui, function(_v){
+			new EasingBuilder(tension, method(obj_battle_ui, function(_v){
 						tension_anim[2] = _v;
 						tension_view = _v;
 					}))
 					.set_target(true)
-					.start(tension)
 					.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, _m, 4)
 					.set_tag("battle_ui_tension_anim")
 					.build();
 			
-			new EasingBuilder(method(obj_battle_ui, function(_v){
+			new EasingBuilder(tension, method(obj_battle_ui, function(_v){
 						tension_anim[0] = _v;
 						tension_anim[1] = _v;
 					}))
 					.set_target(true)
-					.start(tension)
 					.add_step(EASING_TWEEN.QUAD, EASING_EASE.OUT, _m, 30)
 					.set_tag("battle_ui_tension_anim")
 					.build();

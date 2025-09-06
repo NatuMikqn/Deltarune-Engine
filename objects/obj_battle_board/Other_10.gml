@@ -1,6 +1,6 @@
 ///@desc BoardInAnim
 
-new EasingBuilder(method(id, function(_v){
+new EasingBuilder(0, method(id, function(_v){
 			alpha = 0.5 + _v * 0.5;
 			scale = _v;
 			angle = _v * 180 - 180;

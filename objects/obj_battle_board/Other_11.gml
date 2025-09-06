@@ -1,6 +1,6 @@
 ///@desc BoardOutAnim
 
-new EasingBuilder(method(id, function(_v){
+new EasingBuilder(0, method(id, function(_v){
 			alpha = 1 - _v * 0.5;
 			scale = 1 - _v;
 			angle = _v * 180;

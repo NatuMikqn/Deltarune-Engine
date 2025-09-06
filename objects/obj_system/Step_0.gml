@@ -25,5 +25,5 @@ if (keyboard_check_pressed(vk_f6) && is_test())
 
 if (keyboard_check_pressed(vk_f7) && is_test())
 {
-	player_damage(88)
+	player_damage(0, 88)
 }

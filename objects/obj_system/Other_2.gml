@@ -1,7 +1,7 @@
 if (RANDOM_SEED < 0) randomize();
 else random_set_seed(RANDOM_SEED);
 
-show_debug_overlay(true);
+show_debug_overlay(false);
 global_init();
 
 easing_init()

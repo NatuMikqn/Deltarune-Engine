@@ -86,6 +86,6 @@ function surface_set_blur(_surface, _rx, _ry, _sizefixed = false, _bloom = 1, _b
 function surface_get_blur(_surface, _rx, _ry, _sizefixed = false, _bloom = 1, _blurvertical = false){
 	var _srf = surface_create(surface_get_width(_surface), surface_get_height(_surface))
 	surface_copy(_srf, 0, 0, _surface)
-	surface_set_blur(_srf, _rx, _ry, _sizefixed, _bloom, _blurvertical)
+	surface_set_blur(_srf, _rx, _ry, _sizefixed, _bloom, _blurvertical);
 	return _srf;
 }

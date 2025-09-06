@@ -2,11 +2,10 @@
 
 if (charturn_prev >= 0 && charturn_prev < array_length(team_get())){
 	
-	new EasingBuilder(method({id, charturn_prev}, function(_v){
+	new EasingBuilder(charturn_anim[charturn_prev], method({id, charturn_prev}, function(_v){
 				id.charturn_anim[charturn_prev] = _v;
 			}))
 			.set_target(true)
-			.start(charturn_anim[charturn_prev])
 			.add_step(EASING_TWEEN.QUART, EASING_EASE.OUT, 0, 10)
 			.set_tag("battle_ui_charturn_prev_change")
 			.build();
@@ -17,11 +16,10 @@ var _charturn = battle_get_charturn();
 
 if (_charturn >= 0 && _charturn < team_get_count()){
 	
-	new EasingBuilder(method({id, _charturn}, function(_v){
+	new EasingBuilder(charturn_anim[_charturn], method({id, _charturn}, function(_v){
 				id.charturn_anim[_charturn] = _v;
 			}))
 			.set_target(true)
-			.start(charturn_anim[_charturn])
 			.add_step(EASING_TWEEN.QUART, EASING_EASE.OUT, 1, 10)
 			.set_tag("battle_ui_charturn_change")
 			.build();

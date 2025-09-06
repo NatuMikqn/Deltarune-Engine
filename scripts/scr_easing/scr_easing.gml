@@ -50,17 +50,12 @@ function Easing() constructor
 }
 
 ///イージングシーケンスを作成します
+///@arg {Real} Start start value
 ///@arg {Function} method
-function EasingBuilder(_method) : Easing() constructor
+function EasingBuilder(_val, _method) : Easing() constructor
 {
+	value = _val;
 	func = _method;
-	
-	///TODO: startとset_valueの関係を見直す
-	///@return {Struct.EasingBuilder}
-	static start = function(_val){
-		value = _val;
-		return self;
-	}
 	
 	///easingを追加します
 	///@arg {real} tween
@@ -114,16 +109,6 @@ function EasingBuilder(_method) : Easing() constructor
 	///@return {Struct.EasingBuilder}
 	static set_loop = function(_enable){
 		mode.loop = _enable;
-		return self;
-	}
-	
-	//TODO: pauseは廃止予定
-	///global.pauseを無視するかどうか
-	///doesn't work!! 機能しません！！
-	///@return {Struct.EasingBuilder}
-	///@deprecated
-	static set_ignore = function(_enable){
-		mode.ignore = _enable;
 		return self;
 	}
 	
@@ -182,10 +167,10 @@ function EasingData(_eb) : Easing() constructor
 ///@arg {String} tag
 function easing_run(id, varname, tween, ease, start, change, duration, delay = 0, tag = "")
 {
-	var _eb = new EasingBuilder(method({id, varname}, function (_v){
+	var _eb = new EasingBuilder(start, method({id, varname}, function (_v){
 			variable_instance_set(id, varname, _v)
 		}))
-	_eb.start(start).add_sleep(delay).add_step(tween, ease, change, duration).set_tag(tag).build()
+	_eb.add_sleep(delay).add_step(tween, ease, change, duration).set_tag(tag).build()
 }
 
 function easing_step()
@@ -331,7 +316,7 @@ function easing_clear()
 ///@arg {real} ease EASING_EASE.?
 ///@arg {real} timer range in 0 to 1
 ///@return {real}
-function easing_get_value(_tween,_ease,_t)
+function easing_get_value(_tween, _ease, _t)
 {
 	switch(_tween){
 		case 0: //Linear

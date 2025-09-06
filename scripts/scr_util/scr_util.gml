@@ -201,7 +201,8 @@ function json_load(_path)
 {
 	var _file = file_text_open_read(_path)
 	var _json = "";
-		while (!file_text_eof(_file)){
+	
+	while (!file_text_eof(_file)){
 		_json += file_text_read_string(_file);
 		file_text_readln(_file);
 	}
@@ -262,7 +263,7 @@ function string_is_bool(str)
 ///色コードを3つのRGB要素を含む配列として返します
 /// [R, G, B]
 ///@arg {Real|Constant.Color} color
-///@return {Array<Real>}
+///@return {Array<Any>}
 function col2list(color)
 {
 	return [

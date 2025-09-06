@@ -3,12 +3,12 @@
 
 //初期起動時、言語の自動設定機能を有効にします
 //PCの言語に合わせて自動で設定されます
-#macro AUTO_LANGUAGE false
+#macro AUTO_LANGUAGE true
 
 //Dialogのリストにて、下までカーソルを動かすと一番上に戻されます
 //逆も同じです
-//オフにすると、originalと同じになります
-#macro BATTLE_DIALOG_ENABLE_REVERSE false
+//falseにすると、オリジナルと同じになります
+#macro BATTLE_DIALOG_ENABLE_REVERSE true
 
 //シード値の固定化
 //0未満の場合は完全ランダムとなります
