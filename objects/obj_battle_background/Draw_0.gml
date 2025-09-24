@@ -1,6 +1,7 @@
 
 surface_set_target(battle_get_surface());
 alphafix(true);
+draw_rectangle(0, 0, surface_get_app_width(), surface_get_app_height(), false);
 draw_clear_alpha(c_black, background_alpha);
 draw_set_alpha(background_alpha);
 var _size = 50;

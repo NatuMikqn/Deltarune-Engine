@@ -7,14 +7,26 @@ instance_create_depth(320, 200, DEPTH.SOULS, obj_battle_soul_red)
 var _team = team_get(),
 	_obj, _pos, _inst
 
+//Battle_Infomation-----------------------------------
+
+#region temp
+
 charturn = 0;
-select_button = [];
 selectmode = DIALOG_UI.BUTTON;
+
+#endregion
+
+#region temp
+
+select_button = [];
 buttonlist = [];
 nextfunc = -1;
 enemy_target = noone;
+select_tech = -1;
 
-charaction = [];
+#endregion
+
+char_action = [];
 dialog_list = -1;
 
 event_user(0)

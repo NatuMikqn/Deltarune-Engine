@@ -44,7 +44,7 @@ function battle_next_char(_type, _ct = 0)
 {
 	with (obj_battle){
 		battle_tension_add(_ct, true);
-		charaction[charturn] = _type;
+		char_action[charturn] = _type;
 		obj_battle_ui.charturn_icon_img[charturn] = battle_get_charicon(_type);
 		charturn++
 		with(obj_battle_ui) event_user(1);

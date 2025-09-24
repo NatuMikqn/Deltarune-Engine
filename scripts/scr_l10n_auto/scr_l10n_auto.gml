@@ -1,7 +1,6 @@
 //@url https://en.wikipedia.org/wiki/ISO_639
 function l10n_custom_autolang(){
 	var _lang = os_get_language();
-	show_message(_lang)
 	switch (_lang){
 		case "en":
 			lang_set(LANG.EN);
