@@ -29,22 +29,25 @@ function draw_text_transformed_shadow(_x,_y,_string,_xscale,_yscale,_angle)
 	draw_text_transformed(_x,_y,_string,_xscale,_yscale,_angle)
 }
 
-///@arg {real} x
-///@arg {real} y
-///@arg {real} string
-///@arg {real} xscale
-///@arg {real} yscale
-///@arg {real} angle
-function draw_text_transformed_outline(_x,_y,_string,_xscale,_yscale,_angle)
+///簡易的なアウトライン文字の描画
+///@arg {Real} x
+///@arg {Real} y
+///@arg {Real} string
+///@arg {Real} xscale
+///@arg {Real} yscale
+///@arg {Real} angle
+///@arg {Constant.Color} frontcolor
+///@arg {Constant.Color} backcolor
+function draw_text_outline(_x, _y, _string, _xscale = 1, _yscale = 1, _angle = 0, _frontcolor = draw_get_color(), _backcolor = c_black)
 {
-	var _color = draw_get_color()
-	draw_set_color(c_black)
-	for(var i=0;i<9;i++){
+	var _color = draw_get_color();
+	draw_set_color(c_black);
+	for (var i = 0; i < 9; i++){
 		if (i != 4) continue;
-		draw_text_transformed(_x+((i%3)-1)*_xscale,_y+(floor(i/3)-1)*_yscale,_string,_xscale,_yscale,_angle);
+		draw_text_transformed(_x + ((i % 3) - 1) * _xscale, _y + (floor(i / 3) - 1) * _yscale, _string, _xscale, _yscale, _angle);
 	}
-	draw_set_color(_color)
-	draw_text_transformed(_x,_y,_string,_xscale,_yscale,_angle)
+	draw_set_color(_color);
+	draw_text_transformed(_x, _y, _string, _xscale, _yscale, _angle);
 }
 
 ///@arg {Asset.GMSprite} sprite

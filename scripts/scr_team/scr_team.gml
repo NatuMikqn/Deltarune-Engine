@@ -216,9 +216,9 @@ function team_get_buttongroup(_name)
 	return global.team_buttongroup[$ _name];
 }
 
-///@arg {String} targetchar 
-///@arg {Real} itemtype
-///@arg {Real} itemtag
+///@arg {Real} targetpos char id
+///@arg {Real} itemtype item type
+///@arg {String} itemtag item name
 ///@return {Bool}
 function char_is_equip(_char, _type, _tag){
 	return false;
