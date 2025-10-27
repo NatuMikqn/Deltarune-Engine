@@ -1,12 +1,12 @@
 timer--;
 if (timer == 0){
-	if (step == 0){
+	if (step == 0){ //horn 1
 		audio_play_sound(snd_tensionhorn, 0, 0, 1, 0);
 		
 		timer = 15
 		step++;
 	}
-	else if (step == 1){
+	else if (step == 1){ //horn 2
 		audio_play_sound(snd_tensionhorn, 0, 0, 1, 0, 1.1)
 		
 		timer = 24;
@@ -17,14 +17,16 @@ if (timer == 0){
 		var _team = team_get(),
 			_obj
 		//エンカウント開始位置を記憶
+		//またエンカウント時のスプライトも記憶
 		for (var i=0;i<array_length(_team);i++){
 			_obj = _team[i].get_obj_area()
 			_team[i].set_position_encounter(_obj.x, _obj.y)
+			_team[i].set_area_sprite(_obj.sprite_index)
 		}
 		
 		obj_char_player.visible = false; 
 		
-		if enemy_target != noone enemy_target.visible = false;
+		if (enemy_target != noone) enemy_target.visible = false;
 		
 		var _data = get_enemydata();
 		

@@ -17,6 +17,7 @@ function CharacterInfo() constructor
 		area : obj_char_player,
 		battle : obj_battle_team_kris
 	}
+	area_sprite = undefined;
 	buttonlist = [];
 	
 	pos = {
@@ -105,10 +106,21 @@ function CharacterInfoData(_self) : CharacterInfo() constructor
 		return _spr;
 	}
 	 
+	///@arg {Real} x
+	///@arg {Real} y
 	static set_position_encounter = function(_x, _y){ pos.encount.set(_x, _y); }
+	///@arg {Real} x
+	///@arg {Real} y
 	static set_position_battle = function(_x, _y){ pos.battle.set(_x, _y); }
+	///@return {Struct.Vector2}
 	static get_position_encounter = function(){ return pos.encount; }
+	///@return {Struct.Vector2}
 	static get_position_battle = function(){ return pos.battle; }
+	
+	///@arg {Asset.GMSprite} sprite
+	static set_area_sprite = function(_spr){ area_sprite = _spr; }
+	///@return {Asset.GMSprite}
+	static get_area_sprite = function(){ return area_sprite; }
 }
 
 ///@arg {String} character_tag

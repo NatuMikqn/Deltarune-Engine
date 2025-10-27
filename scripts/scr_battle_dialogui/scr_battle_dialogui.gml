@@ -2,6 +2,7 @@ enum DIALOG_UI
 {
 	BUTTON,
 	MESSAGE,
+	SELECTTEAM,
 	SELECTENEMY,
 	LIST
 }
@@ -20,7 +21,7 @@ function battle_dialog_button()
 		if (battle_get_selectmode() != DIALOG_UI.BUTTON) _flag = FLAG_DCU.RESET_FL | FLAG_DCU.NOCLEAN_MES;
 		battle_dialog_cleanup(_flag);
 		battle_set_selectmode(DIALOG_UI.BUTTON);
-		battle_show_dialog(true);
+		battle_show_turndialog(true);
 	}
 }
 ///敵指定モード
@@ -42,7 +43,7 @@ function battle_dialog_enemyselect(_nextfunc)
 			new TypeWriterBuilder(80, 375 + i * 30, $"<skipped true>{_enemy.get_name()}")
 				.set_font("normal")
 				.set_scale(2, 2)
-				.set_depth(DEPTH.UI - 1)
+				.set_depth(DEPTH.UI_TEXT)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_interaction(false)
 				.enable_instance(true)
@@ -78,20 +79,21 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 	var _data;
 	with (obj_battle){
 		battle_dialog_cleanup();
-		typewriter_choice_enable_reverse_v(BATTLE_DIALOG_ENABLE_REVERSE);
+		typewriter_choice_enable_reverse_v(BATTLE_DIALOG_ENABLE_LOOP);
 		battle_set_selectmode(DIALOG_UI.LIST);
 		typewriter_choice_set_heartpos(-12, 18);
 		
+		//リストが何もなかった場合の処理
 		if (array_empty(_datalist)) { _datalist[0] = new BattleDialogList("<color gray>Unknown", "<color red>EMPTY ERROR!!", function () {}); }
 		
-		battle_dialog_list_update(_datalist[0].get_desc())
+		battle_dialog_desc_update(_datalist[0].get_desc())
 		
 		for (var i = 0; i < array_length(_datalist); i++) {
 			_data = _datalist[i];
 			new TypeWriterBuilder(30 + (i % 2) * 230, 375 + floor(i / 2) * 30, $"<skipped true>{_data.get_label()}")
 				.set_font("normal")
 				.set_scale(2, 2)
-				.set_depth(DEPTH.UI - 1)
+				.set_depth(DEPTH.UI_TEXT)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_interaction(false)
 				.enable_instance(true)
@@ -100,13 +102,17 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 				.set_visible(i < 6)
 				.build();
 		}
-		obj_battle.dialog_list = _datalist;
-		battle_set_nextfunc(_nextfunc ?? function(){
-			
-		})
+		dialog_list = _datalist;
+		
+		//リスト選択時の挙動function
+		//未指定の場合は何も発生しません
+		battle_set_nextfunc(_nextfunc ?? function(){})
+		
+		//選択変更時の挙動
 		typewriter_choice_changed(function (_i) {
-			battle_dialog_list_update(obj_battle.dialog_list[_i].get_desc());
+			battle_dialog_desc_update(obj_battle.dialog_list[_i].get_desc());
 			
+			//y座標を変更します
 			var _list = typewriter_get_ext("BattleDialogBoxSelect");
 			var _choice;
 			var _len = array_length(_list);
@@ -122,14 +128,14 @@ function battle_dialog_list(_datalist, _nextfunc = undefined)
 }
 ///リスト説明アップデート
 ///@arg {String} desc
-function battle_dialog_list_update(_desc)
+function battle_dialog_desc_update(_desc)
 {
 	with (obj_battle){
 		typewriter_delete("DialogDescription");
 		new TypeWriterBuilder(490, 375, $"<skipped true><color dkgray>{_desc}")
 			.set_font("normal")
 			.set_scale(2, 2)
-			.set_depth(DEPTH.UI - 1)
+			.set_depth(DEPTH.UI_TEXT)
 			.set_surface(obj_battle, battle_get_surface_varname())
 			.enable_interaction(false)
 			.set_tag("DialogDescription")
@@ -173,6 +179,15 @@ function battle_get_buttondata(_pos)
 function battle_set_nextfunc(_func)
 {
 	obj_battle.nextfunc = _func;
+}
+function battle_actionlist_clear()
+{
+	obj_battle.actionlist = [];
+}
+///@arg {Function} func
+function battle_actionlist_push(_func)
+{
+	array_push(obj_battle.actionlist, _func);
 }
 ///@return {Real}
 function battle_get_selectmode()

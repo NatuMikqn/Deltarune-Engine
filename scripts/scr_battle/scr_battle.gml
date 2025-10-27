@@ -14,7 +14,9 @@ enum BATTLE_TEAM_ANIM
 	SETUP,
 	IDLE,
 	FIGHT,
-	DEFEND
+	FIGHT_SLASH,
+	DEFEND,
+	CUSTOM
 }
 enum BATTLE_ANIM_LOOP
 {
@@ -38,9 +40,11 @@ enum BATTLE_AUTONEXT
 
 ///次のキャラクターにボタン操作を移します
 ///次のキャラクターがいなければ敵のターンに入ります
+///第一引数には現在のキャラクターが選択したボタン
+///第二引数には変動TP量
 ///@arg {Real} type icon
 ///@arg {Real} ct change tension
-function battle_next_char(_type, _ct = 0)
+function battle_next_charturn(_type, _ct = 0)
 {
 	with (obj_battle){
 		battle_tension_add(_ct, true);
@@ -59,10 +63,13 @@ function battle_next_char(_type, _ct = 0)
 		}
 	}
 }
+
+///前のキャラクターにボタン操作を移します
+///前のキャラクターがいない場合はなにもしません
 function battle_prev_char()
 {
 	with (obj_battle){
-		if charturn > 0{
+		if (charturn > 0){
 			charturn--
 			battle_set_buttonlist(charturn);
 			battle_team_set_anim(battle_char_ids[charturn], BATTLE_TEAM_ANIM.IDLE, BATTLE_ANIM_LOOP.LOOP, 10)
@@ -75,25 +82,31 @@ function battle_prev_char()
 
 ///@arg {real} state
 ///@arg {real} timer
+///@deprecated
 function battle_set_nextstate(_state, _real)
 {
 	obj_battle.next_state = _state;
 	obj_battle.next_state_timer = _real;
 }
 
-///@return {real}
+///@return {Real}
 ///@pure
 function battle_get_state(){ return obj_battle.state; }
 
-///@arg {Id.Instance} id
-///@arg {real} anim
-///@arg {real} loop
-///@arg {real} animspd
+///@arg {Id.Instance} id Instance ID
+///@arg {Asset.GMSprite|Real} anim Animation ID or Sprite Asset
+///@arg {Real} loop LoopType <BATTLE_ANIM_LOOP.?>
+///@arg {Real} animspd Animation Speed
 function battle_team_set_anim(_id, _anim, _loop, _spd = 4)
 {
-	if instance_parent_equals(_id, obj_battle_team){
+	if (instance_parent_equals(_id, obj_battle_team)){
 		with (_id){
-			sprite_anim = _anim;
+			if (is_int64(_anim)) {
+				sprite = sprite_list[_anim];
+			}
+			else if (asset_get_type(_anim) == asset_sprite) {
+				sprite = _anim;
+			}
 			sprite_loop = _loop;
 			animtime = 0;
 			animspd = _spd;
@@ -102,6 +115,7 @@ function battle_team_set_anim(_id, _anim, _loop, _spd = 4)
 	}
 }
 
+///戦闘画面のバトルサーファスを返します
 function battle_get_surface()
 {
 	if (instance_exists(obj_battle) && surface_exists(obj_battle.srf_battle)){
@@ -118,7 +132,7 @@ function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 
 ///ターンダイアログを表示します
 ///@arg {bool} skipped
-function battle_show_dialog(_skipped)
+function battle_show_turndialog(_skipped)
 {
 	with (obj_battle){
 		if (!typewriter_exists("BattleDialogBoxMessage")){
@@ -126,7 +140,7 @@ function battle_show_dialog(_skipped)
 			if (_skipped) _text += "<skipped true>"
 			_text += $"<scale 2>{dialog}"
 			new TypeWriterBuilder(30, 376, _text)
-				.set_depth(DEPTH.UI - 1)
+				.set_depth(DEPTH.UI_TEXT)
 				.set_surface(obj_battle, battle_get_surface_varname())
 				.enable_dialog(true)
 				.enable_interaction(false)
@@ -175,38 +189,121 @@ function battle_get_charturn() { return obj_battle.charturn; }
 ///@return {Array<Id.Instance>}
 function battle_get_enemy_ids() { return obj_battle.battle_enemy_ids; }
 
-///@arg {String} tag
-///@arg {String} label
-///@arg {String} desc
-///@arg {Real} tpcost
-///@arg {Function} nextfunc
-function battle_act_add(_tag, _label, _desc, _tpcost, _nextfunc = undefined)
+///@ignore
+function BattleAct() constructor
 {
-	with (obj_battle_action_manager) {
-		array_push(actlist, [_tag, new BattleDialogList(_label, _desc, _nextfunc)])
+	tag = "";
+	label = "";
+	desc = "";
+	tpcost = 0;
+	func_select = undefined;
+	data_action = undefined;
+}
+
+///@arg {String} tag
+///@return {Struct.BattleActBuilder}
+function BattleActBuilder(_tag) : BattleAct() constructor
+{
+	tag = _tag;
+	
+	///@arg {String} label
+	///@arg {String} desc
+	///@return {Struct.BattleActBuilder}
+	static set_infomation = function(_label, _desc) {
+		label = _label;
+		desc = _desc;
+		return self;
+	}
+	
+	///@arg {Real} cost TP cost
+	///@return {Struct.BattleActBuilder}
+	static set_cost = function(_cost) {
+		tpcost = _cost;
+		return self;
+	}
+	
+	///function (actor_position, target_position)
+	///position : Struct.Vector2
+	///@arg {Function} func
+	///@return {Struct.BattleActBuilder}
+	static set_func_select = function(_func) {
+		func_select = _func;
+		return self;
+	}
+	
+	///function (actor_position, target_position)
+	///position : Struct.Vector2
+	///@arg {Function} func
+	///@return {Struct.BattleActBuilder}
+	static set_action = function(_func) {
+		data_action = _func;
+		return self;
+	}
+	
+	static build = function() {
+		var _data = new BattleActData(self);
+		var _bdl = new BattleDialogList(label, desc, func_select);
+		with (obj_battle_action_manager) {
+			array_push(actlist, {
+				tag : other.tag, 
+				data : _bdl
+			});
+		}
 	}
 }
-///@arg {String} tag
-///@arg {String} label
-///@arg {String} desc
-///@arg {Real} tpcost
-///@arg {Function} nextfunc
-function battle_act_replace(_tag, _label, _desc, _tpcost, _nextfunc = undefined)
+
+///@arg {Struct.BattleActBuilder} builder
+///@ignore
+function BattleActData(_builder) : BattleAct() constructor
+{
+	send_builder_to_data(_builder);
+	
+	action_object = undefined;
+	
+	/// ReturnFunction
+	/// 未登録ならundefinedを返す
+	///@return {Any}
+	static get_func_select = function() {
+		return func_select;
+	}
+	
+	static new_action = function() {
+		action_object = new data_action();
+	}
+	
+	static step_action = function() {
+		action_object.step();
+		//アクション終了時
+		if (!battle_is_action()) {
+			delete action_object;
+		}
+	}
+	
+}
+
+///アクションを停止します
+///例として、actionfunc内で使用できます
+//TODO : 完成させる
+function battle_act_end()
 {
 	with (obj_battle_action_manager) {
-		var _pos = array_find_index(actlist, method({_tag}, function (_e) {
-			return (_e[0] == _tag);
-		}));
-		array_delete(actlist, _pos, 1);
-		array_insert(actlist, _pos, [_tag, new BattleDialogList(_label, _desc, _nextfunc)]);
+		is_action = false;
 	}
 }
+
+///アクション中かどうか
+///@return {Bool}
+function battle_is_action()
+{
+	return obj_battle_action_manager.is_action;
+}
+
 ///@arg {String} tag
 function battle_act_remove(_tag)
 {
 	with (obj_battle_action_manager) {
 		var _pos = array_find_index(actlist, method({_tag}, function (_e) {
-			return (_e[0] == _tag);
+			return (_e.tag == _tag);
 		}));
 		array_delete(actlist, _pos, 1);
 	}
@@ -214,7 +311,12 @@ function battle_act_remove(_tag)
 ///@return {Array<Array<Any>>}
 function battle_act_get()
 {
-	return obj_battle_action_manager.actlist;
+	//データ更新
+	with (obj_battle_action_manager) {
+		event_user(0)
+		return actlist;
+	}
+	throw "obj_battle_action_manager doesn't exists"
 }
 function battle_act_reset()
 {

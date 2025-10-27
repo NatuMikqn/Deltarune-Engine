@@ -8,7 +8,7 @@ function battle_set_state(_state){
 				if (team_get_count() == 0){
 					battle_set_state(BATTLE_STATE.ENEMY_TALK)
 				}else{
-					battle_show_dialog(false);
+					battle_show_turndialog(false);
 					event_user(0)
 					with(obj_battle_ui){
 						event_user(2)

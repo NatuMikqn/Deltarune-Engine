@@ -119,9 +119,9 @@ function typewriter_custom_cmd(_self, _data)
 				break;
 			
 			case "teamcolor":
-				var _char = char_get_data(_data[2])
+				var _char = char_get_data(_data[1])
 				if (is_undefined(_char)) return;
-				color = array_create(4, _char.get_color_array()[_data[1]]);
+				color = array_create(4, _char.get_color_array()[_data[2]]);
 				break;
 		}
 	}

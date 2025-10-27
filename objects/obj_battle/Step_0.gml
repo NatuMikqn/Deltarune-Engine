@@ -45,8 +45,8 @@ if (state == BATTLE_STATE.MYTURN){
 			battle_prev_char();
 		}
 	}else{ //ボタン選択以外の場合
-		//フラッシュリセット -> 
-		//選択時フラッシュリセット -> 
+		//点滅リセット -> 
+		//選択時点滅リセット -> 
 		if (instance_exists(enemy_target)) enemy_target.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
 		
 		if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){

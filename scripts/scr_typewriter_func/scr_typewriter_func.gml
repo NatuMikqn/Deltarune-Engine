@@ -96,7 +96,7 @@ function typewriter_get_defaultfont()
 	return obj_typewriter_manager.default_font;
 }
 
-///choice heartの位置調整
+///選択時のソウルの相対位置を設定
 ///@arg {Real} x
 ///@arg {Real} y
 function typewriter_choice_set_heartpos(_x, _y)

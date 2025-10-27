@@ -4,6 +4,7 @@ enum DEPTH{
 	BATTLE_BG = -50,
 	BT_CHAR = -100,
 	UI = -200,
+	UI_TEXT = -205,
 	BOARD = -300,
 	SOULS = -400,
 }

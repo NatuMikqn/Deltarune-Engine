@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_battle_custom_act",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_battle_custom_act",
+  "parent":{
+    "name":"actions",
+    "path":"folders/Scripts/battle/custom/actions.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

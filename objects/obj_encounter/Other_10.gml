@@ -17,7 +17,7 @@ with(obj_battle_team){
 	
 	new EasingBuilder(0, method(_val, function(_v){
 				if ((_v * 20) % 4 == 0){
-					afterimage_create(id.x, id.y, id.depth + 1, id.sprite[id.sprite_anim], id.subimg, 2, 2).surface = battle_get_surface();
+					afterimage_create(id.x, id.y, id.depth + 1, id.sprite, id.subimg, 2, 2).surface = battle_get_surface();
 				}
 			}))
 			.add_step(EASING_TWEEN.LINEAR, EASING_EASE.IN, 1, 20)

@@ -275,3 +275,12 @@ function col2list(color)
 		((color >> 16) & 0xff) / 255
 	];
 }
+
+/// 画像の読み込みにかかる時間
+///@arg {Asset.GMSprite}
+///@arg {Real}
+///@return {Real}
+function image_get_totaltime(sprite, speed)
+{
+	return sprite_get_number(sprite) * speed
+}

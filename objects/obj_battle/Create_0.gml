@@ -21,6 +21,7 @@ selectmode = DIALOG_UI.BUTTON;
 select_button = [];
 buttonlist = [];
 nextfunc = -1;
+actionlist = [];
 enemy_target = noone;
 select_tech = -1;
 
@@ -54,6 +55,7 @@ for (var i=0;i<team_get_count();i++){
 	_inst = instance_create_depth(_pos.x - camera_get_viewpos_x(), _pos.y - camera_get_viewpos_y(), DEPTH.BT_CHAR-i, _obj)
 	_inst.char = i;
 	_inst.color = _team[i].get_color_first()
+	battle_team_set_anim(_inst, BATTLE_TEAM_ANIM.ENCOUNTER, true)
 	array_push(battle_char_ids, _inst);
 }
 

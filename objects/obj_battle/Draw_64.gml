@@ -12,5 +12,5 @@ var _text = "";
 for (var i = 0; i < array_length(_names); i++) {
 	_text += $"{_names[i]} : {variable_instance_get(id, _names[i])}\n";
 }
-draw_set_font(fnt_8bit)
+draw_set_font(fnt_8bit);
 draw_text_outline(40, 20, _text);

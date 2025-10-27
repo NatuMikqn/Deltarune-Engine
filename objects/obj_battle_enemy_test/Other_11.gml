@@ -1,13 +1,10 @@
 /// @description ActionSelect
-/*
+
 switch (battle_get_current_char().get_tag()) {
 	case "kris":
-		//battle_act_remove("check");
-		battle_act_add("slash", "X-Slash", "hurt", 25);
+		battle_act_remove("check");
+		new BattleActBuilder("check")
+			.set_infomation("Checker", "A")
+			.build();
 		break;
-	case "susie":
-		battle_act_replace("slash", "Red Buster", "verr y", char_is_equip("susie", ITEMTYPE.WEAPON, "devil_knife") ? 40 : 50);
-		break;
-	case "ralsei":
-		break;
-}*/
+}

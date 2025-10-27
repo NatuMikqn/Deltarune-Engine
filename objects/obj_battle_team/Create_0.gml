@@ -3,8 +3,8 @@ color = c_white;
 animtime = 0;
 animspd = 4;
 
-sprite = [];
-sprite_anim = BATTLE_TEAM_ANIM.ENCOUNTER;
-sprite_loop = BATTLE_ANIM_LOOP.LOOP;
+sprite = spr_missing;
+sprite_list = [];
+sprite_loop = BATTLE_ANIM_LOOP.NONE;
 
 subimg = 0;

@@ -222,6 +222,7 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 	
 	///@return {Id.Instance}
 	static build = function(){
+		//TODO : 文字幅取得を実装
 		/*
 		var _size = [], _temp = {
 			scale : scale.copy(),
@@ -254,7 +255,6 @@ function TypeWriterBuilder(_x, _y, _text) : TypeWriter() constructor
 					draw_set_font(l10n_get_font(_temp.temp, _temp.lang))
 					_size = string_width(data * _temp.scale.x)
 				}
-				show_message(self);
 			}
 		}*/
 		

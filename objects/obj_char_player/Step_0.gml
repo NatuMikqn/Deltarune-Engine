@@ -1,4 +1,3 @@
-//TODO: FIX CHAR MOVE DIRECTION
 //TODO: 他キャラも操作できるように、オブジェクトを分岐させる
 
 if (movable){
