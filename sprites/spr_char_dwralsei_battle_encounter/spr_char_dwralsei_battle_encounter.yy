@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_char_dwralsei_battle_encounter",
   "bboxMode":0,
   "bbox_bottom":39,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"e931f946-d4dd-48e4-8768-7d09a416fc68","name":"e931f946-d4dd-48e4-8768-7d09a416fc68","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"e931f946-d4dd-48e4-8768-7d09a416fc68","name":"e931f946-d4dd-48e4-8768-7d09a416fc68","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

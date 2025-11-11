@@ -192,6 +192,6 @@ function encounter_start(_id = encounter_get_id(), _target = noone, _set_tp = tr
 	obj_char.movable = false;
 	
 	var _inst = instance_create_depth(0, 0, 0, obj_encounter)
-	_inst.enemy_target = _target;
+	_inst.enemy_select_target = _target;
 	
 }

@@ -35,7 +35,7 @@ function battle_dialog_enemyselect(_nextfunc)
 		battle_set_nextfunc(_nextfunc);
 		typewriter_choice_set_heartpos(-17, 18);
 		
-		obj_battle.enemy_target = _ids[0];
+		obj_battle.enemy_select_target = _ids[0];
 		
 		_len = array_length(battle_get_enemy_ids());
 		for (var i = 0; i < _len; i++) {
@@ -55,7 +55,7 @@ function battle_dialog_enemyselect(_nextfunc)
 		typewriter_choice_changed(function (_i, _prev) {
 			//敵のホワイトフラッシュ再適応
 			var _ids = battle_get_enemy_ids();
-			obj_battle.enemy_target = _ids[_i];
+			obj_battle.enemy_select_target = _ids[_i];
 			
 			_ids[_prev].flashpower = 0;
 			var _list = typewriter_get_ext("BattleDialogBoxSelect");
@@ -132,6 +132,7 @@ function battle_dialog_desc_update(_desc)
 {
 	with (obj_battle){
 		typewriter_delete("DialogDescription");
+		show_message(_desc)
 		new TypeWriterBuilder(490, 375, $"<skipped true><color dkgray>{_desc}")
 			.set_font("normal")
 			.set_scale(2, 2)
@@ -147,9 +148,16 @@ function battle_dialog_desc_update(_desc)
 function battle_dialog_cleanup(flag = 0)
 {
 	with (obj_battle){
-		if ((flag & FLAG_DCU.RESET_FL) && (instance_exists(enemy_target))){
-			enemy_target.flashpower = 0;
-			enemy_target = noone;
+		//全キャラクターのフラッシュを解除
+		if (flag & FLAG_DCU.RESET_FL){
+			if (instance_exists(team_select_target)) {
+				team_select_target.flashpower = 0;
+				team_select_target = noone;
+			}
+			if (instance_exists(enemy_select_target)) {
+				enemy_select_target.flashpower = 0;
+				enemy_select_target = noone;
+			}
 		}
 		typewriter_delete("DialogDescription");
 		typewriter_delete("BattleDialogBoxSelect");
@@ -175,6 +183,7 @@ function battle_get_buttondata(_pos)
 {
 	return obj_battle.buttonlist[_pos];
 }
+///dialog操作時の次の行動を指定します
 ///@arg {Function} func
 function battle_set_nextfunc(_func)
 {

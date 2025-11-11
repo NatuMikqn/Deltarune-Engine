@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_typer_custom_anim",
+  "%Name":"scr_typewriter_custom_font",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_typer_custom_anim",
+  "name":"scr_typewriter_custom_font",
   "parent":{
     "name":"custom",
     "path":"folders/Scripts/typewriter/custom.yy",

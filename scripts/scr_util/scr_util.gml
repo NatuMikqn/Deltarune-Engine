@@ -147,6 +147,7 @@ function instance_parent_equals(_id, _object)
 	return false;
 }
 
+///指定した文字が含まれているかどうか
 ///@arg {String} char
 ///@arg {String} search
 ///@return {Bool}

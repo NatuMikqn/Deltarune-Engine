@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_charbox_name_noelle_ja",
   "bboxMode":0,
   "bbox_bottom":14,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"8ca56291-04bb-4c6f-ae30-e5bf88d006e2","name":"8ca56291-04bb-4c6f-ae30-e5bf88d006e2","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"8ca56291-04bb-4c6f-ae30-e5bf88d006e2","name":"8ca56291-04bb-4c6f-ae30-e5bf88d006e2","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

@@ -2,7 +2,7 @@
   "$GMProject":"v1",
   "%Name":"Deltarune",
   "AudioGroups":[
-    {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[],
@@ -223,10 +223,10 @@
     {"id":{"name":"scr_team","path":"scripts/scr_team/scr_team.yy",},},
     {"id":{"name":"scr_twc_anim","path":"scripts/scr_twc_anim/scr_twc_anim.yy",},},
     {"id":{"name":"scr_twc_font","path":"scripts/scr_twc_font/scr_twc_font.yy",},},
-    {"id":{"name":"scr_typer_custom_","path":"scripts/scr_typer_custom_/scr_typer_custom_.yy",},},
-    {"id":{"name":"scr_typer_custom_anim","path":"scripts/scr_typer_custom_anim/scr_typer_custom_anim.yy",},},
-    {"id":{"name":"scr_typer_custom_cmd","path":"scripts/scr_typer_custom_cmd/scr_typer_custom_cmd.yy",},},
-    {"id":{"name":"scr_typer_custom_font","path":"scripts/scr_typer_custom_font/scr_typer_custom_font.yy",},},
+    {"id":{"name":"scr_typewriter_custom_","path":"scripts/scr_typewriter_custom_/scr_typewriter_custom_.yy",},},
+    {"id":{"name":"scr_typewriter_custom_anim","path":"scripts/scr_typewriter_custom_anim/scr_typewriter_custom_anim.yy",},},
+    {"id":{"name":"scr_typewriter_custom_cmd","path":"scripts/scr_typewriter_custom_cmd/scr_typewriter_custom_cmd.yy",},},
+    {"id":{"name":"scr_typewriter_custom_font","path":"scripts/scr_typewriter_custom_font/scr_typewriter_custom_font.yy",},},
     {"id":{"name":"scr_typewriter_func","path":"scripts/scr_typewriter_func/scr_typewriter_func.yy",},},
     {"id":{"name":"scr_typewriter_textdata","path":"scripts/scr_typewriter_textdata/scr_typewriter_textdata.yy",},},
     {"id":{"name":"scr_typewriter","path":"scripts/scr_typewriter/scr_typewriter.yy",},},

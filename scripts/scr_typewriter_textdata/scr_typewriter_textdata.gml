@@ -14,13 +14,19 @@ function text_deserialize(text){
 	
 	for (var i = 1; i <= string_length(text); i++) {
 		_char = string_char_at(text, i)
-		if (string_char_contains(_char, "<[")){
+		if (string_char_contains(_char, "<[&")){
 			_td.set_string(_data, _str);
 			_str = "";
 			
-			while (string_char_contains(_char, "<[")){
+			while (string_char_contains(_char, "<[&")){
+				//newline
+				if (_char == "&"){
+					show_message(_td.get_cmdcustom(i, "newline"))
+					_td.set_cmd(_data, _td.get_cmdcustom(i, "newline"));
+					i++
+				}
 				//cmd
-				if (_char == "<"){
+				else if (_char == "<"){
 					_cmd = _td.get_data(i, "<>", text);
 					i += _cmd[1]
 					_td.set_cmd(_data, _cmd[0]);
@@ -94,5 +100,12 @@ function TextData() constructor{
 		} until (_nest == 0 && (_char == _cmdchars[1]));
 		
 		return [_cmd, pos - _startpos];
+	}
+	
+	///@arg {Real} pos read position
+	///@arg {String} cmdname cmdname
+	///@return {Array<Any>}
+	static get_cmdcustom = function (pos, cmd) {
+		return [cmd, pos];
 	}
 }

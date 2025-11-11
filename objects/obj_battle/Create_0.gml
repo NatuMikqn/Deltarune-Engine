@@ -22,7 +22,8 @@ select_button = [];
 buttonlist = [];
 nextfunc = -1;
 actionlist = [];
-enemy_target = noone;
+team_select_target = noone;
+enemy_select_target = noone;
 select_tech = -1;
 
 #endregion

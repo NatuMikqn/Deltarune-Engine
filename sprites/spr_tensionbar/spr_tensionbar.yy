@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_tensionbar",
   "bboxMode":0,
   "bbox_bottom":195,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"82b7bb1d-2a6f-4b71-a659-d728ef2c5b18","name":"82b7bb1d-2a6f-4b71-a659-d728ef2c5b18","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"82b7bb1d-2a6f-4b71-a659-d728ef2c5b18","name":"82b7bb1d-2a6f-4b71-a659-d728ef2c5b18","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

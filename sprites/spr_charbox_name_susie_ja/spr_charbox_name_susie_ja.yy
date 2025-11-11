@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_charbox_name_susie_ja",
   "bboxMode":0,
   "bbox_bottom":14,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"2dd23e0b-67f3-48f9-a5d6-4bfb3cf64825","name":"2dd23e0b-67f3-48f9-a5d6-4bfb3cf64825","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"2dd23e0b-67f3-48f9-a5d6-4bfb3cf64825","name":"2dd23e0b-67f3-48f9-a5d6-4bfb3cf64825","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

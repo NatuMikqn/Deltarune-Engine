@@ -343,5 +343,5 @@ function battle_act_set_autonext(_timing)
 ///@return {Id.Instance}
 function battle_get_targetenemy()
 {
-	return obj_battle.enemy_target;
+	return obj_battle.enemy_select_target;
 }

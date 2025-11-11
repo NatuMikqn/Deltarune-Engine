@@ -26,7 +26,7 @@ if (timer == 0){
 		
 		obj_char_player.visible = false; 
 		
-		if (enemy_target != noone) enemy_target.visible = false;
+		if (enemy_select_target != noone) enemy_select_target.visible = false;
 		
 		var _data = get_enemydata();
 		
