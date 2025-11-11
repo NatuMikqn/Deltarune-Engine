@@ -42,11 +42,8 @@ function team_custom()
 	
 	////////////////////////////////////////////
 	//join
-	repeat (5) {
-		team_join(choose("kris", "susie", "ralsei", "noelle"));
-	}
-	//team_join("kris")
-	//team_join("susie")
-	//team_join("ralsei")
-	//team_join("noelle")
+	team_join("kris")
+	team_join("susie")
+	team_join("ralsei")
+	team_join("noelle")
 }

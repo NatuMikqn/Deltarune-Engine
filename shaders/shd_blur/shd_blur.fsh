@@ -37,3 +37,5 @@ void main()
 	
 	gl_FragColor = v_vColour * texc;
 }
+
+uniform sampler2D baseTexture;

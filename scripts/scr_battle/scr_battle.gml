@@ -242,12 +242,8 @@ function BattleActBuilder(_tag) : BattleAct() constructor
 	
 	static build = function() {
 		var _data = new BattleActData(self);
-		var _bdl = new BattleDialogList(label, desc, func_select);
 		with (obj_battle_action_manager) {
-			array_push(actlist, {
-				tag : other.tag, 
-				data : _bdl
-			});
+			array_push(actlist, _data);
 		}
 	}
 }
@@ -259,6 +255,12 @@ function BattleActData(_builder) : BattleAct() constructor
 	send_builder_to_data(_builder);
 	
 	action_object = undefined;
+	
+	/// BattleDialogListを返す
+	///@return {Struct.BattleDialogList}
+	static get_dialoglistdata = function() {
+		return new BattleDialogList(label, desc, func_select);
+	}
 	
 	/// ReturnFunction
 	/// 未登録ならundefinedを返す
@@ -308,15 +310,16 @@ function battle_act_remove(_tag)
 		array_delete(actlist, _pos, 1);
 	}
 }
-///@return {Array<Array<Any>>}
-function battle_act_get()
+function battle_act_update()
 {
 	//データ更新
 	with (obj_battle_action_manager) {
 		event_user(0)
-		return actlist;
 	}
-	throw "obj_battle_action_manager doesn't exists"
+}
+function battle_act_get()
+{
+	return obj_battle_action_manager.actlist;
 }
 function battle_act_reset()
 {

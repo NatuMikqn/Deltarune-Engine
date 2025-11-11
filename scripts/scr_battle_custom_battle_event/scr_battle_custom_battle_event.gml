@@ -11,27 +11,20 @@ function battle_custom_event(_type){
 			audio_play_sound(snd_confirm, 0, 0);
 			battle_dialog_enemyselect(function(){
 				audio_play_sound(snd_confirm, 0, 0);
-				//ダイアログリスト作成
-				var _list = [];
-				//キャラACT一覧取得
-				var _actlist = battle_act_get();
-				for (var i = 0; i < array_length(_actlist); i++) {
-					array_push(_list, _actlist[i].data);
-				}
-				battle_dialog_list(_list, function(){
-					audio_play_sound(snd_confirm, 0, 0);
-					battle_next_charturn(BATTLE_CHAR_ACTION.ACT);
-				});
+				// キャラACT更新
+				battle_act_update();
+				battle_show_dialog_list();
 			})
 			break;
 		case BUTTON_TYPE.ITEM:
 			audio_play_sound(snd_confirm, 0, 0);
-			var _list = [
-				new BattleDialogList("ITEM1", "DESC1"),
-				new BattleDialogList("ITEM2", "DESC22"),
-				new BattleDialogList("ITEM3", "DESC333"),
-			];
-			battle_dialog_list(_list, function(){
+			
+			// ダイアログ内容設定
+			new BattleActBuilder("item1").set_infomation("ITEM1", "DESC1").build();
+			new BattleActBuilder("item2").set_infomation("ITEM2", "DESC22").build();
+			new BattleActBuilder("item3").set_infomation("ITEM3", "DESC333").build();
+			
+			battle_show_dialog_list(function(){
 				audio_play_sound(snd_confirm, 0, 0);
 				battle_next_charturn(BATTLE_CHAR_ACTION.ITEM);
 			});

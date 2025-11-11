@@ -5,4 +5,4 @@ fps_frame = 0;
 fps_sec = 0;
 timer = 0;
 
-visible = true;
+visible = false;

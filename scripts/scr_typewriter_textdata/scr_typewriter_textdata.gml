@@ -21,7 +21,6 @@ function text_deserialize(text){
 			while (string_char_contains(_char, "<[&")){
 				//newline
 				if (_char == "&"){
-					show_message(_td.get_cmdcustom(i, "newline"))
 					_td.set_cmd(_data, _td.get_cmdcustom(i, "newline"));
 					i++
 				}

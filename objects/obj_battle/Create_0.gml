@@ -11,24 +11,40 @@ var _team = team_get(),
 
 #region temp
 
+// 選択対象のキャラクター
 charturn = 0;
+// 選択画面
 selectmode = DIALOG_UI.BUTTON;
 
 #endregion
 
 #region temp
 
+// 各チームキャラクターの選択したボタン
+// これを基に選択後の挙動を決めます
 select_button = [];
+// ボタンリスト
 buttonlist = [];
+// 選択時の次実行内容
 nextfunc = -1;
-actionlist = [];
+// チームキャラクター選択モード用
+// チームヒール等
 team_select_target = noone;
+// 敵キャラクター選択モード用
+// Fightのターゲット選択等
 enemy_select_target = noone;
+
+// 各チームキャラクターのアクション内容
+// 現段階では未使用です
+actionlist = [];
+// 不明 未使用
 select_tech = -1;
 
 #endregion
 
+// 各チームキャラクターのアクション内容
 char_action = [];
+// ダイアログキャラクター
 dialog_list = -1;
 
 event_user(0)
