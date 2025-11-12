@@ -115,6 +115,8 @@
     {"name":"scr_battle_custom_statechange","order":1,"path":"scripts/scr_battle_custom_statechange/scr_battle_custom_statechange.yy",},
     {"name":"scr_battle_dialogui","order":3,"path":"scripts/scr_battle_dialogui/scr_battle_dialogui.yy",},
     {"name":"scr_battle_list","order":7,"path":"scripts/scr_battle_list/scr_battle_list.yy",},
+    {"name":"scr_battle_state_myturn_system","order":10,"path":"scripts/scr_battle_state_myturn_system/scr_battle_state_myturn_system.yy",},
+    {"name":"scr_battle_state_myturn","order":9,"path":"scripts/scr_battle_state_myturn/scr_battle_state_myturn.yy",},
     {"name":"scr_battle_tension","order":1,"path":"scripts/scr_battle_tension/scr_battle_tension.yy",},
     {"name":"scr_battle","order":8,"path":"scripts/scr_battle/scr_battle.yy",},
     {"name":"scr_bgm","order":11,"path":"scripts/scr_bgm/scr_bgm.yy",},
@@ -230,6 +232,5 @@
     {"name":"spr_screen_awase","order":1,"path":"sprites/spr_screen_awase/spr_screen_awase.yy",},
     {"name":"spr_tensionbar","order":1,"path":"sprites/spr_tensionbar/spr_tensionbar.yy",},
     {"name":"spr_tensionfilling","order":2,"path":"sprites/spr_tensionfilling/spr_tensionfilling.yy",},
-    {"name":"Sprite8","order":1,"path":"sprites/Sprite8/Sprite8.yy",},
   ],
 }

@@ -80,23 +80,26 @@ function battle_prev_char()
 	}
 }
 
-///@arg {real} state
-///@arg {real} timer
-///@deprecated
+/// @arg {real} state
+/// @arg {real} timer
+/// @deprecated
 function battle_set_nextstate(_state, _real)
 {
 	obj_battle.next_state = _state;
 	obj_battle.next_state_timer = _real;
 }
 
-///@return {Real}
-///@pure
+/// 現在の戦闘全体ステータスを返します
+/// @return {Real}
+/// @pure
 function battle_get_state(){ return obj_battle.state; }
 
-///@arg {Id.Instance} id Instance ID
-///@arg {Asset.GMSprite|Real} anim Animation ID or Sprite Asset
-///@arg {Real} loop LoopType <BATTLE_ANIM_LOOP.?>
-///@arg {Real} animspd Animation Speed
+/// チームキャラクターのスプライトを変更します
+/// spriteを指定可能です
+/// @arg {Id.Instance} id Instance ID
+/// @arg {Asset.GMSprite|Real} anim Animation ID or Sprite Asset
+/// @arg {Real} loop LoopType <BATTLE_ANIM_LOOP.?>
+/// @arg {Real} animspd Animation Speed
 function battle_team_set_anim(_id, _anim, _loop, _spd = 4)
 {
 	if (instance_parent_equals(_id, obj_battle_team)){
@@ -115,7 +118,9 @@ function battle_team_set_anim(_id, _anim, _loop, _spd = 4)
 	}
 }
 
-///戦闘画面のバトルサーファスを返します
+/// 戦闘画面のサーファスを返します
+/// 戦闘サーファスが存在しなければ-1を返します
+/// @return {Id.Surface}
 function battle_get_surface()
 {
 	if (instance_exists(obj_battle) && surface_exists(obj_battle.srf_battle)){
@@ -124,17 +129,19 @@ function battle_get_surface()
 	return -1;
 }
 
+/// 戦闘画面のサーファス名を返します
 function battle_get_surface_varname(){ return "srf_battle"; }
 
-///ターンダイアログを設定します
-///@arg {string} dialog
+/// 自ターンに回ってきた時に表示するダイアログを設定します
+/// @arg {string} dialog ダイアログテキスト
 function battle_set_dialog(_dialog){ obj_battle.dialog = _dialog; }
 
-///ターンダイアログを表示します
-///@arg {bool} skipped
+/// 自ターンに回ってきた時のダイアログを表示します
+/// @arg {bool} skipped 文字送りが完了した状態で表示させるかどうか
 function battle_show_turndialog(_skipped)
 {
 	with (obj_battle){
+		// 重複を防止します
 		if (!typewriter_exists("BattleDialogBoxMessage")){
 			var _text = ""
 			if (_skipped) _text += "<skipped true>"
@@ -150,46 +157,50 @@ function battle_show_turndialog(_skipped)
 	}
 }
 
-///バトル中かどうか
-///@return {bool}
+/// バトル中かどうか
+/// 判定はobj_battleの有無で行われます
+/// @return {bool}
 function in_battle()
 {
 	return instance_exists(obj_battle)
 }
 
-///ターンを開始します
-///@arg {Asset.GMObject} turn 複製したターンオブジェクト
-///@return {Id.Instance} 作成されたターンのインスタンスID
+/// ターンを開始します
+/// @arg {Asset.GMObject} turn 親オブジェクトがobj_battle_turnのターンオブジェクト
+/// @return {Id.Instance} 作成されたターンのインスタンスID
 function battle_turn_start(_trun)
 {
+	if (object_get_parent(_trun) != obj_battle_turn) throw "生成するturnインスタンスは、親がobj_battle_trunである必要があります"
+	
 	return instance_create_depth(0, 0, 0, _trun);
 }
 
-///ターンを終了します
-///@arg {Asset.GMObject} turn 複製したターンオブジェクト
-///@return {Id.Instance} 作成されたターンのインスタンスID
+/// ターンを終了します
 function battle_turn_end()
 {
 	battle_set_state(BATTLE_STATE.ENEMY_END);
 	instance_destroy(obj_battle_turn);
-	with(obj_battle_soul){
+	with(obj_battle_soul) {
+		//TODO: show等のコードをobj_heartのEventUser内で完結させる ターン終了時専用のEventUserを作成する
 		show = false;
 		hitbox = false;
 		movable = false;
 	}
 }
 
-///@arg {Real} char
-///@return {Real}
+/// チームキャラクターが選択したボタンを取得します
+/// @arg {Real} char
+/// @return {Real}
 function battle_get_buttonselect(_char) { return obj_battle.select_button[_char]; }
 
-///@return {Real}
+/// 自ターン時操作対象の順番(キャラクターID)を取得します
+/// @return {Real}
 function battle_get_charturn() { return obj_battle.charturn; }
 
-///@return {Array<Id.Instance>}
+/// @return {Array<Id.Instance>}
 function battle_get_enemy_ids() { return obj_battle.battle_enemy_ids; }
 
-///@ignore
+/// @ignore
 function BattleAct() constructor
 {
 	tag = "";

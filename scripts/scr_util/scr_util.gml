@@ -135,10 +135,10 @@ function array_exists(_array, _value)
 	return (array_length(_array) > _value) && (!is_undefined(_array[_value]))
 }
 
-///@arg {Id.Instance} instance
-///@arg {Asset.GMObject} object
-///@return {bool}
-///@pure
+/// @arg {Id.Instance} instance
+/// @arg {Asset.GMObject} object
+/// @return {bool}
+/// @pure
 function instance_parent_equals(_id, _object)
 {
 	if (_id.object_index == _object)						return true;
