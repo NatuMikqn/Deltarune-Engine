@@ -113,7 +113,7 @@ function EasingBuilder(_val, _method) : Easing() constructor
 	}
 	
 	///Easingにタグをつけます
-	///後にEasingを削除する際などに役立ちます
+	///後にEasingを削除する際などに使います
 	///@return {Struct.EasingBuilder}
 	static set_tag = function(_tag){
 		tag = _tag;

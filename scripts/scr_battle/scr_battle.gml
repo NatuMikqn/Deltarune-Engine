@@ -38,12 +38,12 @@ enum BATTLE_AUTONEXT
 	DIALOG_END
 }
 
-///次のキャラクターにボタン操作を移します
-///次のキャラクターがいなければ敵のターンに入ります
-///第一引数には現在のキャラクターが選択したボタン
-///第二引数には変動TP量
-///@arg {Real} type icon
-///@arg {Real} ct change tension
+/// 次のキャラクターにボタン操作を移します
+/// 次のキャラクターがいなければ敵のターンに入ります
+/// 第一引数には現在のキャラクターが選択したボタン
+/// 第二引数には変動TP量
+/// @arg {Real} type icon
+/// @arg {Real} ct change tension
 function battle_next_charturn(_type, _ct = 0)
 {
 	with (obj_battle){
@@ -64,8 +64,8 @@ function battle_next_charturn(_type, _ct = 0)
 	}
 }
 
-///前のキャラクターにボタン操作を移します
-///前のキャラクターがいない場合はなにもしません
+/// 前のキャラクターにボタン操作を移します
+/// 前のキャラクターがいない場合はなにもしません
 function battle_prev_char()
 {
 	with (obj_battle){
@@ -170,6 +170,7 @@ function in_battle()
 /// @return {Id.Instance} 作成されたターンのインスタンスID
 function battle_turn_start(_trun)
 {
+	// TODO: parent取得について、再帰処理にする
 	if (object_get_parent(_trun) != obj_battle_turn) throw "生成するturnインスタンスは、親がobj_battle_trunである必要があります"
 	
 	return instance_create_depth(0, 0, 0, _trun);
@@ -181,7 +182,7 @@ function battle_turn_end()
 	battle_set_state(BATTLE_STATE.ENEMY_END);
 	instance_destroy(obj_battle_turn);
 	with(obj_battle_soul) {
-		//TODO: show等のコードをobj_heartのEventUser内で完結させる ターン終了時専用のEventUserを作成する
+		// TODO: show等のコードをobj_heartのEventUser内で完結させる ターン終了時専用のEventUserを作成する
 		show = false;
 		hitbox = false;
 		movable = false;

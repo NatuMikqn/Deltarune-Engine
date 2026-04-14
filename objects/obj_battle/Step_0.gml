@@ -1,3 +1,7 @@
+if (keyboard_check_pressed(ord("1"))) {
+	dbg_info = !dbg_info;
+}
+
 //次のstatus実行用
 if (next_state_timer >= 0){
 	next_state_timer--

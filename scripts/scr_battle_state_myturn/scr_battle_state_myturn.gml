@@ -1,5 +1,4 @@
 
-/// 自ターンステータス変更関数
 /// 敵指定モード
 /// @arg {Function} nextfunction 敵選択後の関数
 function battle_state_dialog_enemyselect(_nextfunc)
@@ -47,8 +46,8 @@ function battle_state_dialog_enemyselect(_nextfunc)
 		});
 	}
 }
-/// 自ターンステータス変更関数
-/// リスト表示
+
+/// 汎用リスト表示
 /// @arg {Function} nextfunction 未指定の場合はBattleDialogListの関数を実行するようになります。
 function battle_state_dialog_list(_nextfunc = function(){
 	// 選択したfunc実行

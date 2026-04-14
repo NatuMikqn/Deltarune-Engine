@@ -1,3 +1,3 @@
-depth = DEPTH.BACKGROUND
+depth = DEPTH.BACKGROUND;
 
 timer = 0;

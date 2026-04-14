@@ -93,3 +93,5 @@ for (var i = 0; i < array_length(_enemygroup); i++) {
 
 dbg_screen_alpha = 0;
 dbg_screen_img = 0;
+
+dbg_info = false;
