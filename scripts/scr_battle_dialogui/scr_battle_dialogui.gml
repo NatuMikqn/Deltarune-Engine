@@ -12,7 +12,7 @@ enum FLAG_DCU //Flag Dialog CleanUp
 	RESET_FL = 0x0010,
 }
 
-///ダイアログを表示
+/// ダイアログを表示
 function battle_dialog_button()
 {
 	with (obj_battle){
@@ -24,8 +24,8 @@ function battle_dialog_button()
 		battle_show_turndialog(true);
 	}
 }
-///リスト説明アップデート
-///@arg {String} desc
+/// リスト説明アップデート
+/// @arg {String} desc
 function battle_dialog_desc_update(_desc)
 {
 	with (obj_battle){

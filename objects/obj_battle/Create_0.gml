@@ -27,6 +27,8 @@ select_button = [];
 buttonlist = [];
 // 選択時の次実行内容
 nextfunc = -1;
+// 選択をキャンセルし、ボタン操作に戻ることができるかどうか
+can_back = true;
 // チームキャラクター選択モード用
 // チームヒール等
 team_select_target = noone;

@@ -1,4 +1,6 @@
 /// @description ActionSelect
+// act選択時の個別リスト
+
 
 switch (battle_get_current_char().get_tag()) {
 	case "kris":
