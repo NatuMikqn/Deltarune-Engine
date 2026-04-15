@@ -1,4 +1,5 @@
-///@desc DefaultAction
+/// DefaultAction
+// act選択時のデフォルトリスト
 
 battle_act_reset();
 

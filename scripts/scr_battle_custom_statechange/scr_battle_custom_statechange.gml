@@ -2,6 +2,8 @@
 function battle_set_state(_state){
 	with (obj_battle){
 		state = _state
+		// state変更時のイベント
+		with(obj_battle_enemy) event_user(3);
 		//ここでそれぞれの行動(変更時のみ)をここに入力
 		switch _state{
 			case BATTLE_STATE.MYTURN:

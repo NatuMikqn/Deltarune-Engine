@@ -1,4 +1,5 @@
 /// @description ActionRun
+// 行動時の個別リスト
 
 var _char = battle_get_current_char();
 switch (battle_get_current_act()) {

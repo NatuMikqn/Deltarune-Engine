@@ -38,23 +38,32 @@ enum BATTLE_AUTONEXT
 	DIALOG_END
 }
 
-///次のキャラクターにボタン操作を移します
-///次のキャラクターがいなければ敵のターンに入ります
-///第一引数には現在のキャラクターが選択したボタン
-///第二引数には変動TP量
-///@arg {Real} type icon
-///@arg {Real} ct change tension
+/// 次のキャラクターにボタン操作を移します
+/// 次のキャラクターがいなければ敵のターンに入ります
+/// 第一引数には現在のキャラクターが選択したボタン
+/// 第二引数には変動TP量
+/// @arg {Real} type icon
+/// @arg {Real} ct change tension
 function battle_next_charturn(_type, _ct = 0)
 {
-	with (obj_battle){
+	with (obj_battle) {
 		battle_tension_add(_ct, true);
+		// UNUSED char_action
 		char_action[charturn] = _type;
+		// キャラアイコンの見た目を変えます
 		obj_battle_ui.charturn_icon_img[charturn] = battle_get_charicon(_type);
+		// キャラクターの順番を進めます
 		charturn++
+		
+		// UIanim
 		with(obj_battle_ui) event_user(1);
+		
+		// 最後の順番かどうか
 		if (charturn >= array_length(team_get())){
+			// 自ターン終了時処理
 			battle_tension_clear_history();
 			battle_dialog_cleanup();
+			
 			battle_set_selectmode(DIALOG_UI.MESSAGE);
 			battle_set_state(BATTLE_STATE.ENEMY_TALK);
 		}else{

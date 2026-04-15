@@ -1,4 +1,7 @@
-function battle_custom_event(_type){
+/// バトル中のボタンによる次の動作を指定する
+/// @arg {Real} button_type
+/// @ignore
+function battle_button_event(_type){
 	switch (_type) {
 		case BUTTON_TYPE.FIGHT:
 			audio_play_sound(snd_confirm, 0, 0);

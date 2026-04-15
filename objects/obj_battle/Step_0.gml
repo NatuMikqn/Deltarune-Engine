@@ -1,4 +1,4 @@
-//次のstatus実行用
+// 次のバトルステータス変更用
 if (next_state_timer >= 0){
 	next_state_timer--
 	if (next_state_timer == 0){
@@ -6,6 +6,7 @@ if (next_state_timer >= 0){
 	}
 }
 
+#region 透かし操作
 if (mouse_wheel_up()){
 	dbg_screen_alpha+=0.05
 	if dbg_screen_alpha > 1{
@@ -18,16 +19,20 @@ if (mouse_wheel_down()){
 		dbg_screen_alpha = 0
 	}
 }
+
 if (keyboard_check(vk_control) && keyboard_check_pressed(ord("S"))){
 	dbg_screen_img++
 	if (dbg_screen_img >= sprite_get_number(spr_screen_awase)) dbg_screen_img = 0
 }
+#endregion
+
 //自ターン処理
 if (state == BATTLE_STATE.MYTURN){
 	//ボタン行動選択
 	if (battle_get_selectmode() == DIALOG_UI.BUTTON){
 		var _left = input_check_pressed(INPUT.LEFT),
 			_right = input_check_pressed(INPUT.RIGHT);
+		// 左右キーどちらか押したら
 		if (_left || _right){
 			select_button[charturn] += _right - _left;
 			
@@ -37,48 +42,56 @@ if (state == BATTLE_STATE.MYTURN){
 			
 			audio_play_sound(snd_select, 0, 0)
 		}
-		if (input_check_pressed(INPUT.CONFIRM)){
-			battle_custom_event(battle_get_buttonlist()[select_button[charturn]].get_type());
-		}else
+		
+		// 決定キーで、選択したボタンのタイプによって処理を行う
+		if (input_check_pressed(INPUT.CONFIRM)) {
+			battle_button_event(battle_get_buttonlist()[select_button[charturn]].get_type());
+		}
 		//キャンセルキーで前のキャラクターに戻る
-		if (input_check_pressed(INPUT.CANCEL)){
+		else if (input_check_pressed(INPUT.CANCEL)) {
 			battle_prev_char();
 		}
 	}else{ //ボタン選択以外の場合
 		//点滅リセット -> 
 		//選択時点滅リセット -> 
-		if (instance_exists(enemy_select_target)) enemy_select_target.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
 		
-		if (battle_get_selectmode() == DIALOG_UI.SELECTENEMY){
-			if (input_check_pressed(INPUT.CONFIRM)){
+		// 選択中の仲間がいる場合、その対象を点滅させる
+		if (instance_exists(team_select_target)) {
+			team_select_target.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
+		}
+		// 選択中の敵がいる場合、その対象を点滅させる
+		if (instance_exists(enemy_select_target)) {
+			enemy_select_target.flashpower = 0.2 + dsin(get_worldtimer() * 4) * 0.1;
+		}
+		
+		// 決定キーにより、事前に設定された関数を実行する
+		if (input_check_pressed(INPUT.CONFIRM)) {
+			if (is_method(nextfunc)) {
 				nextfunc();
 			}
 		}
-		else if (battle_get_selectmode() == DIALOG_UI.LIST){
-			if (input_check_pressed(INPUT.CONFIRM)){
-				nextfunc();
+		// 進行度に関わらず、戻れる場合はボタン操作に戻る
+		if (can_back) {
+			if (input_check_pressed(INPUT.CANCEL)){
+				battle_dialog_button();
 			}
-		}
-		//ボタン操作に戻る
-		if (input_check_pressed(INPUT.CANCEL)){
-			battle_dialog_button();
 		}
 	}
 }
-//敵メッセージ時
+// 敵メッセージ時
 if (state == BATTLE_STATE.ENEMY_TALK){
 	if (instance_exists(obj_typewriter_object) || true){
 		battle_set_state(BATTLE_STATE.ENEMY_IN)
 	}
 }
-//枠アニメーション
+// 枠アニメーション
 if (state == BATTLE_STATE.ENEMY_IN){
 	if (!easing_exists("board_anim")){
 		battle_set_state(BATTLE_STATE.ENEMY)
 	}
 }
 if (state == BATTLE_STATE.ENEMY){
-	//TODO - デバッグ機能 後に消す
+	//TODO - ターン強制終了 後に消す
 	if input_check_pressed(INPUT.MENU){
 		battle_turn_end()
 	}
