@@ -31,4 +31,4 @@ instance_create_depth(0, 0, 0, obj_typewriter_manager);
 instance_create_depth(0, 0, 0, obj_fps_viewer);
 instance_create_depth(0, 0, 0, obj_dev_anything);
 
-room_goto(rm_area_test)
+room_goto(rm_logo);

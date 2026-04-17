@@ -10,8 +10,8 @@
   "name":"obj_menu",
   "overriddenProperties":[],
   "parent":{
-    "name":"logo",
-    "path":"folders/Objects/logo.yy",
+    "name":"title",
+    "path":"folders/Objects/title.yy",
   },
   "parentObjectId":null,
   "persistent":false,

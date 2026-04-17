@@ -1,0 +1,1 @@
+draw_text(0, 0, $"room: {room_get_name(room)}")

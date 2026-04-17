@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_global",
+  "%Name":"scr_game_state",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_global",
+  "name":"scr_game_state",
   "parent":{
-    "name":"system",
-    "path":"folders/Scripts/system.yy",
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
