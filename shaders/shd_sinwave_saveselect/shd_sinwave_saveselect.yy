@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shd_sinwave_saveselect",
+  "name":"shd_sinwave_saveselect",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

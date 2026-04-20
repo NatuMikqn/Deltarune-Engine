@@ -7,4 +7,5 @@ enum DEPTH{
 	UI_TEXT = -205,
 	BOARD = -300,
 	SOULS = -400,
+	FADER = -1000,
 }

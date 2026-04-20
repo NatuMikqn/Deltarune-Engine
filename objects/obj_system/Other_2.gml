@@ -2,7 +2,6 @@ if (RANDOM_SEED < 0) randomize();
 else random_set_seed(RANDOM_SEED);
 
 show_debug_overlay(false);
-global_init();
 
 easing_init()
 
@@ -25,10 +24,11 @@ global.hpfont = font_add_sprite_ext(spr_font_small, "0123456789-+", false, 1)
 global.dmgfont = font_add_sprite_ext(spr_font_big, "0123456789-+%/", true, 0)
 
 instance_create_depth(0, 0, 0, obj_screen);
+instance_create_depth(0, 0, 0, obj_fader);
 instance_create_depth(0, 0, 0, obj_show_state);
 instance_create_depth(0, 0, 0, obj_camera);
 instance_create_depth(0, 0, 0, obj_typewriter_manager);
 instance_create_depth(0, 0, 0, obj_fps_viewer);
 instance_create_depth(0, 0, 0, obj_dev_anything);
 
-room_goto(rm_logo);
+room_goto(rm_menu);

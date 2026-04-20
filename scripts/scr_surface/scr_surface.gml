@@ -50,3 +50,27 @@ function surface_get_app_width(){
 function surface_get_app_height(){
 	return surface_get_height(application_surface)
 }
+
+/// @arg {Asset.GMSprite} spr
+/// @arg {Real} img
+/// @return {Struct.Vector2}
+function sprite_get_texel_size(_spr, _img = 0) {
+	var _tex = sprite_get_texture(_spr, _img);
+	return texture_get_texel_size(_tex);
+}
+
+/// @arg {Id.Surface} srf
+/// @return {Struct.Vector2}
+function surface_get_texel_size(_srf) {
+	var _tex = surface_get_texture(_srf);
+	return texture_get_texel_size(_tex);
+}
+
+/// @arg {Pointer.Texture} tex
+/// @return {Struct.Vector2}
+function texture_get_texel_size(_tex) {
+	var _vec2 = new Vector2();
+	_vec2.x = texture_get_texel_width(_tex);
+	_vec2.y = texture_get_texel_height(_tex);
+	return _vec2;
+}

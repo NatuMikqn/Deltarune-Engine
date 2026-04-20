@@ -27,3 +27,7 @@ if (keyboard_check_pressed(vk_f7) && is_test())
 {
 	player_damage(0, 88)
 }
+
+if (room == rm_init && input_check_pressed(INPUT.CANCEL)) {
+	room_goto(rm_logo);
+}

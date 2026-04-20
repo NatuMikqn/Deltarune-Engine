@@ -1,6 +1,6 @@
 if (enable_half_fps) {
-	frameskip_prevtemp = obj_system.frameskip;
+	frameskip_prevtemp = frameskip_get();
 	
-	// set half FPS
-	obj_system.frameskip = (obj_system.frameskip + 1) * 2 - 1;
+	// set half drawFPS
+	frameskip_set((frameskip_get() + 1) * 2 - 1);
 }

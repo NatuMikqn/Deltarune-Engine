@@ -168,9 +168,10 @@ function EasingData(_eb) : Easing() constructor
 function easing_run(id, varname, tween, ease, start, change, duration, delay = 0, tag = "")
 {
 	var _eb = new EasingBuilder(start, method({id, varname}, function (_v){
-			variable_instance_set(id, varname, _v)
+			variable_instance_set(id, varname, _v);
 		}))
-	_eb.add_sleep(delay).add_step(tween, ease, change, duration).set_tag(tag).build()
+	_eb.add_sleep(delay).add_step(tween, ease, change, duration).set_tag(tag).build();
+	variable_instance_set(id, varname, start);
 }
 
 function easing_step()

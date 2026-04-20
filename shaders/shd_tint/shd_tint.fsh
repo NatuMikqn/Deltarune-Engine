@@ -2,13 +2,12 @@
 varying vec2 v_vTexcoord;
 varying vec4 v_vColour;
 
-uniform float time;
-uniform float height;
-uniform float period;
+uniform vec3 tint;
+uniform float power;
 
 void main()
 {
-	vec2 vTex = v_vTexcoord;
+	vec4 color = texture2D(gm_BaseTexture, v_vTexcoord);
 	
-	gl_FragColor = v_vColour * texture2D(gm_BaseTexture, vTex);
+	gl_FragColor = v_vColour * vec4(mix(color.rgb, tint, power), color.a);
 }

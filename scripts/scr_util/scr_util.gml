@@ -9,9 +9,11 @@ function alphafix(_bool)
 ///@arg {real} x
 ///@arg {real} y
 ///@arg {real} string
-function draw_text_shadow(_x,_y,_string)
+///@arg {real} frontcolor
+///@arg {real} backcolor
+function draw_text_shadow(_x, _y, _string, _frontcolor = draw_get_colour(), _backcolor = c_black)
 {
-	draw_text_transformed_shadow(_x,_y,_string,1,1,0)
+	draw_text_transformed_shadow(_x, _y, _string, 1, 1, 0, _frontcolor, _backcolor);
 }
 
 ///@arg {real} x
@@ -20,13 +22,16 @@ function draw_text_shadow(_x,_y,_string)
 ///@arg {real} xscale
 ///@arg {real} yscale
 ///@arg {real} angle
-function draw_text_transformed_shadow(_x,_y,_string,_xscale,_yscale,_angle)
+///@arg {real} frontcolor
+///@arg {real} backcolor
+function draw_text_transformed_shadow(_x, _y, _string, _xscale, _yscale, _angle, _frontcolor = draw_get_colour(), _backcolor = c_black)
 {
-	var _color = draw_get_color()
-	draw_set_color(c_black)
-	draw_text_transformed(_x+_xscale,_y+_yscale,_string,_xscale,_yscale,_angle)
-	draw_set_color(_color)
-	draw_text_transformed(_x,_y,_string,_xscale,_yscale,_angle)
+	var _color = draw_get_color();
+	draw_set_color(_backcolor);
+	draw_text_transformed(_x + _xscale, _y + _yscale, _string, _xscale, _yscale, _angle);
+	draw_set_color(_frontcolor);
+	draw_text_transformed(_x, _y, _string, _xscale, _yscale, _angle);
+	draw_set_color(_color);
 }
 
 ///簡易的なアウトライン文字の描画
@@ -278,10 +283,19 @@ function col2list(color)
 }
 
 /// 画像の読み込みにかかる時間
-///@arg {Asset.GMSprite}
-///@arg {Real}
-///@return {Real}
+/// @arg {Asset.GMSprite}
+/// @arg {Real}
+/// @return {Real}
 function image_get_totaltime(sprite, speed)
 {
 	return sprite_get_number(sprite) * speed
+}
+
+/// ゼロを埋める
+/// @arg {Real} value
+/// @arg {Real} total
+/// @return {Real}
+function zero_padding(value, total)
+{
+	return string_replace_all(string_format(value, total, 0), " ", "0");
 }
