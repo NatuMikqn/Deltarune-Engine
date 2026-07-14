@@ -1,5 +1,1 @@
-
-if (movable){
-	x += hsp;
-	y += vsp;
-}
+anim_process();

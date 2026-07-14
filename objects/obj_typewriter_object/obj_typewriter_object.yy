@@ -12,8 +12,8 @@
   "name":"obj_typewriter_object",
   "overriddenProperties":[],
   "parent":{
-    "name":"system",
-    "path":"folders/Objects/system.yy",
+    "name":"manager",
+    "path":"folders/Objects/system/manager.yy",
   },
   "parentObjectId":null,
   "persistent":true,

@@ -1,3 +1,5 @@
+draw_set_font(fnt_8bit);
+
 if (awase) {
 	draw_sprite_ext(spr_screen_awase, dbg_screen_img, 0, 0, 0.5, 0.5, 0, c_white, dbg_screen_alpha);
 }
@@ -10,7 +12,9 @@ if (show_info) {
 	
 	_text += $"room: {room_get_name(room)}\n";
 	_text += $"mouse: {mouse_x}, {mouse_y}\n";
-	_text += $"time test: {gametime_to_dtime(time_test * 1000)}";
+	_text += $"time test: {gametime_to_dtime(time_test * 1000)}\n";
+	
+	_text += $"fontlist: {global.localization_data.font}\n";
 	
 	draw_set_colour(c_black);
 	draw_text(1, 1, _text);

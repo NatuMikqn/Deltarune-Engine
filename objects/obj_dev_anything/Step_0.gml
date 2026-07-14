@@ -22,4 +22,4 @@ if (awase) {
 	}
 }
 
-time_test += delta_time / 1000;
+time_test += delta_time / 1000000;

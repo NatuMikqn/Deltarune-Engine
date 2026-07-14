@@ -9,32 +9,50 @@ function Vector2(_x = 0, _y = _x) constructor {
 	///@desc (0, 0)
 	///@return {Struct.Vector2}
 	static zero = function(){
-		x = 0;
-		y = 0;
+		x = 0; y = 0;
 		return self;
 	}
-	
 	///@desc (1, 1)
 	///@return {Struct.Vector2}
 	static one = function(){
-		x = 1;
-		y = 1;
+		x = 1; y = 1;
 		return self;
 	}
-	
+	///@desc (0, -1)
+	///@return {Struct.Vector2}
+	static up = function(){
+		x = 0; y = -1;
+		return self;
+	}
+	///@desc (0, 1)
+	///@return {Struct.Vector2}
+	static down = function(){
+		x = 0; y = 1;
+		return self;
+	}
+	///@desc (-1, 0)
+	///@return {Struct.Vector2}
+	static left = function(){
+		x = -1; y = 0;
+		return self;
+	}
+	///@desc (1, 0)
+	///@return {Struct.Vector2}
+	static right = function(){
+		x = 1; y = 0;
+		return self;
+	}
 	///@desc (1, 0)
 	///@return {Struct.Vector2}
 	static unit_x = function(){
-		x = 1;
-		y = 0;
+		x = 1; y = 0;
 		return self;
 	}
 	
 	///@desc (0, 1)
 	///@return {Struct.Vector2}
 	static unit_y = function(){
-		x = 0;
-		y = 1;
+		x = 0; y = 1;
 		return self;
 	}
 	

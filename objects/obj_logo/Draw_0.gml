@@ -36,3 +36,12 @@ if (step == 2) {
 }
 
 alphafix(false);
+
+/*
+shader_set(shd_sinwave);
+shader_set_uniform_f(shader_get_uniform(shd_sinwave, "time"), time);
+shader_set_uniform_f(shader_get_uniform(shd_sinwave, "frequency"), 0.1);
+shader_set_uniform_f(shader_get_uniform(shd_sinwave, "power"), 0.05);
+draw_surface(surface, 0, 0);
+shader_reset();
+*/

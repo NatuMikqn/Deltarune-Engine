@@ -34,6 +34,7 @@ function l10n_get_text(_name, _template = [], _lang = lang_get())
 
 ///ローカライズされたフォントを取得します
 ///@arg {String|Asset.GMFont} name localizationで設定した名前を指定 Assetの場合そのまま返します
+///@arg {Real} lang 言語指定
 ///@return {Asset.GMFont}
 function l10n_get_font(_name, _lang = lang_get())
 {
@@ -47,6 +48,7 @@ function l10n_get_font(_name, _lang = lang_get())
 
 ///ローカライズされたスプライトを取得します
 ///@arg {String|Asset.GMSprite} name localizationで設定した名前を指定 Assetの場合そのまま返します
+///@arg {Real} lang 言語指定
 ///@return {Asset.GMSprite}
 function l10n_get_sprite(_name, _lang = lang_get())
 {

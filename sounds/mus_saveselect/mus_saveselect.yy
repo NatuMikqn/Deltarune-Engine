@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":88.61537,
+  "duration":1.7763265,
   "exportDir":"",
   "name":"mus_saveselect",
   "parent":{
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"mus_saveselect.ogg",
+  "soundFile":"mus_saveselect.mp3",
   "volume":1.0,
 }

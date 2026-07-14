@@ -1,3 +1,7 @@
+/// ログ出力
+function print(_message) {
+	show_debug_message(_message);
+}
 
 ///@arg {bool} enable
 function alphafix(_bool)

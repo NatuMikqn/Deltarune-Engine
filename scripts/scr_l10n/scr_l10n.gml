@@ -22,17 +22,29 @@ function localization_init()
 	else lang_set(LANG.EN);
 }
 
-///言語変更
+/// 言語変更
 ///@arg {Real} lang LANG.?
 function lang_set(_lang)
 {
 	global.lang = _lang;
 }
 
-///言語取得
+/// 言語取得
 function lang_get()
 {
 	return global.lang;
+}
+
+/// 言語数取得
+function lang_count()
+{
+	return 3;
+}
+
+/// 次の言語
+function lang_get_next()
+{
+	return (lang_get() + 1) % lang_count();
 }
 
 ///LANG列挙型に文字列タグを付けます

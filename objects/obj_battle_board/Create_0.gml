@@ -50,7 +50,7 @@ function CreateAfterImage(_data, _alpha, _id = obj_battle_board) constructor{
 	}
 	static draw = function(){
 		draw_set_ca(color, alpha * fadeout);
-		draw_board(data);
+		obj_battle_board.draw_board(data);
 		draw_set_ca();
 	}
 }

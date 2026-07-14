@@ -1,9 +1,10 @@
 easing_step()
 
+// frame skip
 if (keyboard_check_pressed(vk_f1) && is_test())
 {
-	lang_set(lang_get()+1)
-	if (lang_get() > 2){
+	lang_set(lang_get() + 1)
+	if (lang_get() >= lang_count()){
 		lang_set(0)
 	}
 }

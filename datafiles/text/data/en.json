@@ -1,4 +1,16 @@
 {
+	"area.name.unknown" : "Unknown",
+
+    "saveselect.selectfile" : "Please select a file.",
+    "saveselect.copy" : "Copy",
+    "saveselect.erase" : "Erase",
+    "saveselect.chselect" : "Chapter Select",
+    "saveselect.chfile" : "Ch % Files",
+    "saveselect.language" : "English",
+    "saveselect.endgame" : "End Program",
+    "saveselect.checkload.continue" : "Confirm",
+    "saveselect.checkload.back" : "Back",
+
     "l10n.test.0" : "<scale 2><speed 3><color red>RED<color yellow>YELLOW<newline><sleep 20>twa![l10n.test.1 123 345]",
     "l10n.test.1" : "<color #00ffff>[setting.lang test]<color white>Test       Message!%%j% % %<pause><clear>[l10n.test.2]",
     "l10n.test.2" : "<mtt true><speed 18>HELLOW ABCD EFF<color red>FF<pause>[l10n.test.3]",

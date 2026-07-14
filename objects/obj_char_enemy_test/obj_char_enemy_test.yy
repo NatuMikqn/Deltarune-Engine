@@ -3,7 +3,6 @@
   "%Name":"obj_char_enemy_test",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":114,"eventType":9,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
@@ -14,8 +13,8 @@
     "path":"folders/Objects/area/char.yy",
   },
   "parentObjectId":{
-    "name":"obj_char",
-    "path":"objects/obj_char/obj_char.yy",
+    "name":"obj_char_actor",
+    "path":"objects/obj_char_actor/obj_char_actor.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

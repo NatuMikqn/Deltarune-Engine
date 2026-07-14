@@ -14,7 +14,7 @@ function CharacterInfo() constructor
 	maxhp = 100;
 	color = [c_orange, #FFC060];
 	object = {
-		area : obj_char_player,
+		area : obj_char_kris,
 		battle : obj_battle_team_kris
 	}
 	area_sprite = undefined;
@@ -147,6 +147,7 @@ function team_get()
 ///@pure
 function char_get_data(_tag)
 {
+	// TODO: 不正なtagが渡されたら、それ用のエラーキャラクターを表示する
 	if (struct_exists(global.char_data, _tag)) return global.char_data[$_tag];
 	return undefined;
 }

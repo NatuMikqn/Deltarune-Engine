@@ -1,0 +1,1 @@
+obj_area_menu.open_child = false;

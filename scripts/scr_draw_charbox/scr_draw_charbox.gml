@@ -68,3 +68,27 @@ function draw_charbox_custom(_x, _y, _iconsprite, _img, _namesprite, _color, _hp
 	draw_sprite_ext(spr_pixel, 0, _x + 21, _y + 13, 76 * max(0, _hp / _max), 9, 0, _color, 1);
 	
 }
+
+
+function draw_chatlist(top_y, scrolling = 0, icon_img = []) {
+	var _list = team_get(),
+	_count = array_length(_list),
+	
+	_x, _y, _color;
+	for(var i = 0; i < _count; i++){
+		if (_count == 1){
+			_x = 320;
+		}else if (_count == 2){
+			_x = 320 - 105 + i * 214;
+		}else{
+			_x = 320 - 213 + (i - scrolling) * 213;
+		}
+		_y = top_y + 9;
+		//キャラUI
+		if (array_empty(icon_img)) {
+			draw_charbox(_x, _y, _list[i], 0);
+		} else {
+			draw_charbox(_x, _y, _list[i], icon_img[i]);
+		}
+	}
+}

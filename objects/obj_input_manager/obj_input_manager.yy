@@ -12,8 +12,8 @@
   "name":"obj_input_manager",
   "overriddenProperties":[],
   "parent":{
-    "name":"system",
-    "path":"folders/Objects/system.yy",
+    "name":"manager",
+    "path":"folders/Objects/system/manager.yy",
   },
   "parentObjectId":null,
   "persistent":true,
@@ -33,7 +33,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_engineicon_input_manager",
+    "path":"sprites/spr_engineicon_input_manager/spr_engineicon_input_manager.yy",
+  },
   "spriteMaskId":null,
   "visible":false,
 }

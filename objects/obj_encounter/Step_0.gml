@@ -24,7 +24,7 @@ if (timer == 0){
 			_team[i].set_area_sprite(_obj.sprite_index)
 		}
 		
-		obj_char_player.visible = false; 
+		obj_char_kris.visible = false; 
 		
 		if (enemy_select_target != noone) enemy_select_target.visible = false;
 		

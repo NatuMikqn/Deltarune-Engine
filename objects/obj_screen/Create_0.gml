@@ -1,3 +1,4 @@
+depth = -2000;
 screen_size = new Vector2(640, 480);
 
 //-1 : fullscreen
@@ -19,3 +20,6 @@ event_user(0);
 
 backblur_pos = new Vector2();
 backblur_size = 1;
+
+border = -1;
+border_mask = -1;

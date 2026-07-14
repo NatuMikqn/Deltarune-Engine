@@ -1,25 +1,18 @@
 depth = DEPTH.CHAR
 timer = 0
-movable = true;
 
-move_speed = {
-	left	:	0,
-	right	:	0,
-	up		:	0,
-	down	:	0
+anim_img = 0;
+anim_speed = 0.1;
+// 条件関係無く常にアニメーションをさせるかどうか
+anim_always = false;
+
+/// @arg {Bool} or_conditions 他の条件
+function anim_process(_or = false) {
+	if (anim_always || _or) {
+		anim_img += anim_speed;
+	}
 }
-spr_index = {
-	left	:	spr_char_dwkris_walk_left,
-	right	:	spr_char_dwkris_walk_right,
-	up		:	spr_char_dwkris_walk_up,
-	down	:	spr_char_dwkris_walk_down
+
+function anim_reset() {
+	if (!anim_always && anim_img != 0) anim_img = 0;
 }
-img_speed = 0;
-
-img = 0;
-imgplay = false;
-hsp = 0;
-vsp = 0;
-
-encounter_id = -1;
-circle_hitbox = 16;

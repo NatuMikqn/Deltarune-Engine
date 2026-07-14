@@ -31,4 +31,10 @@ instance_create_depth(0, 0, 0, obj_typewriter_manager);
 instance_create_depth(0, 0, 0, obj_fps_viewer);
 instance_create_depth(0, 0, 0, obj_dev_anything);
 
-room_goto(rm_menu);
+var _item_manager = instance_create_depth(0, 0, 0, obj_item_manager);
+with (_item_manager) {
+	register_item();
+}
+
+
+room_goto(rm_area_test);
