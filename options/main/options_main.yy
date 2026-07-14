@@ -1,6 +1,6 @@
 {
-  "$GMMainOptions":"v5",
   "%Name":"Main",
+  "GMMainOptions":"v5",
   "name":"Main",
   "option_allow_instance_change":true,
   "option_audio_error_behaviour":true,
